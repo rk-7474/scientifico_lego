@@ -5,7 +5,6 @@ import { StereoEffect } from 'three/addons/effects/StereoEffect.js';
 import { Capsule } from 'three/addons/math/Capsule.js';
 import { controls, setup_listeners } from './movement.js'
 import { setup_camera_movement, setup_device_motion } from './camera.js';
-import { load_image } from './image_loader.js';
 
 const CARDBOARD_MODE = false;
 

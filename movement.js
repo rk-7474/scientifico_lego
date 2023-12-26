@@ -1,5 +1,7 @@
 import { place_frame, getFramePlacing, toggleFramePlacing } from './frames.js';
 import {getForwardVector, getSideVector} from './vectors.js'
+import { toggleVisualizeFrame, getVisualizeMode } from './frames.js';
+import {getInteractingFrame} from './raycast.js'
 
 let keyStates = {};
 
@@ -14,6 +16,9 @@ export function setup_listeners(document, camera, window, renderer) {
                 toggleFramePlacing()
             else
                 place_frame();
+    
+        if (event.code == "KeyE" && ( getInteractingFrame() != null || getVisualizeMode()))
+            toggleVisualizeFrame();
 
     });
 

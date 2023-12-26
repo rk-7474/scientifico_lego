@@ -1,30 +1,53 @@
 import * as THREE from 'three';
 import { getRenderer, getRoom } from "./index";
-import { getFramePlacing, getFrame } from './frames';
+import { getFramePlacing, getFrame, getFrames } from './frames';
+import { showNotify } from './notify';
 
 let pointer = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 
-export function onPointerMove( event, camera ) {
+let show_notify = false;
+let interacting_frame;  
 
-    if (!getFramePlacing()) return;
+export function onPointerMove( event, camera ) {
 
     const renderer = getRenderer();
     const room = getRoom();
     const helper = getFrame();
     pointer.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
     pointer.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-    raycaster.setFromCamera( pointer, camera );
+    raycaster.setFromCamera( pointer, camera );  
 
-    const intersects = raycaster.intersectObject( room );
+    if (!getFramePlacing()) {
 
-    if ( intersects.length > 0 ) {
+        show_notify = false;
 
-        helper.position.set( 0, 0, 0 );
-        helper.lookAt( intersects[ 0 ].face.normal );
+        for (const frame of getFrames()) {
+            const intersects = raycaster.intersectObject( frame.object );
 
-        helper.position.copy( intersects[ 0 ].point );
+            if ( intersects.length > 0 ) {
+                show_notify = true;
+                interacting_frame = frame;
+            }
+        }
 
+        showNotify(show_notify);
+
+        if (!show_notify)
+            interacting_frame = null;
+    } else {
+        const intersects = raycaster.intersectObject( room );
+
+        if ( intersects.length > 0 ) {
+    
+            helper.position.set( 0, 0, 0 );
+            helper.lookAt( intersects[ 0 ].face.normal );
+    
+            helper.position.copy( intersects[ 0 ].point );
+    
+        }
     }
 }
+
+export const getInteractingFrame = () => interacting_frame;
 

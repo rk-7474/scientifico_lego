@@ -26,6 +26,21 @@
 			    border-radius: 4px; /* Round the borders */
 				width: 100%;
 			}
+
+			.notify {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				background-color: darkslategray;
+				padding: 2px;
+				border-radius: 5px;
+				color: white;
+				display: none;
+			}
+
+			.frame {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -35,6 +50,9 @@
 				<input type="text" placeholder="Inserisci URL immagine o video">
 				<button>Conferma</button>
 			</div>
+		</div>
+		<div class="notify">
+			<p>Premi E per interagire</p>
 		</div>
 		<script type="module" src="/index.js"></script>
 	</body>
