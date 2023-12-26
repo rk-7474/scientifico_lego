@@ -1,25 +1,33 @@
 import * as THREE from 'three';
 
-
-export function load_image(url) {
-    const loader = new THREE.ImageLoader();
-
-    loader.load(
-        url,
-    
-        function ( image ) {
-            const canvas = document.createElement( 'canvas' );
-            const context = canvas.getContext( '2d' );
-            context.drawImage( image, 100, 100 );
-        },
-    
-        undefined,
-    
-        function () {
-            console.error( 'An error happened.' );
-        }
+export async function load_image(url) {
+    const material = await new Promise(resolve => 
+      imageUrlToBase64(url, base64 => {
+        var texture = new THREE.TextureLoader().load(base64);
+        var material = new THREE.MeshBasicMaterial( { map: texture } );
+        resolve(material);
+      })
     );
-
-    return loader;
+    return material;
 }
 
+function imageUrlToBase64(url, callback) {
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    })
+    .catch(error => console.error('Error fetching image:', error));
+}
+
+
+export function get_thumbnail(url) {
+    const youtube_video_id = url.substring(32, url.length);
+    console.log(youtube_video_id);
+    const thumb_url = 'https://img.youtube.com/vi/'+youtube_video_id+'/0.jpg'
+    return thumb_url;
+}

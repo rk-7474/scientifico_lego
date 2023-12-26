@@ -1,3 +1,4 @@
+import { place_frame, getFramePlacing, toggleFramePlacing } from './frames.js';
 import {getForwardVector, getSideVector} from './vectors.js'
 
 let keyStates = {};
@@ -8,7 +9,13 @@ export function setup_listeners(document, camera, window, renderer) {
 
         keyStates[ event.code ] = true;
 
-    } );
+        if (event.code == "KeyT")
+            if (getFramePlacing())
+                toggleFramePlacing()
+            else
+                place_frame();
+
+    });
 
     document.addEventListener( 'keyup', ( event ) => {
 
@@ -18,8 +25,10 @@ export function setup_listeners(document, camera, window, renderer) {
 
     document.addEventListener( 'mousedown', () => {
 
-        document.body.requestPointerLock();
 
+        // if ( document.pointerLockElement === document.body && getFramePlacing() ) {
+        //     place
+        // }
     } );
 
     window.addEventListener( 'resize', onWindowResize );

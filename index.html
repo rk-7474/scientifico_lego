@@ -6,12 +6,35 @@
 		<style>
 			body { margin: 0; }
 
-			#container { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;}
+			.center { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;}
+			.container {
+				width: 500px;
+				height: 200px;
+				background-color: gray;
+				box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+				border-radius: 10px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				display: none;
+			}
+
+			input[type="text"] {
+			    font-size: 16px; /* Set the font-size to your preference */
+			    padding: 10px; /* Add some padding */
+			    border: 1px solid #ccc; /* Add a border */
+			    border-radius: 4px; /* Round the borders */
+				width: 100%;
+			}
 		</style>
 	</head>
 	<body>
-		<div id="container">
+		<div class="center">
 			<img src="assets/cursor.png" width="15">
+			<div class="container">
+				<input type="text" placeholder="Inserisci URL immagine o video">
+				<button>Conferma</button>
+			</div>
 		</div>
 		<script type="module" src="/index.js"></script>
 	</body>

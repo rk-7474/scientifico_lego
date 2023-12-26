@@ -1,8 +1,14 @@
 // import { MathUtils } from "three";
+import { getInputMode } from "./frames";
+import { onPointerMove } from "./raycast";
 
 export function setup_camera_movement(get_camera, camera_function) {
 
     document.body.addEventListener( 'mousemove', ( event ) => {
+
+        if (getInputMode()) return;
+
+        document.body.requestPointerLock();
 
         let camera = get_camera();
 
@@ -21,8 +27,11 @@ export function setup_camera_movement(get_camera, camera_function) {
             camera.rotation.x -= tomove;
 
         }
+
+        onPointerMove(event, camera)
         
         camera_function(camera);
+
     
     } );
 }
