@@ -1,6 +1,6 @@
 import { place_frame, getFramePlacing, toggleFramePlacing } from './frames.js';
 import {getForwardVector, getSideVector} from './vectors.js'
-import { toggleVisualizeFrame, getVisualizeMode } from './frames.js';
+import { toggleVisualizeFrame, getVisualizeMode, removeFrame } from './frames.js';
 import {getInteractingFrame} from './raycast.js'
 
 let keyStates = {};
@@ -20,6 +20,9 @@ export function setup_listeners(document, camera, window, renderer) {
         if (event.code == "KeyE" && ( getInteractingFrame() != null || getVisualizeMode()))
             toggleVisualizeFrame();
 
+        if (event.code == "KeyY" && getInteractingFrame() != null)
+            removeFrame();
+
     });
 
     document.addEventListener( 'keyup', ( event ) => {
@@ -28,13 +31,13 @@ export function setup_listeners(document, camera, window, renderer) {
 
     } );
 
-    document.addEventListener( 'mousedown', () => {
+    // document.addEventListener( 'mousedown', () => {
 
 
         // if ( document.pointerLockElement === document.body && getFramePlacing() ) {
         //     place
         // }
-    } );
+    // } );
 
     window.addEventListener( 'resize', onWindowResize );
 

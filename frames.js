@@ -1,6 +1,6 @@
 import $ from "jquery";
 import * as THREE from 'three'
-import { addToScene } from "./index.js";
+import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 
@@ -14,6 +14,8 @@ export const getInputMode = () => input_mode;
 
 export async function place_frame() {
     $(".container").fadeIn(500);
+    $(".container").css("display", "flex")
+
     $("img").hide();
 
     document.exitPointerLock();
@@ -110,6 +112,14 @@ export async function toggleVisualizeFrame() {
 }
 
 export const getVisualizeMode = () => visualizeMode;
+
+export function removeFrame() {
+    const temp_frame = getInteractingFrame();
+    removeFromScene(temp_frame.object);
+    const index = frames.findIndex(e => e.content === temp_frame.content);
+    frames.splice(index, 1);
+    console.log(index)
+}
 
 function reduce(numerator,denominator){
     var gcd = function gcd(a,b){

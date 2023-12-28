@@ -1,10 +1,13 @@
 // import { MathUtils } from "three";
 import { getInputMode } from "./frames";
-import { onPointerMove } from "./raycast";
+    
+let mouse_event;
 
 export function setup_camera_movement(get_camera, camera_function) {
 
     document.body.addEventListener( 'mousemove', ( event ) => {
+
+        mouse_event = event;
 
         if (getInputMode()) return;
 
@@ -28,7 +31,6 @@ export function setup_camera_movement(get_camera, camera_function) {
 
         }
 
-        onPointerMove(event, camera)
         
         camera_function(camera);
 
@@ -54,3 +56,5 @@ export function setup_device_motion(window, camera) {
         camera.rotation.x = tiltX/200;
     }
 }
+
+export const getMouseEvent = () => mouse_event;

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { getRenderer, getRoom } from "./index";
 import { getFramePlacing, getFrame, getFrames } from './frames';
 import { showNotify } from './notify';
+import { getMouseEvent } from './camera.js';
 
 let pointer = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
@@ -9,13 +10,14 @@ const raycaster = new THREE.Raycaster();
 let show_notify = false;
 let interacting_frame;  
 
-export function onPointerMove( event, camera ) {
+export function updateRaycast( event, camera ) {
 
     const renderer = getRenderer();
     const room = getRoom();
     const helper = getFrame();
-    pointer.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-    pointer.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+    const {clientX, clientY} = getMouseEvent();
+    pointer.x = ( clientX / renderer.domElement.clientWidth ) * 2 - 1;
+    pointer.y = - ( clientY / renderer.domElement.clientHeight ) * 2 + 1;
     raycaster.setFromCamera( pointer, camera );  
 
     if (!getFramePlacing()) {

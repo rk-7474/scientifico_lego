@@ -5,6 +5,7 @@ import { StereoEffect } from 'three/addons/effects/StereoEffect.js';
 import { Capsule } from 'three/addons/math/Capsule.js';
 import { controls, setup_listeners } from './movement.js'
 import { setup_camera_movement, setup_device_motion } from './camera.js';
+import { updateRaycast } from "./raycast";
 
 const CARDBOARD_MODE = false;
 
@@ -56,6 +57,7 @@ setup_listeners(document, camera, window, renderer);
 export const getRenderer = () => renderer;
 export const getRoom = () => room;
 export const addToScene = (object) => scene.add(object);
+export const removeFromScene = (object) => scene.remove(object);
 
 // controls.update( clock.getDelta() );
 
@@ -76,6 +78,8 @@ function animate() {
 	requestAnimationFrame( animate );
 
     updatePlayer( clock.getDelta() );
+
+    updateRaycast(camera)
 
 	renderer.render( scene, camera );
 }

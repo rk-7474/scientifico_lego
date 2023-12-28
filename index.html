@@ -8,24 +8,28 @@
 
 			.center { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;}
 			.container {
+				position: absolute;
 				width: 500px;
 				height: 200px;
-				background-color: gray;
+				background-color: rgba(43, 43, 43, 0.601);
 				box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-				border-radius: 10px;
 				display: flex;
+				flex-direction: column;
 				align-items: center;
-				justify-content: center;
+				justify-content: space-evenly;
 				display: none;
 			}
 
 			input[type="text"] {
 			    font-size: 16px; /* Set the font-size to your preference */
 			    padding: 10px; /* Add some padding */
-			    border: 1px solid #ccc; /* Add a border */
-			    border-radius: 4px; /* Round the borders */
-				width: 100%;
+				background-color: rgba(43, 43, 43, 0.877);
+			    border: none; /* Add a border */
+				width: 70%;
+				outline: none;
+				color: white;
 			}
+
 
 			.notify {
 				position: absolute;
@@ -38,6 +42,24 @@
 				display: none;
 			}
 
+			.confirm {
+				width: 120px;
+				height: 40px;
+				background-color: rgba(43, 43, 43, 0.877);
+				font-size: 1.2rem;
+				color: white;
+				outline: none;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+				opacity: 0.5;
+				transition: .25ms ease-in-out;
+			}
+
+			.confirm:hover {
+				opacity: 1;
+			}
+
 			.frame {
 				display: none;
 			}
@@ -47,8 +69,8 @@
 		<div class="center">
 			<img src="assets/cursor.png" width="15">
 			<div class="container">
-				<input type="text" placeholder="Inserisci URL immagine o video">
-				<button>Conferma</button>
+				<input autofocus type="text" placeholder="Inserisci URL immagine o video">
+				<button class="confirm">Conferma</button>
 			</div>
 		</div>
 		<div class="notify">
