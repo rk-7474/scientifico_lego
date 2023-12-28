@@ -6,18 +6,18 @@ const port = 3000
 app.use(cors())
 
 app.get('/image', async (req, res) => {
-    const image_url = req.query.url;
-    
-    if (!image_url) res.sendStatus(404);
+  const image_url = req.query.url;
+  
+  if (!image_url) res.sendStatus(404);
 
-    console.log(image_url)
+  console.log(image_url)
 
-    const response = await fetch(image_url)
-    const blob = await response.blob()
-    res.type(blob.type)
-    blob.arrayBuffer().then((buf) => {
-        res.send(Buffer.from(buf))
-    })
+  const response = await fetch(image_url)
+  const blob = await response.blob()
+  res.type(blob.type)
+  blob.arrayBuffer().then((buf) => {
+      res.send(Buffer.from(buf))
+  })
 })
 
 app.listen(port, () => {
