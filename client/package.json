@@ -1,0 +1,21 @@
+{
+  "name": "scientifico_lego",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "mediaelement": "^7.0.2",
+    "three": "^0.160.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "vite": "^5.0.10"
+  }
+}
