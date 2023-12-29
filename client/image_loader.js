@@ -5,6 +5,7 @@ const SERVER_URL = "http://localhost:3000"
 
 export async function load_image(url) {
   const blob = await fetchImage(url);
+  if (!blob) return;
   const base64 = await blobToBase64(blob);   
 
   const texture = new THREE.TextureLoader().load(base64);
@@ -19,6 +20,7 @@ async function fetchImage(url) {
   const endpoint = `${SERVER_URL}/image?url=${url}`;
   console.log(endpoint)
   const response = await fetch(endpoint);
+  if (!response.ok) return;
   const blob = await response.blob();
   return blob;
 }

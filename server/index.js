@@ -12,12 +12,18 @@ app.get('/image', async (req, res) => {
 
   console.log(image_url)
 
-  const response = await fetch(image_url)
-  const blob = await response.blob()
-  res.type(blob.type)
-  blob.arrayBuffer().then((buf) => {
-      res.send(Buffer.from(buf))
-  })
+  try {
+    const response = await fetch(image_url)
+    const blob = await response.blob()
+    res.type(blob.type)
+    blob.arrayBuffer().then((buf) => {
+        res.send(Buffer.from(buf))
+    })
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(404);
+  }
+ 
 })
 
 app.listen(port, () => {

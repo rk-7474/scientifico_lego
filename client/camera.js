@@ -29,11 +29,8 @@ export function setup_camera_movement(get_camera, camera_function) {
             camera.rotation.x -= tomove;
 
         }
-
         
         camera_function(camera);
-
-    
     } );
 }
 

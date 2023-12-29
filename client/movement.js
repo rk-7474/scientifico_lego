@@ -21,7 +21,7 @@ export function setup_listeners(document, camera, window, renderer) {
         else if (event.code == "KeyY" && getInteractingFrame() != null)
             removeFrame();
     
-        else
+        else if (!getInputMode())
             keyStates[ event.code ] = true;
 
     });

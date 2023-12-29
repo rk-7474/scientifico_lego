@@ -14,7 +14,41 @@ let input_mode = false;
 
 export const getInputMode = () => input_mode;
 
+let exited_input = false;
+
+const handleInputKeys = async () => {
+    exited_input = false;
+
+    await new Promise(resolve => {
+
+        const completed = (event) => {
+            $(this).off(event);
+            document.body.requestPointerLock();
+            resolve();  
+        }
+
+        $(document).on("keydown", event => {
+            switch (event.key) {
+                case "Escape":
+                    exited_input = true;
+                    completed(event);
+                    return;
+                case "Enter":
+                    completed(event);
+                    return;
+            }    
+        });
+
+        
+        $("button").one("click", event => {
+            if (event.button === 0) completed(event);   
+        })
+    });
+}
+
 export async function place_frame() {
+    $("input").val("");
+
     $(".container").fadeIn(500);
     $(".container").css("display", "flex")
 
@@ -24,23 +58,18 @@ export async function place_frame() {
 
     input_mode = true;
 
-    await new Promise(resolve => {
-        $("button").one("click", event => {
-            resolve();
-        });
-    });
+    await handleInputKeys();
 
     input_mode = false;
-
-    let url = $("input").val();
-
-    document.body.requestPointerLock();
 
     await new Promise(resolve => $(".container").fadeOut(500, resolve));
     $("img").show();
 
-    // const url = "https://www.youtube.com/watch?v=3felts-0774";
+    if (exited_input) return;
 
+    let url = $("input").val();
+
+    // const url = "https://www.youtube.com/watch?v=3felts-0774";
 
     if (url == "")
         return;
@@ -55,7 +84,11 @@ export async function place_frame() {
         var image = url;
     }
 
-    const [material, size] = await load_image(image);
+    const image_data = await load_image(image);
+
+    if (!image_data) return;
+
+    const [material, size] = image_data;
 
     const [width, height] = reduce(size.width, size.height);
 
@@ -106,9 +139,12 @@ let visualizeMode = false;
 
 export async function toggleVisualizeFrame() {
     visualizeMode = !visualizeMode;
-    const {content, side, type} = getInteractingFrame();
+
+    console.log(visualizeMode)
 
     if (visualizeMode) {
+        const {content, side, type} = getInteractingFrame();
+
         $(".center").children("img").hide();
         
         if (type === "youtube") {
@@ -123,7 +159,7 @@ export async function toggleVisualizeFrame() {
                 `<img class="frame" src="${content}"/>`
             )
            
-            side === "w" ? $(".frame").css("width", "80vw") : $(".frame").css("height", "80vh"); 
+            side === "w" ? $(".frame").css("width", "80%") : $(".frame").css("height", "80%"); 
         }
 
         $(".frame").fadeIn(250);
