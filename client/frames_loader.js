@@ -1,19 +1,14 @@
-import * as THREE from 'three'
 import { addToScene } from './index.js';
 import { setFrames } from './frames.js';
-
-const loader = new THREE.ObjectLoader();
-
-export const loadFrame = (json_object) => {
-    const object = loader.parse( json_object );
-    addToScene( object );
-}
+import { fetchRoomInfo } from './api.js'
+import { createFrame } from './frames.js';
 
 export const loadRoom = async () => {
-    const frames = fetchJson();
-    
-    for (const frame of frames)
-        loadFrame(frame);
+    const frames = await fetchRoomInfo("prova");
+    if (!frames) return;
 
-    setFrames(frames);
+    for (const {url, position, rotation} of frames) {
+        const object = await createFrame(url, position, rotation);
+        addToScene(object)
+    }
 }

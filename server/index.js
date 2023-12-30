@@ -4,14 +4,17 @@ const app = express()
 const db = require('./database.js')
 const port = 3000
 
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
+
 app.use(cors())
 
 app.get('/image', async (req, res) => {
   const image_url = req.query.url;
   
   if (!image_url) res.sendStatus(404);
-
-  console.log(image_url)
 
   try {
     const response = await fetch(image_url)
@@ -30,17 +33,20 @@ app.get('/image', async (req, res) => {
 app.get('/rooms', async (req, res) => {
   try {
     const data = await db.get(req.query.id);
+    console.log("Getted "+JSON.stringify(data))
     res.send(data);
   } catch (e) {
+    console.log(e)
     res.sendStatus(500);
   }
 });
 
 app.post('/rooms', async (req, res) => {
   try {
-    db.update(req.query.id, req.body)
+    await db.update(req.query.id, JSON.stringify(req.body))
     res.sendStatus(200);
   } catch (e) {
+    console.log(e)
     res.sendStatus(500);
   }
 });

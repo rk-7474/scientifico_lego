@@ -40,7 +40,6 @@ export function updateRaycast( camera ) {
             
             helper.position.set( 0, 0, 0 );
             const faced_rotation = getFacedRotation( intersects[ 0 ].face.normal );
-            console.log(faced_rotation)
             if (faced_rotation != undefined) {
                 const {x, y, z} = faced_rotation
                 helper.rotation.set(x, y, z);

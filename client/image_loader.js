@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-
+import { fetchImage } from "./api.js"
 
 export async function load_image(url) {
   const blob = await fetchImage(url);

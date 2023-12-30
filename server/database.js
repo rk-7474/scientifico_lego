@@ -1,8 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
 
+const EXISTING_ROOMS_CACHE = {};
+
+const exists = (id) => EXISTING_ROOMS_CACHE[id] != null;
+
 class Database {
     constructor(path) {
         this.db = new sqlite3.Database(path);
+        this.execute("CREATE TABLE IF NOT EXISTS rooms (data TEXT, id TEXT);")
     }
 
     execute(...args) {
@@ -11,24 +16,42 @@ class Database {
         });
     }
 
-    each(...args) {
-        return new Promise(resolve => 
+    select(...args) {
+        return new Promise(resolve => {
             this.db.serialize(() => {
-                this.db.each(...args, (err, row) => {
-                    resolve(row.data)
+                this.db.get(...args, (err, row) => {
+                    resolve(row?.data || false)
                 });
             })
-        );
+        });
     }
 
     get(room_id) {
-        return this.each("SELECT data FROM rooms WHERE id = ?", room_id);  
+        return this.select("SELECT data FROM rooms WHERE id = ?", [room_id]);  
     }
 
-    update(room_id, data) {
-        this.execute("UPDATE rooms SET data = ? WHERE info = ?", [data, room_id]);
+    async update(room_id, data) {
+        console.log(1)
+
+        if (exists(room_id)) {
+            this.execute("UPDATE rooms SET data = ? WHERE id = ?", [data, room_id]);
+            return;
+        }    
+
+        console.log(2)
+
+        if (!(await this.get(room_id))) {
+            console.log("insert")
+            this.execute("INSERT INTO rooms (data, id) VALUES (?, ?)", [data, room_id]);
+        } else {
+            this.execute("UPDATE rooms SET data = ? WHERE id = ?", [data, room_id]);   
+        }
+        
+        console.log(3)
+        
+        EXISTING_ROOMS_CACHE[room_id] = true;
     }
 }
 
 const db = new Database('database.sqlite');
-export default db;
+module.exports = db;
