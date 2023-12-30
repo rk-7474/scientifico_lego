@@ -6,6 +6,7 @@ import { Capsule } from 'three/addons/math/Capsule.js';
 import { controls, setup_listeners } from './movement.js'
 import { setup_camera_movement, setup_device_motion } from './camera.js';
 import { updateRaycast } from "./raycast";
+import { loadRoom } from "./frames_loader.js"
 
 const CARDBOARD_MODE = false;
 
@@ -32,6 +33,8 @@ if (CARDBOARD_MODE) {
         }
     );
 }
+
+loadRoom();
 
 renderer.setSize( window.innerWidth, window.innerHeight );
 

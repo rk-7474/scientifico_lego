@@ -1,8 +1,6 @@
 import * as THREE from 'three'
 
 
-const SERVER_URL = "http://localhost:3000"
-
 export async function load_image(url) {
   const blob = await fetchImage(url);
   if (!blob) return;
@@ -14,15 +12,6 @@ export async function load_image(url) {
   const size = await getImageSize(base64); 
 
   return [material, size];
-}
-
-async function fetchImage(url) {
-  const endpoint = `${SERVER_URL}/image?url=${url}`;
-  console.log(endpoint)
-  const response = await fetch(endpoint);
-  if (!response.ok) return;
-  const blob = await response.blob();
-  return blob;
 }
 
 export function get_thumbnail(url) {

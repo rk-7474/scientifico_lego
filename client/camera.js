@@ -1,16 +1,11 @@
 // import { MathUtils } from "three";
 import { getInputMode } from "./frames";
-    
-let mouse_event = {eventX: 0, eventY: 0};
 
 export function setup_camera_movement(get_camera, camera_function) {
 
     document.body.addEventListener( 'mousemove', ( event ) => {
 
-        mouse_event = event;
-
         if (getInputMode()) return;
-
 
         let camera = get_camera();
 
@@ -52,5 +47,3 @@ export function setup_device_motion(window, camera) {
         camera.rotation.x = tiltX/200;
     }
 }
-
-export const getMouseEvent = () => mouse_event;

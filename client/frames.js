@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
-
+import { updateFrames } from "./frames_loader.js";
 
 
 let currentFrame;
@@ -47,30 +47,30 @@ const handleInputKeys = async () => {
 }
 
 export async function place_frame() {
-    $("input").val("");
+    // $("input").val("");
 
-    $(".container").fadeIn(500);
-    $(".container").css("display", "flex")
+    // $(".container").fadeIn(500);
+    // $(".container").css("display", "flex")
 
-    $("img").hide();
+    // $("img").hide();
 
-    document.exitPointerLock();
+    // document.exitPointerLock();
 
-    input_mode = true;
+    // input_mode = true;
 
-    await handleInputKeys();
+    // await handleInputKeys();
 
-    input_mode = false;
+    // input_mode = false;
 
-    await new Promise(resolve => $(".container").fadeOut(500, resolve));
-    $("img").show();
+    // await new Promise(resolve => $(".container").fadeOut(500, resolve));
+    // $("img").show();
 
-    if (exited_input) return;
+    // if (exited_input) return;
 
-    let url = $("input").val();
+    // let url = $("input").val();
 
-    // const url = "https://www.youtube.com/watch?v=3felts-0774";
-
+    const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+    
     if (url == "")
         return;
     else if (url.includes("youtube.com/watch?v=")) {
@@ -94,13 +94,17 @@ export async function place_frame() {
 
     const geometry = new THREE.BoxGeometry( width, height, 0.01 );
     currentFrame = new THREE.Mesh( geometry, material );
-    
+    currentFrame.position.set( 0, -10, 0 );
     // frame.position.y = 1.0;
     // frame.position.x = 2.85;
 
     addToScene(currentFrame);
 
     frames.push( { object: currentFrame, type, content: url, side: width > height ? "w" : "h" } )
+
+    updateFrames();
+
+    console.log(JSON.stringify(currentFrame));
 
     startFramePlacing();
 }
@@ -122,8 +126,9 @@ export const startFramePlacing = async () => {
 export const stopFramePlacing = (confirmed) => {
     frame_placing = false;
 
-    if (!confirmed) {
-        currentFrame.position.set( 0, -10, 0 );
+    if (!confirmed || currentFrame.position.y === -10) {
+        removeFromScene(currentFrame);
+        frames.pop();
     }
 }
 
@@ -134,6 +139,7 @@ export const toggleFramePlacing = () => {
 export const getFramePlacing = () => frame_placing;
 export const getFrame        = () => currentFrame;
 export const getFrames       = () => frames;
+export const setFrames       = (new_frames) => frames = new_frames;
 
 let visualizeMode = false;
 

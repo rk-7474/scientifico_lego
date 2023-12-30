@@ -1,10 +1,9 @@
 import * as THREE from 'three';
-import { getRenderer, getRoom } from "./index";
+import { getRoom } from "./index";
 import { getFramePlacing, getFrame, getFrames } from './frames';
 import { showNotify } from './notify';
-import { getMouseEvent } from './camera.js';
 
-let pointer = new THREE.Vector2();
+let pointer = new THREE.Vector2(0, 0);
 const raycaster = new THREE.Raycaster();
 
 let show_notify = false;
@@ -12,16 +11,10 @@ let interacting_frame;
 
 export function updateRaycast( camera ) {
 
-    const renderer = getRenderer();
     const room = getRoom();
     const helper = getFrame();
-    const mouse_event = getMouseEvent();
-    const {clientX, clientY} = mouse_event;
-    pointer.x = ( clientX / renderer.domElement.clientWidth ) * 2 - 1;
-    pointer.y = - ( clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
     raycaster.setFromCamera( pointer, camera );  
-
 
     if (!getFramePlacing()) {
 
@@ -44,15 +37,29 @@ export function updateRaycast( camera ) {
         const intersects = raycaster.intersectObject( room );
 
         if ( intersects.length > 0 ) {
-    
+            
             helper.position.set( 0, 0, 0 );
-            helper.lookAt( intersects[ 0 ].face.normal );
-    
-            helper.position.copy( intersects[ 0 ].point );
-    
+            const faced_rotation = getFacedRotation( intersects[ 0 ].face.normal );
+            console.log(faced_rotation)
+            if (faced_rotation != undefined) {
+                const {x, y, z} = faced_rotation
+                helper.rotation.set(x, y, z);
+                helper.position.copy( intersects[ 0 ].point );
+            }
+            
         }
     }
 }
+
+const getFacedRotation = ({x, y, z}) => {
+    if (x != 0 && y == 0 && z == 0) 
+        return {y: Math.PI / 2, x: 0, z: 0};
+    else if (x == 0 && y != 0 && z == 0) 
+        return {z: 0, x: 0, y: 0};
+    else if (x == 0 && y == 0 && z != 0) 
+        return {x: Math.PI / 2, y: 0, z: 0};
+}
+
 
 export const getInteractingFrame = () => interacting_frame;
 
