@@ -1,9 +1,6 @@
 import * as THREE from 'three'
 import { addToScene } from './index.js';
-import * as fs from 'fs';
 import { setFrames } from './frames.js';
-
-const DB_PATH = "./data.json";
 
 const loader = new THREE.ObjectLoader();
 

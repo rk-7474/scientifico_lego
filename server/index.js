@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const db = require('./database.js')
 const port = 3000
 
 app.use(cors())
@@ -25,6 +26,24 @@ app.get('/image', async (req, res) => {
   }
  
 })
+
+app.get('/rooms', async (req, res) => {
+  try {
+    const data = await db.get(req.query.id);
+    res.send(data);
+  } catch (e) {
+    res.sendStatus(500);
+  }
+});
+
+app.post('/rooms', async (req, res) => {
+  try {
+    db.update(req.query.id, req.body)
+    res.sendStatus(200);
+  } catch (e) {
+    res.sendStatus(500);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

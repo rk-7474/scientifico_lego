@@ -19,10 +19,10 @@ export const fetchRoomInfo = async (room_id) => {
 export const updateFrames = async (room_id, data) => {
     const endpoint = `${SERVER_URL}/rooms?id=${room_id}`;
     
-    await fetch(endpoint, {
+    const response = await fetch(endpoint, {
         method: 'POST',
-        body: room_id
+        body: data
     });
 
-
+    if (!response.ok) console.error("Failed to update room data. Check your internet connection.");
 }
