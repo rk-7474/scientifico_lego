@@ -12,7 +12,8 @@
   "dependencies": {
     "jquery": "^3.7.1",
     "mediaelement": "^7.0.2",
-    "three": "^0.160.0"
+    "three": "^0.160.0",
+    "uuid": "^9.0.1"
   },
   "type": "module",
   "devDependencies": {

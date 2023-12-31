@@ -38,16 +38,11 @@ class Database {
             return;
         }    
 
-        console.log(2)
 
-        if (!(await this.get(room_id))) {
-            console.log("insert")
+        if (!(await this.get(room_id)))
             this.execute("INSERT INTO rooms (data, id) VALUES (?, ?)", [data, room_id]);
-        } else {
+        else
             this.execute("UPDATE rooms SET data = ? WHERE id = ?", [data, room_id]);   
-        }
-        
-        console.log(3)
         
         EXISTING_ROOMS_CACHE[room_id] = true;
     }

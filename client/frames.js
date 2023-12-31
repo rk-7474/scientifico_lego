@@ -1,5 +1,6 @@
 import $ from "jquery";
 import * as THREE from 'three'
+import { v4 as uuidv4 } from 'uuid';
 import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
@@ -155,7 +156,7 @@ export const getVisualizeMode = () => visualizeMode;
 export function removeFrame() {
     const temp_frame = getInteractingFrame();
     removeFromScene(temp_frame.object);
-    const index = frames.findIndex(e => e.content === temp_frame.content);
+    const index = frames.findIndex(e => e.uuid === temp_frame.uuid);
     frames.splice(index, 1);
 
     updateFrames("prova", frames)
@@ -219,7 +220,7 @@ export const createFrame = async (url, position, rotation) => {
         frame.rotation.set( x, y, z );
     }
 
-    frames.push( { object: frame, type, content: url, side: width > height ? "w" : "h" } )
+    frames.push( { object: frame, type, content: url, side: width > height ? "w" : "h", uuid: uuidv4()} )
 
     return frame;
 }

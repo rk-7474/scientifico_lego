@@ -1,5 +1,4 @@
 import { addToScene } from './index.js';
-import { setFrames } from './frames.js';
 import { fetchRoomInfo } from './api.js'
 import { createFrame } from './frames.js';
 
