@@ -12,7 +12,7 @@ const gamepadOn = () => {
 }
 
 const gamepadOff = () => {
-    poll_interval = setInterval(gamepadPoll);
+    poll_interval = setInterval(gamepadPoll, 500);
     gamepad_connected = false;
 }
 

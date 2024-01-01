@@ -6,23 +6,7 @@ import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 import { updateFrames } from "./api.js";
 
-// window.onload = function() {
-//     // Get the current path
-//     var path = window.location.pathname;
-
-//     // Redirect all paths to a specific page (e.g., "target-page.html")
-//     window.location.replace("/target-page.html");
-
-//     // Extract information from the path (you can modify this part based on your needs)
-//     var extractedInfo = path.split('/').filter(function (part) {
-//       return part.trim() !== '';
-//     });
-
-//     // Log or use the extracted information
-//     console.log(extractedInfo);
-//   }
-
-const ROOM_ID = "prova";
+export const ROOM_ID = "prova";
 
 let currentFrame;
 
@@ -115,7 +99,7 @@ export const startFramePlacing = async () => {
 
     stopFramePlacing(true);
 
-    updateFrames("prova", frames)
+    updateFrames(ROOM_ID, frames)
 } 
 
 export const stopFramePlacing = (confirmed) => {
@@ -180,7 +164,7 @@ export function removeFrame() {
     const index = frames.findIndex(e => e.uuid === temp_frame.uuid);
     frames.splice(index, 1);
 
-    updateFrames("prova", frames)
+    updateFrames(ROOM_ID, frames)
 }
 
 function reduce(numerator,denominator){
