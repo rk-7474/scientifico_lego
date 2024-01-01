@@ -1,49 +1,54 @@
 // import { MathUtils } from "three";
+import { getCamera, setCamera } from "./index.js";
 import { getInputMode } from "./frames";
+import { gamepadCamera, gamepadConnected } from "./gamepad.js";
 
-export function setup_camera_movement(get_camera, camera_function) {
-
-    document.body.addEventListener( 'mousemove', ( event ) => {
-
-        if (getInputMode()) return;
-
-        let camera = get_camera();
-
-        if ( document.pointerLockElement === document.body ) {
-
-            let tomove = event.movementY / 500;
-
-            if (tomove > 0 && camera.rotation.x < -1.45)
-                tomove = 0;
-            else if (tomove < 0 && camera.rotation.x > 1.45)
-                tomove = 0;
-
-            // MathUtils.clamp(event.movementY / 500, -1.45, 1.45);
-
-            camera.rotation.y -= event.movementX / 500;
-            camera.rotation.x -= tomove;
-
-        }
-        
-        camera_function(camera);
-    } );
+export const init = () => {
+    document.body.addEventListener( 'mousemove', mouseCamera);
 }
 
-export function setup_device_motion(window, camera) {
-    if (window.DeviceOrientationEvent) {
-        console.log(true)
-        window.addEventListener('deviceorientation', function (eventData) {
-    
-            var tiltX =  eventData.gamma * 2;
-            var tiltY =   eventData.beta * 2;
-    
-            deviceOrientationHandler(tiltX,tiltY);
-            console.log(tiltX, tiltY)
-        }, false);
-    }
-    
-    function deviceOrientationHandler(tiltX, tiltY){
-        camera.rotation.y = tiltY/200;
-        camera.rotation.x = tiltX/200;
-    }
+const mouseCamera = ( event ) => {
+    if ( getInputMode() || gamepadConnected() || document.pointerLockElement !== document.body ) return;
+
+    var y = event.movementY / 500;
+    var x = event.movementX / 500;
+    moveCamera(x, y);
 }
+
+export const setGamepadCamera = () => {
+    var {x,y} = gamepadCamera();
+    moveCamera(x/100, y/100);
+}
+
+const moveCamera = (x, y) => {
+    let camera = getCamera();
+
+    if (y > 0 && camera.rotation.x < -1.45)
+        y = 0;
+    else if (y < 0 && camera.rotation.x > 1.45)
+        y = 0;
+
+    camera.rotation.y -= x;
+    camera.rotation.x -= y;
+
+    setCamera(camera);
+}
+
+// export function setup_device_motion(window, camera) {
+//     if (window.DeviceOrientationEvent) {
+//         console.log(true)
+//         window.addEventListener('deviceorientation', function (eventData) {
+    
+//             var tiltX =  eventData.gamma * 2;
+//             var tiltY =   eventData.beta * 2;
+    
+//             deviceOrientationHandler(tiltX,tiltY);
+//             console.log(tiltX, tiltY)
+//         }, false);
+//     }
+    
+//     function deviceOrientationHandler(tiltX, tiltY){
+//         camera.rotation.y = tiltY/200;
+//         camera.rotation.x = tiltX/200;
+//     }
+// }

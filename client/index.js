@@ -4,9 +4,10 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { StereoEffect } from 'three/addons/effects/StereoEffect.js';
 import { Capsule } from 'three/addons/math/Capsule.js';
 import { controls, setup_listeners } from './movement.js'
-import { setup_camera_movement, setup_device_motion } from './camera.js';
+import { init as cameraInit, setGamepadCamera} from './camera.js';
 import { updateRaycast } from "./raycast";
 import { loadRoom } from "./frames_loader.js"
+import { gamepadConnected } from "./gamepad.js"
 
 const CARDBOARD_MODE = false;
 
@@ -21,18 +22,13 @@ document.body.appendChild( renderer.domElement );
 
 if (CARDBOARD_MODE) {
     renderer = new StereoEffect( renderer );
-    setup_device_motion(window, camera);
+    // setup_device_motion(window, camera);
 } else {
     document.body.appendChild( VRButton.createButton( renderer ) );
     renderer.xr.enabled = true;
-    setup_camera_movement(
-        () => camera,
-    
-        (new_camera) => {
-            camera = new_camera
-        }
-    );
 }
+
+cameraInit();
 
 loadRoom();
 
@@ -58,6 +54,8 @@ loader.load( './modern_bedroom/scene.gltf', function ( gltf ) {
 setup_listeners(document, camera, window, renderer);
 
 export const getRenderer = () => renderer;
+export const getCamera = () => camera;
+export const setCamera = (n) => camera = n;
 export const getRoom = () => room;
 export const addToScene = (object) => scene.add(object);
 export const removeFromScene = (object) => scene.remove(object);
@@ -71,6 +69,7 @@ function updatePlayer( deltaTime ) {
     const deltaPosition = playerVelocity.clone().multiplyScalar( deltaTime );
     playerCollider.translate( deltaPosition );
 
+    if (gamepadConnected()) setGamepadCamera();
 
     // playerCollisions();
 

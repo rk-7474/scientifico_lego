@@ -2,6 +2,7 @@ import { place_frame, getFramePlacing, toggleFramePlacing } from './frames.js';
 import {getForwardVector, getSideVector} from './vectors.js'
 import { toggleVisualizeFrame, getVisualizeMode, removeFrame, getInputMode } from './frames.js';
 import {getInteractingFrame} from './raycast.js'
+import { gamepadConnected, gamepadMovement } from './gamepad.js';
 
 let keyStates = {};
 
@@ -58,33 +59,27 @@ export function controls( deltaTime, playerVelocity, camera, playerDirection ) {
 
     const speedDelta = deltaTime * 250;
 
-    playerVelocity.x = 0;
-    playerVelocity.y = 0;
-    playerVelocity.z = 0;
+    playerVelocity.set(0, 0, 0)
 
-    if ( keyStates[ 'KeyW' ] ) {
+    if (!gamepadConnected()) {
 
-        playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( speedDelta ) );
+        if ( keyStates[ 'KeyW' ] ) playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( speedDelta ) );
 
+        if ( keyStates[ 'KeyS' ] ) playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( - speedDelta ) );
+
+        if ( keyStates[ 'KeyA' ] ) playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( - speedDelta ) );
+
+        if ( keyStates[ 'KeyD' ] ) playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( speedDelta ) );
+
+        return playerVelocity;
     }
 
-    if ( keyStates[ 'KeyS' ] ) {
 
-        playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( - speedDelta ) );
+    const gamepad = gamepadMovement();
 
-    }
+    playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.y ) );
 
-    if ( keyStates[ 'KeyA' ] ) {
-
-        playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( - speedDelta ) );
-
-    }
-
-    if ( keyStates[ 'KeyD' ] ) {
-
-        playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( speedDelta ) );
-
-    }
+    playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.x ) );
 
     return playerVelocity;
 }

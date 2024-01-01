@@ -6,6 +6,23 @@ import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 import { updateFrames } from "./api.js";
 
+// window.onload = function() {
+//     // Get the current path
+//     var path = window.location.pathname;
+
+//     // Redirect all paths to a specific page (e.g., "target-page.html")
+//     window.location.replace("/target-page.html");
+
+//     // Extract information from the path (you can modify this part based on your needs)
+//     var extractedInfo = path.split('/').filter(function (part) {
+//       return part.trim() !== '';
+//     });
+
+//     // Log or use the extracted information
+//     console.log(extractedInfo);
+//   }
+
+const ROOM_ID = "prova";
 
 let currentFrame;
 
@@ -48,29 +65,29 @@ const handleInputKeys = async () => {
 }
 
 export async function place_frame() {
-    // $("input").val("");
+    $("input").val("");
 
-    // $(".container").fadeIn(500);
-    // $(".container").css("display", "flex")
+    $(".container").fadeIn(500);
+    $(".container").css("display", "flex")
 
-    // $("img").hide();
+    $("img").hide();
 
-    // document.exitPointerLock();
+    document.exitPointerLock();
 
-    // input_mode = true;
+    input_mode = true;
 
-    // await handleInputKeys();
+    await handleInputKeys();
 
-    // input_mode = false;
+    input_mode = false;
 
-    // await new Promise(resolve => $(".container").fadeOut(500, resolve));
-    // $("img").show();
+    await new Promise(resolve => $(".container").fadeOut(500, resolve));
+    $("img").show();
 
-    // if (exited_input) return;
+    if (exited_input) return;
 
-    // let url = $("input").val();
+    let url = $("input").val();
 
-    const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+    // const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
     
     currentFrame = await createFrame(url);
     // frame.position.y = 1.0;
