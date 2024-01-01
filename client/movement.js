@@ -1,4 +1,4 @@
-import { place_frame, getFramePlacing, toggleFramePlacing } from './frames.js';
+import { placeFrame, getFramePlacing, toggleFramePlacing } from './frames.js';
 import {getForwardVector, getSideVector} from './vectors.js'
 import { toggleVisualizeFrame, getVisualizeMode, removeFrame, getInputMode } from './frames.js';
 import {getInteractingFrame} from './raycast.js'
@@ -6,7 +6,7 @@ import { gamepadConnected, gamepadMovement } from './gamepad.js';
 
 let keyStates = {};
 
-export function setup_listeners(document, camera, window, renderer) {
+export function listenersInit(camera, renderer) {
 
     document.addEventListener( 'keydown', ( event ) => { 
 
@@ -17,7 +17,7 @@ export function setup_listeners(document, camera, window, renderer) {
             if (getFramePlacing())
                 toggleFramePlacing()
             else
-                place_frame();
+                placeFrame();
         
         else if (event.code == "KeyY" && getInteractingFrame() != null)
             removeFrame();
@@ -73,7 +73,6 @@ export function controls( deltaTime, playerVelocity, camera, playerDirection ) {
 
         return playerVelocity;
     }
-
 
     const gamepad = gamepadMovement();
 

@@ -64,7 +64,7 @@ const handleInputKeys = async () => {
     });
 }
 
-export async function place_frame() {
+export async function placeFrame() {
     $("input").val("");
 
     $(".container").fadeIn(500);
@@ -89,7 +89,11 @@ export async function place_frame() {
 
     // const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
     
-    currentFrame = await createFrame(url);
+    const temp = await createFrame(url);
+
+    if(!temp) return;
+
+    currentFrame = temp;
     // frame.position.y = 1.0;
     // frame.position.x = 2.85;
 

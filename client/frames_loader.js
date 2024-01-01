@@ -2,7 +2,7 @@ import { addToScene } from './index.js';
 import { fetchRoomInfo } from './api.js'
 import { createFrame } from './frames.js';
 
-export const loadRoom = async () => {
+export const loadRoomFrames = async () => {
     const frames = await fetchRoomInfo("prova");
     if (!frames) return;
 
@@ -11,3 +11,4 @@ export const loadRoom = async () => {
         addToScene(object)
     }
 }
+
