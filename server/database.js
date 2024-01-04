@@ -31,13 +31,10 @@ class Database {
     }
 
     async update(room_id, data) {
-        console.log(1)
-
         if (exists(room_id)) {
             this.execute("UPDATE rooms SET data = ? WHERE id = ?", [data, room_id]);
             return;
-        }    
-
+        }
 
         if (!(await this.get(room_id)))
             this.execute("INSERT INTO rooms (data, id) VALUES (?, ?)", [data, room_id]);

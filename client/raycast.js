@@ -54,9 +54,9 @@ const getFacedRotation = ({x, y, z}) => {
     if (x != 0 && y == 0 && z == 0) 
         return {y: Math.PI / 2, x: 0, z: 0};
     else if (x == 0 && y != 0 && z == 0) 
-        return {z: 0, x: 0, y: 0};
+        return {z: 0, x: Math.PI / 2, y: 0};
     else if (x == 0 && y == 0 && z != 0) 
-        return {x: Math.PI / 2, y: 0, z: 0};
+        return {x: 0, y: 0, z: 0};
 }
 
 
