@@ -3,10 +3,11 @@ import {getForwardVector, getSideVector} from './vectors.js'
 import { toggleVisualizeFrame, getVisualizeMode, removeFrame, getInputMode } from './frames.js';
 import {getInteractingFrame} from './raycast.js'
 import { gamepadConnected, gamepadMovement } from './gamepad.js';
+import { getCamera, getRenderer } from './index.js';
 
 let keyStates = {};
 
-export function listenersInit(camera, renderer) {
+export function listenersInit() {
 
     document.addEventListener( 'keydown', ( event ) => { 
 
@@ -47,10 +48,11 @@ export function listenersInit(camera, renderer) {
     window.addEventListener( 'resize', onWindowResize );
 
     function onWindowResize() {
-
+        const camera = getCamera();
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
 
+        const renderer = getRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
     }
 }
