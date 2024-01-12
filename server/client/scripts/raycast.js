@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { getRoom } from "./index";
-import { getFramePlacing, getFrame, getFrames } from './frames';
-import { showNotify } from './notify';
+import { getRoom } from "./index.js";
+import { getFramePlacing, getFrame, getFrames } from './frames.js';
+// import { showNotify } from './notify.js';
 
 let pointer = new THREE.Vector2(0, 0);
 const raycaster = new THREE.Raycaster();
@@ -29,7 +29,7 @@ export function updateRaycast( camera ) {
             }
         }
 
-        showNotify(show_notify);
+        // showNotify(show_notify);
 
         if (!show_notify)
             interacting_frame = null;

@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path');
 const cors = require('cors')
 const app = express()
 const db = require('./database.js')
@@ -10,10 +11,14 @@ app.use(express.urlencoded({
 }));
 
 app.use(cors())
+app.use('/', express.static(path.join(__dirname, 'client')));
 
-app.get('/image', async (req, res) => {
+app.get('/rooms', async (req, res) => {
+  res.render(path.join(__dirname, "index.html"))
+});
+
+app.get('/api/image', async (req, res) => {
   const image_url = req.query.url;
-  
   if (!image_url) res.sendStatus(404);
 
   try {
@@ -30,7 +35,7 @@ app.get('/image', async (req, res) => {
  
 })
 
-app.get('/rooms', async (req, res) => {
+app.get('/api/rooms', async (req, res) => {
   try {
     const data = await db.get(req.query.id);
     console.log("Getted "+JSON.stringify(data))
@@ -41,7 +46,7 @@ app.get('/rooms', async (req, res) => {
   }
 });
 
-app.post('/rooms', async (req, res) => {
+app.post('/api/rooms', async (req, res) => {
   try {
     await db.update(req.query.id, JSON.stringify(req.body))
     res.sendStatus(200);

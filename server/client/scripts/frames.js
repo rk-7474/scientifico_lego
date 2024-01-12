@@ -1,10 +1,11 @@
-import $ from "jquery";
+import "jquery";
 import * as THREE from 'three'
-import { v4 as uuidv4 } from 'uuid';
 import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 import { updateFrames } from "./api.js";
+
+let ids = 0;
 
 export const ROOM_ID = "prova";
 
@@ -225,7 +226,7 @@ export const createFrame = async (url, position, rotation) => {
         frame.rotation.set( x, y, z );
     }
 
-    frames.push( { object: frame, type, content: url, side: width > height ? "w" : "h", uuid: uuidv4()} )
+    frames.push( { object: frame, type, content: url, side: width > height ? "w" : "h", uuid: ids++} )
 
     return frame;
 }

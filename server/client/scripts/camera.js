@@ -1,6 +1,6 @@
 // import { MathUtils } from "three";
 import { getCamera, setCamera } from "./index.js";
-import { getInputMode } from "./frames";
+import { getInputMode } from "./frames.js";
 import { gamepadCamera, gamepadConnected } from "./gamepad.js";
 
 export const init = () => {

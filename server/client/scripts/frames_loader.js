@@ -3,7 +3,12 @@ import { fetchRoomInfo } from './api.js'
 import { createFrame, ROOM_ID } from './frames.js';
 
 export const loadRoomFrames = async () => {
-    const frames = await fetchRoomInfo(ROOM_ID);
+    try {
+        var frames = await fetchRoomInfo(ROOM_ID);
+    } catch (e) {
+        return;
+    }
+    
     if (!frames) return;
 
     for (const {url, position, rotation} of frames) {

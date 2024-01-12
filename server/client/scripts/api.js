@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:3000"
+const SERVER_URL = "http://localhost:3000/api"
 
 export const fetchImage = async (url) => {
     const endpoint = `${SERVER_URL}/image?url=${url}`;
