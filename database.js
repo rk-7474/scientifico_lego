@@ -7,7 +7,7 @@ const exists = (id) => EXISTING_ROOMS_CACHE[id] != null;
 class Database {
     constructor(path) {
         this.db = new sqlite3.Database(path);
-        this.execute("CREATE TABLE IF NOT EXISTS rooms (data TEXT, id TEXT);")
+        this.execute("CREATE TABLE IF NOT EXISTS rooms (data TEXT, id TEXT, model TEXT);")
     }
 
     execute(...args) {

@@ -44,6 +44,17 @@ app.get('/api/image', async (req, res) => {
   }
 })
 
+app.get('/api/model', async (req, res) => {
+  try {
+    const name = await db.model(req.query.id);
+    console.log("Getted model for id "+req.query.id)
+    res.sendFile("files/"+name);
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500);
+  }
+});
+
 app.get('/api/rooms', async (req, res) => {
   try {
     const data = await db.get(req.query.id);
