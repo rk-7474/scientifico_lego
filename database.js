@@ -30,6 +30,10 @@ class Database {
         return this.select("SELECT data FROM rooms WHERE id = ?", [room_id]);  
     }
 
+    model(room_id) {
+        return this.select("SELECT model FROM rooms WHERE id = ?", [room_id]);  
+    }
+
     async update(room_id, data) {
         if (exists(room_id)) {
             this.execute("UPDATE rooms SET data = ? WHERE id = ?", [data, room_id]);
