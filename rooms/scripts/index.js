@@ -44,24 +44,10 @@ const GRAVITY = 30;
 function playerCollisions(deltaTime) {
     const result = worldOctree.capsuleIntersect( playerCollider );
 
-    let damping = Math.exp( - 4 * deltaTime ) - 1;
-
-    if ( ! playerOnFloor ) {
-
-        playerVelocity.y -= GRAVITY * deltaTime;
-
-        // small air resistance
-        damping *= 0.1;
-
-    }
-    playerVelocity.addScaledVector( playerVelocity, damping );
-    playerOnFloor = false
     if ( result ) {
-        playerOnFloor = result.normal.y > 0;
-        if ( ! playerOnFloor ) {
-            playerVelocity.addScaledVector( result.normal, - result.normal.dot( playerVelocity ) );
-        }
-        playerCollider.translate( result.normal.multiplyScalar( result.depth ) );
+        const translateVector = result.normal.multiplyScalar( result.depth );
+        translateVector.y = 0
+        playerCollider.translate( translateVector );
     }
 }
 
@@ -92,7 +78,7 @@ let room;
 
 function loadRoomObject() {
     const loader = new GLTFLoader();
-    loader.load( '/modern_bedroom/scene.gltf', function ( gltf ) {
+    loader.load( '../../roomsdata/modern_bedroom/scene.gltf', function ( gltf ) {
         scene.add( gltf.scene );
         room = gltf.scene;
         worldOctree.fromGraphNode( room );

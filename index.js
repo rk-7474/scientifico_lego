@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path');
 const cors = require('cors')
+const upload = require('./multer.js')
 const app = express()
 const db = require('./database.js')
 const port = 3000
@@ -12,11 +13,18 @@ app.use(express.urlencoded({
 
 app.use(cors())
 
-app.use('/', express.static(path.join(__dirname, 'client')));
+app.use('/roomsdata', express.static(path.join(__dirname, 'rooms')));
 
-app.get('/rooms', async (req, res) => {
-  console.log()
-  res.sendFile(path.join(__dirname, "client/index.html"))
+app.get('/rooms/:id', async (req, res) => {
+  res.sendFile(path.join(__dirname, "rooms/index.html"))
+});
+
+app.use('/create', express.static(path.join(__dirname, 'create')));
+
+app.post('/api/file', upload.single("file"), async (req, res) => {
+  const room_id = req.body.id;
+
+  res.redirect('/');
 });
 
 app.get('/api/image', async (req, res) => {
