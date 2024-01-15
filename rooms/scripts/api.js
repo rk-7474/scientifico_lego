@@ -9,7 +9,7 @@ export const fetchImage = async (url) => {
 }
 
 export const fetchRoomInfo = async (room_id) => {
-    const endpoint = `${SERVER_URL}/rooms?id=${room_id}`;
+    const endpoint = `${SERVER_URL}/data?id=${room_id}`;
     const response = await fetch(endpoint);
     if (!response.ok) return;
     const data = await response.json();
@@ -30,7 +30,7 @@ export const updateFrames = async (room_id, frames) => {
     }
         
 
-    const endpoint = `${SERVER_URL}/rooms?id=${room_id}`;
+    const endpoint = `${SERVER_URL}/data?id=${room_id}`;
     
     data = JSON.stringify(data);
 

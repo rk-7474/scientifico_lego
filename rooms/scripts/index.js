@@ -10,6 +10,7 @@ import { init as cameraInit, setGamepadCamera} from './camera.js';
 import { updateRaycast } from "./raycast.js";
 import { loadRoomFrames } from "./frames_loader.js"
 import { gamepadConnected } from "./gamepad.js"
+import { ROOM_ID } from './frames.js';
 
 let renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -78,7 +79,7 @@ let room;
 
 function loadRoomObject() {
     const loader = new GLTFLoader();
-    loader.load( '../../roomsdata/modern_bedroom/scene.gltf', function ( gltf ) {
+    loader.load( `/files/${ROOM_ID}/scene.gltf`, function ( gltf ) {
         scene.add( gltf.scene );
         room = gltf.scene;
         worldOctree.fromGraphNode( room );
