@@ -15,15 +15,13 @@ if ( $_SERVER['REQUEST_METHOD'] === "GET") {
     //     exit;
     // }
 
-    $room_data = select($_GET["id"]);
+    $id = $_GET["id"];
+    $room_data = select($id);
 
     // if ($room_data === FALSE) {
     //     header("Location: /home");
     //     exit; 
     // }
-
-    s_log("SELECT: ".$room_data."\n");
-
     echo "$room_data";
 } else {
     
