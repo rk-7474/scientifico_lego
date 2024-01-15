@@ -32,11 +32,14 @@ export const updateFrames = async (room_id, frames) => {
 
     const endpoint = `${SERVER_URL}/data?id=${room_id}`;
     
-    data = JSON.stringify(data);
+    const body = {
+        id: room_id,
+        data
+    }
 
     const response = await fetch(endpoint, {
         method: 'POST',
-        body: data,
+        body: JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json',
         },
