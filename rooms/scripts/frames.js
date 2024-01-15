@@ -7,7 +7,8 @@ import { updateFrames } from "./api.js";
 
 let ids = 0;
 
-export const ROOM_ID = "prova";
+const loc = window.location.pathname;
+export const ROOM_ID = loc.substring(loc.lastIndexOf('/')+1, loc.length);;
 
 let currentFrame;
 
@@ -19,6 +20,7 @@ export const getInputMode = () => input_mode;
 
 let exited_input = false;
 
+//Funzione che attende che un pulsante valido venga premuto per il menu di input
 const handleInputKeys = async () => {
     exited_input = false;
 
@@ -49,6 +51,7 @@ const handleInputKeys = async () => {
     });
 }
 
+//Funzione che apre il menu di input e piazza il frame
 export async function placeFrame() {
     $("input").val("");
 
@@ -89,6 +92,7 @@ export async function placeFrame() {
 
 let frame_placing = false;
 
+//Funzione che muove il frame a seconda del cursore fino a quando non viene confermato
 export const startFramePlacing = async () => {
     frame_placing = true;
 
@@ -123,6 +127,8 @@ export const setFrames       = (new_frames) => frames = new_frames;
 
 let visualizeMode = false;
 
+
+//Funzione per aprire il frame a schermo
 export async function toggleVisualizeFrame() {
     visualizeMode = !visualizeMode;
 

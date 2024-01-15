@@ -1,5 +1,7 @@
-const SERVER_URL = "http://localhost:3000/api"
+const SERVER_URL = "http://localhost:80/api"
 
+
+//Fetch API per bypassare CORS
 export const fetchImage = async (url) => {
     const endpoint = `${SERVER_URL}/image?url=${url}`;
     const response = await fetch(endpoint);
@@ -8,6 +10,7 @@ export const fetchImage = async (url) => {
     return blob;
 }
 
+//Fetch API per ottenere posizione e rotazione dei frame
 export const fetchRoomInfo = async (room_id) => {
     const endpoint = `${SERVER_URL}/data?id=${room_id}`;
     const response = await fetch(endpoint);
@@ -16,6 +19,7 @@ export const fetchRoomInfo = async (room_id) => {
     return data;
 }
 
+//POST per aggiornare la posizione dei frame sul database
 export const updateFrames = async (room_id, frames) => {
     let data = []
 

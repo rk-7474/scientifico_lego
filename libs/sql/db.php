@@ -3,7 +3,7 @@
 
     function create($id) {
         $conn = init();
-        $insert = "INSERT INTO rooms (id, data) VALUES ('$id', '{}')";
+        $insert = "INSERT INTO rooms (id, data) VALUES ('$id', '[]')";
     
         return ($conn->query($insert));
     }

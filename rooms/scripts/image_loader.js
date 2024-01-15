@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { fetchImage } from "./api.js"
 
+//Funzione che prende un url id un immagine e la trasforma in un materiale
 export async function load_image(url) {
   const blob = await fetchImage(url);
   if (!blob) return;
@@ -14,6 +15,7 @@ export async function load_image(url) {
   return [material, size];
 }
 
+//Funzione per ottenere la copertina dei video su youtube
 export function get_thumbnail(url) {
   const youtube_video_id = url.substring(32, url.length);
   const thumb_url = 'https://img.youtube.com/vi/'+youtube_video_id+'/0.jpg'

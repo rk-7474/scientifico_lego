@@ -38,10 +38,6 @@ if (CARDBOARD_MODE) {
 
 scene.background = new THREE.Color(0xD3E8F0);
 
-let playerOnFloor;
-
-const GRAVITY = 30;
-
 function playerCollisions(deltaTime) {
     const result = worldOctree.capsuleIntersect( playerCollider );
 

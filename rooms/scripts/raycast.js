@@ -9,6 +9,9 @@ const raycaster = new THREE.Raycaster();
 let show_notify = false;
 let interacting_frame;  
 
+
+//Funzione per aggiornare il raycast, sia quando si sta posizionando un frame
+//sia quando si interagisce con un frame per aprirlo
 export function updateRaycast( camera ) {
 
     const room = getRoom();
