@@ -40,7 +40,7 @@ export function listenersInit() {
 
         if (getVisualizeMode()) 
             toggleVisualizeFrame()
-
+        
         document.body.requestPointerLock();
 
     } );

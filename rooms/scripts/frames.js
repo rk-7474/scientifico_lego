@@ -41,7 +41,6 @@ const handleInputKeys = async () => {
                     return;
             }    
         });
-
         
         $("button").one("click", event => {
             if (event.button === 0) completed(event);   
@@ -50,7 +49,7 @@ const handleInputKeys = async () => {
 }
 
 export async function placeFrame() {
-    $("input").val("");
+    $(".container > input").val("");
 
     $(".container").fadeIn(500);
     $(".container").css("display", "flex")
@@ -63,10 +62,7 @@ export async function placeFrame() {
 
     await handleInputKeys();
 
-    input_mode = false;
-
     await new Promise(resolve => $(".container").fadeOut(500, resolve));
-    $("img").show();
 
     if (exited_input) return;
 
@@ -74,23 +70,28 @@ export async function placeFrame() {
 
     // const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
     
-    const temp = await createFrame(url);
+    const data = await createFrame(url);
 
-    if(!temp) return;
+    $("img").show();
 
-    currentFrame = temp;
-    // frame.position.y = 1.0;
-    // frame.position.x = 2.85;
-
-    addToScene(currentFrame);
-    
-    startFramePlacing();
+    startFramePlacing(data);
 }
 
 let frame_placing = false;
 
-export const startFramePlacing = async () => {
+//Funzione che muove il frame a seconda del cursore fino a quando non viene confermato
+export const startFramePlacing = async (data) => {
     frame_placing = true;
+
+    document.exitPointerLock();
+
+    const scale = await resizeFrame(currentFrame);
+    data.scale = scale;
+
+    frames.push(data);
+    console.log(data);
+
+    input_mode = false;
 
     await new Promise(resolve => {
         $(document).one("mousedown", event => {
@@ -100,7 +101,7 @@ export const startFramePlacing = async () => {
 
     stopFramePlacing(true);
 
-    updateFrames(ROOM_ID, frames)
+    updateFrames(ROOM_ID, frames);
 } 
 
 export const stopFramePlacing = (confirmed) => {
@@ -120,6 +121,7 @@ export const getFramePlacing = () => frame_placing;
 export const getFrame        = () => currentFrame;
 export const getFrames       = () => frames;
 export const setFrames       = (new_frames) => frames = new_frames;
+export const addFrame       = (frametoadd) => frames.push(frametoadd);
 
 let visualizeMode = false;
 
@@ -168,22 +170,6 @@ export function removeFrame() {
     updateFrames(ROOM_ID, frames)
 }
 
-function reduce(numerator,denominator){
-    var gcd = function gcd(a,b){
-      return b ? gcd(b, a%b) : a;
-    };
-    gcd = gcd(numerator,denominator);
-
-    numerator /= gcd;
-    denominator /= gcd;
-
-    if (numerator > denominator) {
-        return [ 2*numerator/denominator, 2 ]
-    } else {
-        return [ 1.5, 1.5*denominator/numerator ];
-    }
-}
-
 const validateUrl = (url) => {
     if (url == "")
         return;
@@ -200,7 +186,7 @@ const validateUrl = (url) => {
     return [type, image];
 }
   
-export const createFrame = async (url, position, rotation) => {
+export const createFrame = async (url, position, rotation, scale) => {
     const [type, image] = validateUrl(url);
 
     const image_data = await load_image(image);
@@ -226,7 +212,50 @@ export const createFrame = async (url, position, rotation) => {
         frame.rotation.set( x, y, z );
     }
 
-    frames.push( { object: frame, type, content: url, side: width > height ? "w" : "h", uuid: ids++} )
+    if (scale) {
+        frame.scale.set(scale, scale, 1);
+    }
 
-    return frame;
+    addToScene(frame);
+    currentFrame = frame;
+
+    const data = { object: frame, type, content: url, width, height, side: width > height ? "w" : "h", uuid: ids++};
+
+    return data;
+}
+
+const resizeFrame = async (frame) => {
+    $('#resizer').fadeIn(300);
+    $("#resizer").css("display", "flex")
+    let scale = 0;
+    $('.slider').on('change', function(e) {
+        scale = e.target.value/100;
+        frame.scale.set(scale, scale, 1);
+    });
+    await new Promise(resolve => 
+        $('#resizer > button').click(() => {
+            resolve();
+        })    
+    )
+    $('.slider').unbind();
+    $('#resizer > button').unbind();
+    $('#resizer').fadeOut(300);
+    return scale;
+}
+
+
+function reduce(numerator,denominator){
+    var gcd = function gcd(a,b){
+      return b ? gcd(b, a%b) : a;
+    };
+    gcd = gcd(numerator,denominator);
+
+    numerator /= gcd;
+    denominator /= gcd;
+
+    if (numerator > denominator) {
+        return [ 2*numerator/denominator, 2 ]
+    } else {
+        return [ 1.5, 1.5*denominator/numerator ];
+    }
 }

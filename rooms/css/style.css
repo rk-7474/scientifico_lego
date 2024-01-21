@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+*{
+    font-family: 'Inter', sans-serif;
+}
+
+body { margin: 0; user-select: none; overflow: hidden;}
+
+.center { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;}
+.container, #resizer {
+    position: absolute;
+    width: 500px;
+    height: 200px;
+    background-color: rgba(43, 43, 43, 0.601);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    display: none;
+}
+input[type="text"] {
+    font-size: 16px; /* Set the font-size to your preference */
+    padding: 10px; /* Add some padding */
+    background-color: rgba(43, 43, 43, 0.877);
+    border: none; /* Add a border */
+    width: 70%;
+    outline: none;
+    color: white;
+}
+
+.confirm {
+    width: 120px;
+    height: 40px;
+    background-color: rgba(43, 43, 43, 0.877);
+    font-size: 1.2rem;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: .25ms ease-in-out;
+}
+
+.confirm:hover {
+    opacity: 1;
+}
+
+.frame {
+    display: none;
+}
+
+.loading {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 1;
+    background-color: darkslategray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+#loadingbar {
+    width: 0;
+    transition: width 2s ease-in-out;
+    height: 20px;
+    background-color: white;
+    border-radius: 100px;
+    display: block;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+  
+.slider {
+    -webkit-appearance: none;
+    width: 20vw;
+    height: 10px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 10px;
+}
+  
+.slider:hover {
+    opacity: 1;
+}
+  
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.resizercontainer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    pointer-events: none;
+}
+
+
+#resizer {
+    height: 175px;
+    width: 400px;
+    margin-bottom: 100px;
+    pointer-events: auto;
+}
+
