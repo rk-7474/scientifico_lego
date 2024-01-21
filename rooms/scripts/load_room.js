@@ -3,6 +3,8 @@ import "jquery";
 import { setRoom } from './index.js';
 import { ROOM_ID } from './frames.js';
 
+let lastnum = 0;
+
 //Caricamento modello stanza con loading screen
 export function loadRoomObject() {
     const loader = new GLTFLoader();
@@ -11,7 +13,10 @@ export function loadRoomObject() {
         finishedLoading();
     }, 
     function ( xhr ) {
-        $("#loadingbar").width(`${xhr.loaded / xhr.total * 300}px`);
+        if (xhr != lastnum) {
+            $("#loadingbar").width(`${xhr.loaded / xhr.total * 300}px`);
+            lastnum = xhr;
+        }
 	}, function ( error ) {
         console.error( error );
     } );

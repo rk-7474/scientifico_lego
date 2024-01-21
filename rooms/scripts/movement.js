@@ -7,7 +7,6 @@ import { getCamera, getRenderer } from './index.js';
 
 let keyStates = {};
 
-//Inizializzazione listeners e controllo tasti
 export function listenersInit() {
 
     document.addEventListener( 'keydown', ( event ) => { 
@@ -41,7 +40,7 @@ export function listenersInit() {
 
         if (getVisualizeMode()) 
             toggleVisualizeFrame()
-
+        
         document.body.requestPointerLock();
 
     } );
@@ -58,7 +57,6 @@ export function listenersInit() {
     }
 }
 
-//Funzione per controllo movimento giocatore
 export function controls( deltaTime, playerVelocity, camera, playerDirection ) {
 
     const speedDelta = deltaTime * 250;
