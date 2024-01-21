@@ -3,6 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Create new room</title>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	</head>
 	<body>
 		<form enctype="multipart/form-data" method="POST" action="/api/create">
@@ -11,4 +14,22 @@
 			<input type="submit">
 		</form>		
 	</body>
+	<script>
+		const params = new URLSearchParams(window.location.search);
+		let error = params.get('error');
+		if (error != null) error = Number(error);
+
+		switch (error) {
+			case 1: toastr.error("Invalid room id"); break;
+			case 2: toastr.error("A room with this id already exists"); break;
+			case 3: toastr.error("Invalid room file (must be a .zip)"); break;
+			case 4: toastr.error("Model file or texures folder not found in file"); break;
+		}
+	</script>
+	<style>
+  		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+		* {
+			font-family: 'Inter', sans-serif;
+		}
+	</style>
 </html>

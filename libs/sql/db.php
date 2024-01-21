@@ -36,7 +36,7 @@
         $select = "SELECT * FROM rooms WHERE id = '$id'";
         $result = $conn->query($select);
     
-        return ($result === TRUE and $result->num_rows > 0);
+        return ($result->num_rows > 0);
     }
 
 ?>
