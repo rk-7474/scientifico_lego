@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    margin: 0;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.sfondo{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    transform: scale(1.2);
+    margin: 0;
+}
+
+.page{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    margin: 5%;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(47, 79, 79, 0.5);
+    min-width: 90%;
+    height: 500px;
+}
+
+.room {
+    display: flex;
+    justify-content: center;
+    opacity: 0.7;
+    width: 400px;
+    height: 200px;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.room:hover {
+    opacity: 1;
+    transform: scale(1.025);
+}
+
+
+.astronauta{
+    position: absolute;
+    width: 27%;
+    height: auto;
+    top: 23.5%;
+    left: 7.25%;  
+    filter: drop-shadow(0 0 0.75rem rgba(255, 255, 255, 0.7));
+    z-index: 1;
+}
+
+.pianeta1{
+    position: absolute;
+
+    width: 10%;
+    height: auto;
+
+    top: 10%;
+    left: 35%;
+
+    filter: drop-shadow(0 0 0.75rem rgba(107, 107, 179, 0.7));
+}
+
+.pianeta2{
+    position: absolute;
+
+    width: 15%;
+    height: auto;
+
+    top: 70%;
+    right: 15%;
+    filter: drop-shadow(0 0 0.75rem rgba(105, 143, 171, 0.7));
+}
+
+h1{
+    font-family: 'Work Sans', sans-serif;
+    /* font-weight: 300; */
+    font-size: 100px;
+    letter-spacing: 5px;
+    word-spacing: 10px;
+
+    color: white;
+    position: absolute;
+
+    top: 35%;
+    left: 45%;
+
+    /* text-shadow: 0.5px 0.5px 0.5px rgb(23, 10, 49), 0 0 25px rgb(23, 10, 49), 0 0 5px lightblue; */
+    text-shadow: 4px 4px 0px rgba(0,0,0,1);
+    animation: fade-in 3s;
+}
+
+/* .pianeti, .astronauta {
+    position: relative;
+    transition: s ease;
+  } */
+
+
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.material-symbols-outlined {
+   color: white;
+   position: fixed;
+
+   transform: scale(2);
+
+   bottom: 3%;
+   left: 50%;
+}

@@ -8,6 +8,7 @@ function failure($id) {
 }
 
 $id=$_POST['id'];
+$label=$_POST['label'];
 
 $regex = '/^[a-zA-Z0-9_]+$/';
 
@@ -34,7 +35,7 @@ if(!unZip($path, $name)) exit;
 
 if (!file_exists("$path/textures/") or !file_exists("$path/scene.gltf")) failure(4);
 
-create($id, $path);
+create($id, $label);
 
 header("Location: /rooms/$id");
 

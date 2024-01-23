@@ -10,22 +10,23 @@
 	<body>
 		<form enctype="multipart/form-data" method="POST" action="/api/create">
 			<input type="file" name="file">
+			<input type="text" name="label">
 			<input type="text" name="id">
 			<input type="submit">
-		</form>		
+		</form>	
+		<script>
+			const params = new URLSearchParams(window.location.search);
+			let error = params.get('error');
+			if (error != null) error = Number(error);
+	
+			switch (error) {
+				case 1: toastr.error("Invalid room id"); break;
+				case 2: toastr.error("A room with this id already exists"); break;
+				case 3: toastr.error("Invalid room file (must be a .zip)"); break;
+				case 4: toastr.error("Model file or texures folder not found in file"); break;
+			}
+		</script>	
 	</body>
-	<script>
-		const params = new URLSearchParams(window.location.search);
-		let error = params.get('error');
-		if (error != null) error = Number(error);
-
-		switch (error) {
-			case 1: toastr.error("Invalid room id"); break;
-			case 2: toastr.error("A room with this id already exists"); break;
-			case 3: toastr.error("Invalid room file (must be a .zip)"); break;
-			case 4: toastr.error("Model file or texures folder not found in file"); break;
-		}
-	</script>
 	<style>
   		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
 		* {
