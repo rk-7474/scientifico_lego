@@ -50,12 +50,12 @@ const handleInputKeys = async () => {
 }
 
 export async function placeFrame() {
-    $(".container > input").val("");
+    $("#url > input").val("");
 
-    $(".container").fadeIn(500);
-    $(".container").css("display", "flex")
+    $("#url").fadeIn(500);
+    $("#url").css("display", "flex")
 
-    $("img").hide();
+    $("#cursor").hide();
 
     document.exitPointerLock();
 
@@ -67,30 +67,57 @@ export async function placeFrame() {
 
     if (exited_input) return;
 
-    let url = $("input").val();
+    let url = $("#url > input").val();
 
     // const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
     
-    const data = await createFrame(url);
+    startFramePlacing(url);
+}
 
-    $("img").show();
+async function askInfo() {
+    $("#title").val("");
+    $("#desc").val("");
 
-    startFramePlacing(data);
+    $("#info").fadeIn(500);
+    $("#info").css("display", "flex")
+
+    document.exitPointerLock();
+
+    await handleInputKeys();
+
+    await new Promise(resolve => $(".container").fadeOut(500, resolve));
+
+    const title = $("input#title").val()
+    const desc = $("input#desc").val()
+
+    if (exited_input) return false;
+
+    return {title, desc};
 }
 
 let frame_placing = false;
 
 //Funzione che muove il frame a seconda del cursore fino a quando non viene confermato
-export const startFramePlacing = async (data) => {
+export const startFramePlacing = async (url) => {
+    const info = await askInfo();
+
+    if (info == false) return;
+
+    const {title, desc} = info;
+
+    let data = await createFrame(url);
+
+    $("#cursor").show();
+
     frame_placing = true;
 
     document.exitPointerLock();
 
     const scale = await resizeFrame(currentFrame);
-    data.scale = scale;
-
-    frames.push(data);
+    data = {...data, scale, title, desc};
     console.log(data);
+    
+    frames.push(data);
 
     input_mode = false;
 
@@ -130,25 +157,32 @@ export async function toggleVisualizeFrame() {
     visualizeMode = !visualizeMode;
 
     if (visualizeMode) {
-        const {content, side, type} = getInteractingFrame();
+        const {content, title, type, desc} = getInteractingFrame();
 
         $(".center").children("img").hide();
         
         if (type === "youtube") {
             const src = `https://www.youtube.com/embed/${content.substring(32, content.length)}?autoplay=1&controls=0&rel=0`
             $(".center").append(
-                `<iframe class="frame" style='width:80vw; aspect-ratio: 16 / 9;' src="${src}" frameborder="0" allowfullscreen></iframe>`
+                `<iframe class="frame" style='width:40vw; aspect-ratio: 16 / 9;' src="${src}" frameborder="0" allowfullscreen></iframe>`
             )
             document.exitPointerLock();
         } else {
             $(".center").append(
-                `<img class="frame" src="${content}"/>`
+                `<div class="frame">
+                    <img src="${content}"/>
+                    <div class="frameinfo">
+                        <h1>${title}</h1>
+                        <p>${desc}</p>
+                    <div>
+                </div>`
             )
            
-            side === "w" ? $(".frame").css("width", "80%") : $(".frame").css("height", "80%"); 
+            // side === "w" ? $(".frame").css("width", "40%") : $(".frame").css("height", "40%"); 
         }
 
         $(".frame").fadeIn(250);
+        $(".frame").css("display", "flex")
         
     } else {
         await new Promise(resolve => $(".center").children(".frame").fadeOut(250, resolve));

@@ -25,9 +25,14 @@
 			</div>
 		</div>
 		<div class="center">
-			<img src="assets/cursor.png" width="15">
-			<div class="container">
+			<img src="assets/cursor.png" id="cursor" width="15">
+			<div class="container" id="url">
 				<input autofocus type="text" placeholder="Inserisci URL immagine o video">
+				<button class="confirm">Conferma</button>
+			</div>
+			<div class="container" id="info">
+				<input autofocus id="title" type="text" placeholder="Inserisci titolo opera...">
+				<input autofocus id="desc" type="text" placeholder="Inserisci descrizione opera...">
 				<button class="confirm">Conferma</button>
 			</div>
 		</div>
@@ -48,7 +53,7 @@
 				}
 			}
 		</script>
-
+		<script src="https://www.youtube.com/iframe_api"></script>
 		<script type="module" src="scripts/index.js"></script>
 
 		<?php else: ?>

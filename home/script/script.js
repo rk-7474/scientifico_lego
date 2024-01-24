@@ -9,12 +9,10 @@ onmousemove = (e) => {
     const x = e.movementX;
     const y = e.movementY;
 
-    move(".pianeta1", x, y, 0.04);
-    move(".pianeta2", x, y, 0.10);
-    move(".astronauta", x, y, 0.16);
+    move(".pianeta1", x, y, 0.03);
+    move(".pianeta2", x, y, 0.08);
+    move(".astronauta", x, y, 0.12);
     move(".sfondo", x, y, 0.02);
-    move(".title", x, y, -0.01);
-
 }
 
 fetch("/api/feed")

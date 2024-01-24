@@ -14,17 +14,19 @@ export function listenersInit() {
         if (event.code == "KeyE" && (getVisualizeMode() || getInteractingFrame() != null))
             toggleVisualizeFrame();
         
-        else if (event.code == "KeyT")
-            if (getFramePlacing())
-                toggleFramePlacing()
-            else
-                placeFrame();
+        else if (!getInputMode()) {
+            if (event.code == "KeyT")
+                if (getFramePlacing())
+                    toggleFramePlacing()
+                else
+                    placeFrame();
+            
+            else if (event.code == "KeyY" && getInteractingFrame() != null)
+                removeFrame();
         
-        else if (event.code == "KeyY" && getInteractingFrame() != null)
-            removeFrame();
-    
-        else if (!getInputMode())
-            keyStates[ event.code ] = true;
+            else
+                keyStates[ event.code ] = true;   
+        }
 
     });
 

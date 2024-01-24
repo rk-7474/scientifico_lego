@@ -23,14 +23,14 @@ export const fetchRoomInfo = async (room_id) => {
 export const updateFrames = async (room_id, frames) => {
     let data = []
 
-    for (const {object, content, scale} of frames) {
+    for (const {object, content, scale, desc, title} of frames) {
         let {x, y, z} = object.position;
         const position = {x, y, z};
 
         ({x, y, z} = object.rotation);
         const rotation = {x, y, z};
 
-        data.push({url: content, position, rotation, scale})
+        data.push({url: content, position, rotation, scale, desc, title})
     }
         
 

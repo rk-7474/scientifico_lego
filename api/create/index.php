@@ -7,16 +7,13 @@ function failure($id) {
     exit;
 }
 
-$id=$_POST['id'];
 $label=$_POST['label'];
+$desc=$_POST['desc'];
+$img=$_POST['img'];
 
-$regex = '/^[a-zA-Z0-9_]+$/';
+$id = uniqd();
 
-if (!preg_match($regex, $id)) failure(1);
-
-if (exists($id)) failure(2);
-
-$model=$_FILES['file'];
+$model= $_FILES['file'];
 $name = $model['name'];
 $path = "../../files/$id";
 $file = "$path/$name";
@@ -35,7 +32,7 @@ if(!unZip($path, $name)) exit;
 
 if (!file_exists("$path/textures/") or !file_exists("$path/scene.gltf")) failure(4);
 
-create($id, $label);
+create($id, $label, $desc, $img);
 
 header("Location: /rooms/$id");
 

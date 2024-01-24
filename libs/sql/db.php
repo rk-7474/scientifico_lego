@@ -1,9 +1,9 @@
 <?php
     include "sql.php";
 
-    function create($id, $label) {
+    function create($id, $label, $desc, $img) {
         $conn = init();
-        $insert = "INSERT INTO rooms (id, data) VALUES ('$id', '[]', '$label')";
+        $insert = "INSERT INTO rooms (id, data, label, description, img) VALUES ('$id', '[]', '$label', '$desc', '$img')";
     
         return ($conn->query($insert));
     }
