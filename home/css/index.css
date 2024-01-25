@@ -11,6 +11,8 @@ body{
 }
 
 .sfondo{
+    background-color: rgb(23, 10, 49);
+
     height: 100vh;
     width: 100vw;
     position: fixed;
@@ -18,11 +20,20 @@ body{
     margin: 0;
 }
 
-.page{
-    position: relative;
+.page {
+    position: fixed;
+    pointer-events: none;
+}
+
+.search, .page {
     width: 100%;
     height: 100vh;
 }
+
+.search {
+    padding-top: 100%;
+}
+
 
 .container {
     display: flex;
@@ -31,12 +42,16 @@ body{
     align-items: center;
     background-color: rgba(47, 79, 79, 0.5);
     min-width: 90%;
-    height: 500px;
+    padding-bottom: 20%;
 }
 
 .room {
+    font-family: 'Inter', sans-serif;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0.7;
     width: 400px;
     height: 200px;
@@ -51,17 +66,16 @@ body{
 
 
 .astronauta{
-    position: absolute;
+    position: fixed;
     width: 27%;
     height: auto;
     top: 23.5%;
     left: 7.25%;  
     filter: drop-shadow(0 0 0.75rem rgba(255, 255, 255, 0.7));
-    z-index: 1;
 }
 
 .pianeta1{
-    position: absolute;
+    position: fixed;
 
     width: 10%;
     height: auto;
@@ -73,7 +87,7 @@ body{
 }
 
 .pianeta2{
-    position: absolute;
+    position: fixed;
 
     width: 15%;
     height: auto;
@@ -84,8 +98,8 @@ body{
 }
 
 h1{
-    font-family: 'Work Sans', sans-serif;
-    /* font-weight: 300; */
+    font-family: "Inter", sans-serif;
+    font-weight: 300;
     font-size: 100px;
     letter-spacing: 5px;
     word-spacing: 10px;
@@ -97,14 +111,25 @@ h1{
     left: 45%;
     z-index: 2;
     /* text-shadow: 0.5px 0.5px 0.5px rgb(23, 10, 49), 0 0 25px rgb(23, 10, 49), 0 0 5px lightblue; */
-    text-shadow: 4px 4px 0px rgba(0,0,0,1);
-    animation: fade-in 2s;
+    /* text-shadow: 4px 4px 0px rgba(0,0,0,1); */
+    filter: drop-shadow(1rem 0 0.75rem rgb(23, 10, 49));
+    animation: fade-in 3s;
 }
 
 /* .pianeti, .astronauta {
     position: relative;
     transition: s ease;
   } */
+
+
+.bambino{
+    position: absolute;
+    width: 50%;
+    height: auto;
+    
+    padding-top: 10%;
+    right: -3%;
+}
 
 
 
@@ -125,4 +150,72 @@ h1{
 
    bottom: 3%;
    left: 50%;
+}
+
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 25%;
+}
+  
+input[type=text] {
+    border-radius: 25px;
+    padding: 13px;
+    width: 30%;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+  
+button[type=submit] {
+    border-radius: 25px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin-left: -40px;
+    border: none;
+    background-color: #D67BFF;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: .15s ease;
+}
+
+.room {
+    border-radius: 10px;
+    background-position: center;
+}
+  
+button[type=submit]:hover {
+    background-color: #a25ad0;
+}
+
+.add_button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 60%;
+    background-color: #D67BFF;
+    color: white;
+    padding: 0.5%;
+    text-decoration: none;
+    margin-left: 3%;
+    transition: .15s ease;
+}
+
+.add_button:hover {
+    background-color: #a25ad0;
+}
+
+.add{
+    width: 40px;
+    height: auto;
 }

@@ -18,14 +18,23 @@ onmousemove = (e) => {
 fetch("/api/feed")
     .then((response) => response.json())
     .then((data) => {
-        for (room of data) {
-            const elem = document.getElementById("rooms");
-            const {image, label} = data;
-            elem.append(```
-                <div class="room" style="background-image: url(${image});">
+        const elem = document.getElementById("rooms");
+        console.log(data)
+        for (const {image, label, id, description} of data) {
+            elem.innerHTML += `
+                <div onclick="window.location.href = '/rooms/${id}';" class="room" style="background-image: url(${image});">
                     <h2>${label}</h2>
+                    <p>${description}</p>
                 </div>
-            ```);
+            `;
         }   
     })
 
+
+$(window).scroll(function(e) {
+
+    var distanceScrolled = $(this).scrollTop();
+
+    $('.page').first().css('-webkit-filter', 'blur('+distanceScrolled/150+'px)');
+    
+});

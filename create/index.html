@@ -5,26 +5,29 @@
 		<title>Create new room</title>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+		<link rel="stylesheet" href="/create/index.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 	</head>
 	<body>
-		<form enctype="multipart/form-data" method="POST" action="/api/create">
-			<input type="file" name="file">
-			<input type="text" name="label">
-			<input type="submit">
-		</form>	
-		<script>
-			const params = new URLSearchParams(window.location.search);
-			let error = params.get('error');
-			if (error != null) error = Number(error);
-	
-			switch (error) {
-				case 1: toastr.error("Invalid room id"); break;
-				case 2: toastr.error("A room with this id already exists"); break;
-				case 3: toastr.error("Invalid room file (must be a .zip)"); break;
-				case 4: toastr.error("Model file or texures folder not found in file"); break;
-			}
-		</script>	
+		<div class="container">
+			<a href="/home/">
+				<span id="back" class="material-symbols-outlined">
+				arrow_back
+				</span>
+			</a>
+		</div>
+		<div class="page">
+			<form enctype="multipart/form-data" method="POST" action="/api/create" class="create_form">
+				<input type="file" name="file" class="file">
+				<input type="text" name="label" placeholder="Label">
+				<input type="text" name="img" placeholder="Immagine">
+				<input type="text" name="desc" placeholder="Descrizione">
+				<input type="submit">
+			</form>
+			<img class="bambino" src="../home/img/bambino_senza_filo.png">
+		</div>
+		<script src="./script.js"></script>	
 	</body>
 	<style>
   		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');

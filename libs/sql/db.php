@@ -3,7 +3,7 @@
 
     function create($id, $label, $desc, $img) {
         $conn = init();
-        $insert = "INSERT INTO rooms (id, data, label, description, img) VALUES ('$id', '[]', '$label', '$desc', '$img')";
+        $insert = "INSERT INTO rooms (id, data, label, description, image) VALUES ('$id', '[]', '$label', '$desc', '$img')";
     
         return ($conn->query($insert));
     }
@@ -33,7 +33,7 @@
     function select_all() {
         $conn = init();
     
-        $select = "SELECT id, label FROM rooms";
+        $select = "SELECT id, label, image, description FROM rooms";
         $result = $conn->query($select);
     
         $myArr = [];

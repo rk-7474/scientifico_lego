@@ -11,7 +11,7 @@ $label=$_POST['label'];
 $desc=$_POST['desc'];
 $img=$_POST['img'];
 
-$id = uniqd();
+$id = uniqid();
 
 $model= $_FILES['file'];
 $name = $model['name'];
