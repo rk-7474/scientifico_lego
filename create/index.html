@@ -18,12 +18,18 @@
 			</a>
 		</div>
 		<div class="page">
+			<datalist id="browsers">
+				<option value="Seleziona template" disabled selected>Seleziona template</option>
+				<option value="Stanza 1">
+				<option value="Stanza 2">
+			</datalist>
 			<form enctype="multipart/form-data" method="POST" action="/api/create" class="create_form">
-				<input type="file" name="file" class="file">
-				<input type="text" name="label" placeholder="Label">
-				<input type="text" name="img" placeholder="Immagine">
-				<input type="text" name="desc" placeholder="Descrizione">
-				<input type="submit">
+				<input autocomplete="off" type="button" value="Choose from templates..." onclick="switch_template()">
+				<input autocomplete="off" type="file" name="file" class="file">
+				<input autocomplete="off" type="text" name="label" placeholder="Label">
+				<input autocomplete="off" type="text" name="img" placeholder="Immagine">
+				<input autocomplete="off" type="text" name="desc" placeholder="Descrizione">
+				<input autocomplete="off" type="submit">
 			</form>
 			<img class="bambino" src="../home/img/bambino_senza_filo.png">
 		</div>

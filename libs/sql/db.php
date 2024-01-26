@@ -33,7 +33,7 @@
     function select_all() {
         $conn = init();
     
-        $select = "SELECT id, label, image, description FROM rooms";
+        $select = "SELECT * FROM rooms";
         $result = $conn->query($select);
     
         $myArr = [];

@@ -77,6 +77,7 @@ export async function placeFrame() {
 async function askInfo() {
     $("#title").val("");
     $("#desc").val("");
+    $("#tag").val("");
 
     $("#info").fadeIn(500);
     $("#info").css("display", "flex")
@@ -89,10 +90,11 @@ async function askInfo() {
 
     const title = $("input#title").val()
     const desc = $("input#desc").val()
+    const tag = $("input#tag").val()
 
     if (exited_input) return false;
 
-    return {title, desc};
+    return {title, desc, tag};
 }
 
 let frame_placing = false;
@@ -103,23 +105,27 @@ export const startFramePlacing = async (url) => {
 
     if (info == false) return;
 
-    const {title, desc} = info;
+    const {title, desc, tag} = info;
 
     let data = await createFrame(url);
 
     $("#cursor").show();
 
-    frame_placing = true;
+    input_mode = false;
 
     document.exitPointerLock();
 
+    if (!data) return;
+
+    input_mode = true; 
+
+    frame_placing = true;
+
     const scale = await resizeFrame(currentFrame);
-    data = {...data, scale, title, desc};
-    console.log(data);
+    data = {...data, scale, title, desc, tags: tag.split(" ")};
     
     frames.push(data);
 
-    input_mode = false;
 
     await new Promise(resolve => {
         $(document).one("mousedown", event => {
@@ -149,7 +155,7 @@ export const getFramePlacing = () => frame_placing;
 export const getFrame        = () => currentFrame;
 export const getFrames       = () => frames;
 export const setFrames       = (new_frames) => frames = new_frames;
-export const addFrame       = (frametoadd) => frames.push(frametoadd);
+export const addFrame        = (frametoadd) => frames.push(frametoadd);
 
 let visualizeMode = false;
 
@@ -162,7 +168,7 @@ export async function toggleVisualizeFrame() {
         $(".center").children("img").hide();
         
         if (type === "youtube") {
-            const src = `https://www.youtube.com/embed/${content.substring(32, content.length)}?autoplay=1&controls=0&rel=0`
+            const src = `https://www.youtube.com/embed/${content.substring(32, content.length)}?&controls=0&rel=0`
             $(".center").append(
                 `<iframe class="frame" style='width:40vw; aspect-ratio: 16 / 9;' src="${src}" frameborder="0" allowfullscreen></iframe>`
             )

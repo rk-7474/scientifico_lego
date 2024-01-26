@@ -58,6 +58,9 @@ input {
     cursor: pointer;
 }
 
+.hidden {
+    display: none;
+}
 
 #back {
     transition: .5s ease;

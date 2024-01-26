@@ -2,9 +2,13 @@ import * as THREE from 'three'
 import { fetchImage } from "./api.js"
 
 export async function load_image(url) {
-  const blob = await fetchImage(url);
-  if (!blob) return;
-  const base64 = await blobToBase64(blob);   
+  var blob = await fetchImage(url);
+
+  try {
+    var base64 = await blobToBase64(blob);   
+  } catch (e) {
+    return;
+  }
 
   const texture = new THREE.TextureLoader().load(base64);
   const material = new THREE.MeshBasicMaterial( { map: texture } );

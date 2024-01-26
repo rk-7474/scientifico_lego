@@ -1,10 +1,17 @@
 const SERVER_URL = "http://localhost:80/api"
 
-
 //Fetch API per bypassare CORS
 export const fetchImage = async (url) => {
-    const endpoint = `${SERVER_URL}/image?url=${url}`;
-    const response = await fetch(endpoint);
+    const endpoint = `${SERVER_URL}/image`;
+
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        body: url,
+        headers: {
+            'Content-Type': 'text/plain',
+        },
+    });
+
     if (!response.ok) return;
     const blob = await response.blob();
     return blob;
@@ -23,14 +30,14 @@ export const fetchRoomInfo = async (room_id) => {
 export const updateFrames = async (room_id, frames) => {
     let data = []
 
-    for (const {object, content, scale, desc, title} of frames) {
+    for (const {object, content, scale, desc, title, tags} of frames) {
         let {x, y, z} = object.position;
         const position = {x, y, z};
 
         ({x, y, z} = object.rotation);
         const rotation = {x, y, z};
 
-        data.push({url: content, position, rotation, scale, desc, title})
+        data.push({url: content, position, rotation, scale, tags, desc, title})
     }
         
 

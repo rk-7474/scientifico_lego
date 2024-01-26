@@ -28,6 +28,33 @@ function uploadFile() {
     ajax.send(formdata);
 }
 
+
+function switch_template() {
+    console.log("switched")
+    $("form").html(`
+        <input type="button" value="Choose from files..." onclick="switch_file()">
+        <input name="template" list="browsers">
+        <input class="hidden" name="using_template" value="1">
+        <input type="text" name="label" placeholder="Label">
+        <input type="text" name="img" placeholder="Immagine">
+        <input type="text" name="desc" placeholder="Descrizione">
+        <input type="submit">
+    `)
+}
+
+function switch_file() {
+    console.log("switched")
+    $("form").html(`
+        <input type="button" value="Choose from templates..." onclick="switch_template()">
+        <input type="file" name="file" class="file">
+        <input type="text" name="label" placeholder="Label">
+        <input type="text" name="img" placeholder="Immagine">
+        <input type="text" name="desc" placeholder="Descrizione">
+        <input type="submit">
+    `)
+}
+
+
 function progressHandler(event) {
     _("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
     var percent = (event.loaded / event.total) * 100;
