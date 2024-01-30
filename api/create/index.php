@@ -4,7 +4,7 @@ include "../../libs/zip.php";
 
 function failure($id) {
     header("Location: /create?error=$id");
-    exit;
+    exit();
 }
 
 $label=$_POST['label'];
@@ -35,5 +35,6 @@ if (!file_exists("$path/textures/") or !file_exists("$path/scene.gltf")) failure
 create($id, $label, $desc, $img);
 
 header("Location: /rooms/$id");
+
 
 ?>

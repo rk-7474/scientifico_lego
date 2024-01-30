@@ -65,9 +65,13 @@ export async function placeFrame() {
 
     await new Promise(resolve => $(".container").fadeOut(500, resolve));
 
-    if (exited_input) return;
-
     let url = $("#url > input").val();
+
+    if (exited_input || !url) { 
+        input_mode = false;
+        $("#cursor").show();
+        return;
+    }
 
     // const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
     
@@ -92,7 +96,9 @@ async function askInfo() {
     const desc = $("input#desc").val()
     const tag = $("input#tag").val()
 
-    if (exited_input) return false;
+    if (exited_input)
+        return false;
+
 
     return {title, desc, tag};
 }
@@ -103,7 +109,12 @@ let frame_placing = false;
 export const startFramePlacing = async (url) => {
     const info = await askInfo();
 
-    if (info == false) return;
+    if (info == false) {
+        input_mode = false;
+        $("#cursor").show();
+        return;
+    }
+
 
     const {title, desc, tag} = info;
 
@@ -115,7 +126,13 @@ export const startFramePlacing = async (url) => {
 
     document.exitPointerLock();
 
-    if (!data) return;
+    if (!data) {
+        input_mode = false;
+        $("#cursor").show();
+        return;
+    }
+
+    console.log(data)
 
     input_mode = true; 
 
@@ -134,6 +151,8 @@ export const startFramePlacing = async (url) => {
     });
 
     stopFramePlacing(true);
+
+    input_mode = false;
 
     updateFrames(ROOM_ID, frames);
 } 
@@ -170,7 +189,7 @@ export async function toggleVisualizeFrame() {
         if (type === "youtube") {
             const src = `https://www.youtube.com/embed/${content.substring(32, content.length)}?&controls=0&rel=0`
             $(".center").append(
-                `<iframe class="frame" style='width:40vw; aspect-ratio: 16 / 9;' src="${src}" frameborder="0" allowfullscreen></iframe>`
+                `<iframe class="frame" style='width:40vw' src="${src}" frameborder="0" allowfullscreen></iframe>`
             )
             document.exitPointerLock();
         } else {
@@ -188,7 +207,9 @@ export async function toggleVisualizeFrame() {
         }
 
         $(".frame").fadeIn(250);
-        $(".frame").css("display", "flex")
+    
+        if (type !== "youtube") 
+            $(".frame").css("display", "flex")
         
     } else {
         await new Promise(resolve => $(".center").children(".frame").fadeOut(250, resolve));
