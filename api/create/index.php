@@ -2,9 +2,14 @@
 include "../../libs/sql/db.php";
 include "../../libs/zip.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 function failure($id) {
-    header("Location: /create?error=$id");
-    exit();
+    if (!headers_sent()) {
+        header("Location: ../../create?error=$id");
+        exit();
+    }
 }
 
 $label=$_POST['label'];
@@ -34,7 +39,7 @@ if (!file_exists("$path/textures/") or !file_exists("$path/scene.gltf")) failure
 
 create($id, $label, $desc, $img);
 
-header("Location: /rooms/$id");
+header("Location: /rooms?id=$id");
 
 
 ?>

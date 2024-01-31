@@ -10,7 +10,7 @@ let lastnum = 0;
 //Caricamento modello stanza con loading screen
 export function loadRoomObject() {
     const loader = new GLTFLoader();
-    loader.load( `/files/${ROOM_ID}/scene.gltf`, function ( gltf ) {;
+    loader.load( `../../files/${ROOM_ID}/scene.gltf`, function ( gltf ) {;
         setRoom(gltf.scene);
         finishedLoading();
     }, 

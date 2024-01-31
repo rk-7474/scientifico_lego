@@ -20,7 +20,7 @@ const clock = new THREE.Clock();
 const scene = new THREE.Scene();
 const worldOctree = new Octree();
 
-const CARDBOARD_MODE = false;
+const CARDBOARD_MODE = true;
 
 // document.documentElement.requestFullscreen();
 
@@ -29,9 +29,13 @@ camera.rotation.order = 'YXZ';
 camera.aspect = window.innerWidth / window.innerHeight;
 camera.updateProjectionMatrix();
 
-document.body.appendChild( VRButton.createButton( renderer ) );
-renderer.xr.enabled = true;
-
+if (CARDBOARD_MODE) {
+    renderer = new StereoEffect( renderer );
+    // setup_device_motion(window, camera);
+} else {
+    document.body.appendChild( VRButton.createButton( renderer ) );
+    renderer.xr.enabled = true;
+}
 scene.background = new THREE.Color(0xD3E8F0);
 
 function playerCollisions(deltaTime) {

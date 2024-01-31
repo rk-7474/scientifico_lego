@@ -30,7 +30,7 @@ fetch("/api/feed")
             console.log(tags_array);
             let tag_string = tags_array.size > 0 ? "#" : "";
             elem.innerHTML += `
-                <div onclick="window.location.href = '/rooms/${id}';" class="room" style="background-image: url(${image});">
+                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room" style="background-image: url(${image});">
                     <h2>${label}</h2>
                     <p>${description}</p>
                     <p style="color: lightblue">${tag_string}${new Array(...tags_array).join(" #")}</p>

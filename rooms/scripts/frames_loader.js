@@ -13,7 +13,6 @@ export const loadRoomFrames = async () => {
 
     for (const {url, position, rotation, scale, desc, title} of frames) {
         const frame = await createFrame(url, position, rotation, scale);
-        console.log(frame.object)
         addToScene(frame.object);
         addFrame({...frame, scale, desc, title})
     }

@@ -1,5 +1,8 @@
 <?php
-$url = file_get_contents('php://input');
+$body = file_get_contents('php://input');
+
+$decoded = json_decode($body, true);
+$url = $decoded["url"];
 
 $data = file_get_contents($url);
 

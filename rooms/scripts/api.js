@@ -1,16 +1,20 @@
-const SERVER_URL = "http://localhost:80/api"
+const SERVER_URL = "../../api"
 
 //Fetch API per bypassare CORS
 export const fetchImage = async (url) => {
-    const endpoint = `${SERVER_URL}/image`;
-
+    const endpoint = `${SERVER_URL}/image/index.php`;
+    console.log(url)
+    const table = JSON.stringify({url});
+    console.log(table);
     const response = await fetch(endpoint, {
         method: 'POST',
-        body: url,
+        body: table,
         headers: {
-            'Content-Type': 'text/plain',
+            'Content-Type': 'application/json',
         },
     });
+
+    console.log(response.status);
 
     if (!response.ok) return;
     const blob = await response.blob();

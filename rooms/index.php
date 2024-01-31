@@ -1,10 +1,7 @@
 <?php
 	include "../libs/sql/db.php";
 
-	$currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-	$currentPath = trim($currentPath, '/');
-	$pathSegments = explode('/', $currentPath);
-	$room = end($pathSegments);
+	$room = $_GET["id"];
 ?>
 
 <!DOCTYPE html>
@@ -69,4 +66,3 @@
 	</body>
 	
 </html>
-

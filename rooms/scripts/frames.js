@@ -7,8 +7,7 @@ import { updateFrames } from "./api.js";
 
 let ids = 0;
 
-const loc = window.location.pathname;
-export const ROOM_ID = loc.substring(loc.lastIndexOf('/')+1, loc.length);;
+export const ROOM_ID = new URLSearchParams(window.location.search).get('id');
 
 let currentFrame;
 
@@ -140,9 +139,10 @@ export const startFramePlacing = async (url) => {
 
     const scale = await resizeFrame(currentFrame);
     data = {...data, scale, title, desc, tags: tag.split(" ")};
-    
-    frames.push(data);
 
+    input_mode = false;
+
+    frames.push(data);
 
     await new Promise(resolve => {
         $(document).one("mousedown", event => {
@@ -151,8 +151,6 @@ export const startFramePlacing = async (url) => {
     });
 
     stopFramePlacing(true);
-
-    input_mode = false;
 
     updateFrames(ROOM_ID, frames);
 } 
@@ -249,8 +247,8 @@ const validateUrl = (url) => {
 }
   
 export const createFrame = async (url, position, rotation, scale) => {
+    console.log(url)
     const [type, image] = validateUrl(url);
-
     const image_data = await load_image(image);
 
     if (!image_data) return;
