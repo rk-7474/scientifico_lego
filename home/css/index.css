@@ -56,9 +56,8 @@ body{
     text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0.7;
-    min-width: 350px;
+    min-width: 250px;
     height: 180px;
-    transition: .3s ease;
     cursor: pointer;
     margin: 15px;
     box-sizing: border-box;
@@ -175,8 +174,10 @@ h1{
   
 input[type=text] {
     border-radius: 25px;
+    color: white;
     padding: 13px;
     width: 30%;
+    height: 25px;
     outline: none;
     border: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -191,7 +192,8 @@ button[type=submit] {
     justify-content: center;
     align-items: center;
     padding: 5px;
-    margin-left: -40px;
+    margin-top: 0;
+    margin-left: -45px;
     border: none;
     background-color: #D67BFF;
     color: white;
@@ -254,12 +256,6 @@ button[type=submit]:hover {
 }
 
 
-
-
-
-
-
-
 button {
     font-size: 1.2em;
     transition: .3s ease;
@@ -268,10 +264,10 @@ button {
     display: block;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    margin-top: 10px;
-    padding: 10px;
-
+    
+    margin-top: 20px;
+    padding: 15px;
+    
     caret-color: transparent;
     text-align: center;
     color: white;
@@ -279,20 +275,50 @@ button {
     border-radius: 15px;
         
     background: transparent;
+    width: 12em;
+}
+
+ul{
+    list-style-type: none;  
+}
+
+.list{
+    font-size: 1.5em;
+    outline: none;; 
+    border-radius: 2px;    
+    color: white;
+    text-shadow: 0px 0px 9px rgba(0,0,0,0.5);
+}
+#filter > .list{
+    margin: 30px;
 }
 
 #filter {
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
     justify-content: center;
-    align-items: center;
+    align-items: top;
     z-index: 2;
 }
 
-#filter > button {
-    margin: 20px;
+.title{
+    text-align: center;
+    padding: 5px;
 }
 
+.sub_title{
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    color: white;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 5px;
+}
+.content{
+    justify-content: center;
+    align-items: center;
+}
 
 button:not(.disabled):hover {
     color: black;
@@ -303,4 +329,8 @@ button:not(.disabled):hover {
 .disabled {
     border: 2px solid gray;
     color: gray;
+}
+
+.hidden{
+  visibility: hidden;
 }
