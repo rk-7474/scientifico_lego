@@ -79,7 +79,7 @@ export function controls( deltaTime, playerVelocity, camera, playerDirection ) {
     }
 
     const gamepad = gamepadMovement();
-
+    
     playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.y ) );
 
     playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.x ) );

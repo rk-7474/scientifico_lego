@@ -24,7 +24,7 @@ const CARDBOARD_MODE = true;
 
 // document.documentElement.requestFullscreen();
 
-let camera = new THREE.PerspectiveCamera( CARDBOARD_MODE ? 125 : 75, window.innerWidth / window.innerheigth, 0.1, 1000 );
+let camera = new THREE.PerspectiveCamera( CARDBOARD_MODE ? 160 : 75, window.innerWidth / window.innerheigth, 0.1, 1000 );
 camera.rotation.order = 'YXZ';
 camera.aspect = window.innerWidth / window.innerHeight;
 camera.updateProjectionMatrix();
@@ -32,11 +32,11 @@ camera.updateProjectionMatrix();
 if (CARDBOARD_MODE) {
     renderer = new StereoEffect( renderer );
     // setup_device_motion(window, camera);
-} else {
-    document.body.appendChild( VRButton.createButton( renderer ) );
-    renderer.xr.enabled = true;
 }
 scene.background = new THREE.Color(0xD3E8F0);
+
+const light = new THREE.AmbientLight( 0xFFFFFF );
+scene.add( light );
 
 function playerCollisions(deltaTime) {
     const result = worldOctree.capsuleIntersect( playerCollider );

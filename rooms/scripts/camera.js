@@ -17,7 +17,8 @@ const mouseCamera = ( event ) => {
 
 export const setGamepadCamera = () => {
     var {x,y} = gamepadCamera();
-    moveCamera(x/100, y/100);
+    console.log(x, y)
+    moveCamera(x/25, y/25);
 }
 
 const moveCamera = (x, y) => {

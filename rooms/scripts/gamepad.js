@@ -22,8 +22,8 @@ export const gamepadCamera = () => {
     const axes = getAxes();
 
     const camera = { 
-        y : axes[1],
-        x : axes[0]
+        y : Math.abs(axes[3]) > 0.07 ? axes[3] : 0,
+        x : Math.abs(axes[2]) > 0.07 ? axes[2] : 0
     }
 
     return camera;
@@ -33,10 +33,9 @@ export const gamepadMovement = () => {
     const axes = getAxes();
 
     const movement = {
-        y : axes[4] * -1,
-        x : axes[3]
+        y : Math.abs(axes[1]) > 0.07 ? axes[1] * -1 : 0,
+        x : Math.abs(axes[0]) > 0.07 ? axes[0] : 0
     }
-
     return movement;
 }
 

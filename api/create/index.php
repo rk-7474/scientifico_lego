@@ -2,9 +2,6 @@
 include "../../libs/sql/db.php";
 include "../../libs/zip.php";
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 function failure($id) {
     if (!headers_sent()) {
         header("Location: ../../create?error=$id");
@@ -35,7 +32,7 @@ move_uploaded_file($temp, $file);
 
 if(!unZip($path, $name)) exit;
 
-if (!file_exists("$path/textures/") or !file_exists("$path/scene.gltf")) failure(4);
+// if (!file_exists("$path/textures/") or !file_exists("$path/scene.gltf")) failure(4);
 
 create($id, $label, $desc, $img);
 

@@ -38,25 +38,30 @@ body{
 .container {
     display: flex;
     margin: 5%;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     background-color: rgba(47, 79, 79, 0.5);
-    min-width: 90%;
+    max-width: 90%;
     padding-bottom: 20%;
+    margin-top: 0;
+    flex-wrap: wrap;
 }
 
 .room {
     font-family: 'Inter', sans-serif;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     flex-direction: column;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0.7;
-    width: 400px;
-    height: 200px;
+    min-width: 350px;
+    height: 180px;
     transition: .3s ease;
     cursor: pointer;
+    margin: 15px;
+    box-sizing: border-box;
 }
 
 .room:hover {
@@ -246,4 +251,56 @@ button[type=submit]:hover {
 .add{
     width: 40px;
     height: auto;
+}
+
+
+
+
+
+
+
+
+button {
+    font-size: 1.2em;
+    transition: .3s ease;
+    outline: none;
+    cursor: pointer;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-top: 10px;
+    padding: 10px;
+
+    caret-color: transparent;
+    text-align: center;
+    color: white;
+    border: 2px solid white;
+    border-radius: 15px;
+        
+    background: transparent;
+}
+
+#filter {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+#filter > button {
+    margin: 20px;
+}
+
+
+button:not(.disabled):hover {
+    color: black;
+    background-color: white;
+    filter: drop-shadow(0 0 0.75rem rgba(255, 255, 255, 0.7));
+}
+
+.disabled {
+    border: 2px solid gray;
+    color: gray;
 }
