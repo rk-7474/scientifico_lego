@@ -35,13 +35,97 @@
             </div>
         </form> 
         <div id="filter">
-          <button>Tutte</button>
-          <button>Pittura</button>
-          <button>Musica</button>
-          <button class="disabled">Scultura</button>
-        </div>  
+          <div class="list" onmouseover="visibile('pittura')" onmouseout="nascosto('pittura')">
+            <button>Pittura</button>
+            <div class="line"></div>
+            <ul class="" id="pittura">
+              <li>
+                  <div class="sub_title">Barocco</div>
+                
+              </li>
+              <li>
+                <div class="sub_title">Rinascimento</div>
+                
+              </li>
+              <li>
+                <div class="sub_title">Impressionismo</div>
+                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
+                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
+                </div>
+              </li>
+              <li>
+                <div class="sub_title">Moderno</div>
+                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
+                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="list" onmouseover="visibile('musica')" onmouseout="nascosto('musica')">
+            <button>Musica</button>
+            <ul class="hidden" id="musica">
+              <li>
+                <div class="sub_title">Anni '60</div>
+                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
+                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
+                </div>
+              </li>
+              <li>
+                <div class="sub_title">Anni '90</div>
+                
+                
+              </li>
+              <li>
+                <div class="sub_title">Anni 2000</div>
+                
+                
+              </li>
+            </ul>
+          </div>
+
+          <div class="list" onmouseover="visibile('teatro')" onmouseout="nascosto('teatro')">
+            <button>Teatro</button>
+            <ul class="hidden" id="teatro">
+              <li>
+                <div class="sub_title">Commedia</div>
+                
+                
+              </li>
+              <li>
+                <div class="sub_title">Dramma</div>
+                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
+                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
+                </div>
+              </li>
+              <li>
+                <div class="sub_title">Musical</div>
+                
+                
+              </li>
+            </ul>
+          </div>
+
+          <div class="list">
+            <button class="disabled">Scultura</button>
+            <ul class="hidden" id="scultura">
+              <li>
+                <div class="sub_title">Greca</div>
+                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
+                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
+                </div>
+              </li>
+              <li>
+                <div class="sub_title">Romana</div>
+                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
+                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div> 
         <div class="container" id="rooms">
-        </div>
+        </div>  
     </div>
     
     <script src="/home/script/script.js"></script>

@@ -34,7 +34,7 @@ fetch("/api/feed")
                     <h2>${label}</h2>
                     <p>${description}</p>
                     <p style="color: lightblue">${tag_string}${new Array(...tags_array).join(" #")}</p>
-                </div>
+                </div>z
             `;
         }   
     })
@@ -47,3 +47,14 @@ $(window).scroll(function(e) {
     $('.page').first().css('-webkit-filter', 'blur('+distanceScrolled/150+'px)');
     
 });
+
+
+function visibile(id){  
+    var elem=document.getElementById(id);
+    elem.classList.remove("hidden");
+}
+
+function nascosto(id){
+    var elem=document.getElementById(id);
+    elem.classList.add("hidden");
+}
