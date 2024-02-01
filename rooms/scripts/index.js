@@ -20,7 +20,7 @@ const clock = new THREE.Clock();
 const scene = new THREE.Scene();
 const worldOctree = new Octree();
 
-const CARDBOARD_MODE = true;
+const CARDBOARD_MODE = new URLSearchParams(window.location.search).get('vr') == true;
 
 // document.documentElement.requestFullscreen();
 

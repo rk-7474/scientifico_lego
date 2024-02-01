@@ -2,6 +2,7 @@
 
 *{
     font-family: 'Inter', sans-serif;
+    color: white;
 }
 
 body { margin: 0; user-select: none; overflow: hidden;}
@@ -65,9 +66,13 @@ input[type="text"] {
     text-align: center;
 }
 
+.frameinfo > p {
+    font-size: 0.7rem;
+}
+
 .frame > img {
     display: block;
-    width: 50vw;
+    width: 65vw;
     height: auto;
 }
 

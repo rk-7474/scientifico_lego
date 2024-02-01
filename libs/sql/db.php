@@ -11,8 +11,11 @@
     function update($id, $data) {
         $conn = init();
         
-        $update = "UPDATE rooms SET data = '$data' WHERE id = '$id'";
-        return ($conn->query($update));
+        $stmt = $conn->prepare("UPDATE rooms SET data = ? WHERE id = ?");
+
+        $stmt->bind_param("ss", $data, $id);
+
+        $stmt->execute();
     }
 
     function select($id) {

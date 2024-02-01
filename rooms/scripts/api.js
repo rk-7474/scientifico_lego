@@ -23,16 +23,21 @@ export const fetchImage = async (url) => {
 
 //Fetch API per ottenere posizione e rotazione dei frame
 export const fetchRoomInfo = async (room_id) => {
-    const endpoint = `${SERVER_URL}/data?id=${room_id}`;
+    const endpoint = `${SERVER_URL}/data/index.php?id=${room_id}`;
     const response = await fetch(endpoint);
     if (!response.ok) return;
-    const data = await response.json();
+    const text = await response.text();
+    console.log(text)
+    const data = JSON.parse(text);
+    console.log(data)
     return data;
 }
 
 //POST per aggiornare la posizione dei frame sul database
 export const updateFrames = async (room_id, frames) => {
     let data = []
+
+    console.log(frames, room_id)
 
     for (const {object, content, scale, desc, title, tags} of frames) {
         let {x, y, z} = object.position;
@@ -45,7 +50,7 @@ export const updateFrames = async (room_id, frames) => {
     }
         
 
-    const endpoint = `${SERVER_URL}/data?id=${room_id}`;
+    const endpoint = `${SERVER_URL}/data/index.php?id=${room_id}`;
     
     const body = {
         id: room_id,
