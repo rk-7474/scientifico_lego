@@ -60,6 +60,7 @@ body{
     height: 180px;
     cursor: pointer;
     margin: 15px;
+    margin-top:30px;
     box-sizing: border-box;
 }
 
@@ -255,6 +256,10 @@ button[type=submit]:hover {
     height: auto;
 }
 
+.new{
+    width: 1.2em; 
+    height: auto;
+}
 
 button {
     font-size: 1.2em;
@@ -276,18 +281,26 @@ button {
         
     background: transparent;
     width: 12em;
+
 }
 
 ul{
-    list-style-type: none;  
+    list-style-type: none;
+    padding-left:0;
+    margin-left: 1.2em;
+    border-radius: 4px 0px 0px 0px;
+    border-left: 4px solid white;
 }
-
+li{
+    margin-bottom: 50px;
+}
 .list{
     font-size: 1.5em;
     outline: none;; 
     border-radius: 2px;    
     color: white;
     text-shadow: 0px 0px 9px rgba(0,0,0,0.5);
+    
 }
 #filter > .list{
     margin: 30px;
@@ -300,7 +313,27 @@ ul{
     justify-content: center;
     align-items: top;
     z-index: 2;
+    margin-top: 100px;
 }
+
+/* .period{
+    display: flex;
+    align-items: center;
+}
+.add_period{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 60%;
+    background-color: white;
+    color: white;
+    padding: 0.5%;
+    text-decoration: none;
+    margin-left: 3%;
+} */
 
 .title{
     text-align: center;
@@ -308,12 +341,14 @@ ul{
 }
 
 .sub_title{
+    width: 10em;
     text-align: center;
     font-family: "Inter", sans-serif;
     color: white;
-    border: 3px solid rgb(255, 255, 255);
-    border-radius: 10px;
     padding: 5px;
+    border: 3px solid white;
+    border-left:none;
+    border-radius: 0px 10px 10px 0px;
 }
 .content{
     justify-content: center;
@@ -327,6 +362,7 @@ button:not(.disabled):hover {
 }
 
 .disabled {
+    background-color: rgb(102, 102, 102, 0.700);
     border: 2px solid gray;
     color: gray;
 }

@@ -37,21 +37,18 @@
         <div id="filter">
           <div class="list" onmouseover="visibile('pittura')" onmouseout="nascosto('pittura')">
             <button>Pittura</button>
-            <ul class="hidden" id="pittura">
+            <div class="line"></div>
+            <ul class="" id="pittura">
               <li>
-                <div class="sub_title">Barocco</div>
-                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
-                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
-                </div>
+                  <div class="sub_title">Barocco</div>
+                
               </li>
               <li>
                 <div class="sub_title">Rinascimento</div>
-                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
-                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
-                </div>
+                
               </li>
               <li>
-                <div class="sub_title">Illuminismo</div>
+                <div class="sub_title">Impressionismo</div>
                 <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
                   <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
                 </div>
@@ -76,15 +73,13 @@
               </li>
               <li>
                 <div class="sub_title">Anni '90</div>
-                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
-                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
-                </div>
+                
+                
               </li>
               <li>
                 <div class="sub_title">Anni 2000</div>
-                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
-                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
-                </div>
+                
+                
               </li>
             </ul>
           </div>
@@ -94,27 +89,25 @@
             <ul class="hidden" id="teatro">
               <li>
                 <div class="sub_title">Commedia</div>
-                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
-                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
-                </div>
+                
+                
               </li>
               <li>
-                <div class="sub_title">Tragedia</div>
+                <div class="sub_title">Dramma</div>
                 <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
                   <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
                 </div>
               </li>
               <li>
                 <div class="sub_title">Musical</div>
-                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
-                  <img src="/home/img/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
-                </div>
+                
+                
               </li>
             </ul>
           </div>
 
-          <div class="list" onmouseover="visibile('scultura')" onmouseout="nascosto('scultura')">
-            <button>Scultura</button>
+          <div class="list">
+            <button class="disabled">Scultura</button>
             <ul class="hidden" id="scultura">
               <li>
                 <div class="sub_title">Greca</div>
