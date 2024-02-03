@@ -15,29 +15,29 @@ onmousemove = (e) => {
     move(".sfondo", x, y, 0.02);
 }
 
-fetch("/api/feed")
-    .then((response) => response.json())
-    .then((rooms) => {
-        const elem = document.getElementById("rooms");
-        for (const {image, label, id, description, data} of rooms) {
-            let operas = JSON.parse(data);
-            let tags_array = new Set()
-            operas.map(opera => {
-                console.log(opera)
-                if (opera.tags == null) return;
-                opera?.tags.map(tag =>tags_array.add(tag))
-            })
-            console.log(tags_array);
-            let tag_string = tags_array.size > 0 ? "#" : "";
-            elem.innerHTML += `
-                <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room" style="background-image: url(${image});">
-                    <h2>${label}</h2>
-                    <p>${description}</p>
-                    <p style="color: lightblue">${tag_string}${new Array(...tags_array).join(" #")}</p>
-                </div>z
-            `;
-        }   
-    })
+// fetch("/api/feed")
+//     .then((response) => response.json())
+//     .then((rooms) => {
+//         const elem = document.getElementById("rooms");
+//         for (const {image, label, id, description, data} of rooms) {
+//             let operas = JSON.parse(data);
+//             let tags_array = new Set()
+//             operas.map(opera => {
+//                 console.log(opera)
+//                 if (opera.tags == null) return;
+//                 opera?.tags.map(tag =>tags_array.add(tag))
+//             })
+//             console.log(tags_array);
+//             let tag_string = tags_array.size > 0 ? "#" : "";
+//             elem.innerHTML += `
+//                 <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room" style="background-image: url(${image});">
+//                     <h2>${label}</h2>
+//                     <p>${description}</p>
+//                     <p style="color: lightblue">${tag_string}${new Array(...tags_array).join(" #")}</p>
+//                 </div>
+//             `;
+//         }   
+//     })
 
 
 $(window).scroll(function(e) {
