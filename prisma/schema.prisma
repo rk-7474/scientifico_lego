@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model membri {
+  id_utente Int
+  id_stanza Int
+  role      membri_role?
+  stanze    stanze       @relation(fields: [id_stanza], references: [id_stanza], onDelete: NoAction, onUpdate: NoAction, map: "fk_stanza_me")
+  utenti    utenti       @relation(fields: [id_utente], references: [id_utente], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente_me")
+
+  @@id([id_utente, id_stanza])
+  @@index([id_stanza], map: "fk_stanza_me")
+}
+
+model opere {
+  id_opera     Int            @id @default(autoincrement())
+  path         String         @db.VarChar(100)
+  hash         String         @db.VarChar(100)
+  opere_stanze opere_stanze[]
+}
+
+model opere_stanze {
+  id_opera  Int
+  id_stanza Int
+  x         Int?
+  y         Int?
+  z         Int?
+  a         Int?
+  Dy        Int?
+  Dx        Int?
+  opere     opere  @relation(fields: [id_opera], references: [id_opera], onDelete: NoAction, onUpdate: NoAction, map: "fk_opera")
+  stanze    stanze @relation(fields: [id_stanza], references: [id_stanza], onDelete: NoAction, onUpdate: NoAction, map: "fk_stanze_op")
+
+  @@id([id_opera, id_stanza])
+  @@index([id_stanza], map: "fk_stanze_op")
+}
+
+model stanze {
+  id_stanza     Int             @id @default(autoincrement())
+  nome          String          @db.VarChar(100)
+  stato         stanze_stato
+  membri        membri[]
+  opere_stanze  opere_stanze[]
+  utenti_stanze utenti_stanze[]
+}
+
+model utenti {
+  id_utente     Int             @id
+  password      String?         @db.Text
+  username      String?         @db.VarChar(32)
+  membri        membri[]
+  utenti_stanze utenti_stanze[]
+}
+
+model utenti_stanze {
+  id_utente Int
+  id_stanza Int
+  role      utenti_stanze_role?
+  stanze    stanze              @relation(fields: [id_stanza], references: [id_stanza], onDelete: NoAction, onUpdate: NoAction, map: "fk_stanza_ut")
+  utenti    utenti              @relation(fields: [id_utente], references: [id_utente], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente")
+
+  @@id([id_utente, id_stanza])
+  @@index([id_stanza], map: "fk_stanza_ut")
+}
+
+enum utenti_stanze_role {
+  admin
+  pubblico
+}
+
+enum stanze_stato {
+  pubblica
+  privata
+}
+
+enum membri_role {
+  admin
+  pubblico
+  membro
+}
