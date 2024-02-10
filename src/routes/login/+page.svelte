@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	
+	import FormInput from "$lib/components/FormInput.svelte";
 </script>
 
 
@@ -8,14 +10,17 @@
 		<div>
 			<h1 class="font-bold text-white text-6xl py-4">Sign in</h1>
 		</div>
-		<div class=" bg-[#76448A] rounded-lg shadow-2xl p-10">
-			<form class="text-center" method="post" use:enhance>
-				<label class=" text-white px-2" for="username">Username</label>
-				<input class="my-2 outline-none rounded shadow-lg p-1" name="username" id="username" /><br />
-				<label class="text-white px-2" for="password">Password</label>
-				<input class="my-2 outline-none rounded shadow-lg p-1" type="password" name="password" id="password" /><br />
-				<button class="p-2 mt-5 mb-0 rounded-lg border-solid border-2 border-white text-white hover:bg-white hover:text-black hover:drop-shadow-2xl hover:scale-110 transition">Continue</button>
+		<div class=" bg-[#76448A] rounded-lg shadow-2xl p-10 w-1/4">
+			<form class="flex flex-col" method="post" use:enhance>
+				<FormInput label="Username" name="username"/>
+				<FormInput label="Password" name="password" password={true}/>
+				<div class="mt-2 text-blue-400 underline flex justify-between">
+					<a href="/signup">Create new account</a>
+					<a href="/signup">Forgot password</a>
+				</div>
+				<button class="self-center p-2 mt-5 mb-0 rounded-lg border-solid border-2 border-white text-white hover:bg-white hover:text-black hover:drop-shadow-2xl hover:scale-110 transition">Continue</button>
 			</form>
 		</div>
 	</div>
 </div>
+Login
