@@ -8,13 +8,13 @@ datasource db {
 }
 
 model membri {
-  id_utente Int
   id_stanza Int
   role      membri_role?
+  username  String       @db.VarChar(32)
   stanze    stanze       @relation(fields: [id_stanza], references: [id_stanza], onDelete: NoAction, onUpdate: NoAction, map: "fk_stanza_me")
-  utenti    utenti       @relation(fields: [id_utente], references: [id_utente], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente_me")
+  utenti    utenti       @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente_me")
 
-  @@id([id_utente, id_stanza])
+  @@id([username, id_stanza])
   @@index([id_stanza], map: "fk_stanza_me")
 }
 
@@ -51,22 +51,29 @@ model stanze {
 }
 
 model utenti {
-  id_utente     Int             @id
-  password      String?         @db.Text
-  username      String?         @db.VarChar(32)
+  password      String          @db.Text
+  username      String          @id @db.VarChar(32)
   membri        membri[]
   utenti_stanze utenti_stanze[]
+  sessions      sessioni[]
 }
 
 model utenti_stanze {
-  id_utente Int
   id_stanza Int
   role      utenti_stanze_role?
+  username  String              @db.VarChar(32)
   stanze    stanze              @relation(fields: [id_stanza], references: [id_stanza], onDelete: NoAction, onUpdate: NoAction, map: "fk_stanza_ut")
-  utenti    utenti              @relation(fields: [id_utente], references: [id_utente], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente")
+  utenti    utenti              @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente")
 
-  @@id([id_utente, id_stanza])
+  @@id([username, id_stanza])
   @@index([id_stanza], map: "fk_stanza_ut")
+}
+
+model sessioni {
+  id         String   @id @db.VarChar(255)
+  expiresAt DateTime @db.DateTime(0)
+  userId    String   @db.VarChar(32)
+  user      utenti   @relation(fields: [userId], references: [username])
 }
 
 enum utenti_stanze_role {
