@@ -10,6 +10,7 @@ import { updateRaycast } from "./raycast.js";
 import { loadRoomFrames } from "./frames_loader.js"
 import { gamepadConnected } from "./gamepad.js"
 import { loadRoomObject } from './load_room.js';
+import { setRoomId } from './frames.js';
 
 let renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -20,11 +21,11 @@ const clock = new THREE.Clock();
 const scene = new THREE.Scene();
 const worldOctree = new Octree();
 
-const CARDBOARD_MODE = new URLSearchParams(window.location.search).get('vr') == true;
+const CARDBOARD_MODE = new URLSearchParams(window.location.search).get('vr') == "1";
 
 // document.documentElement.requestFullscreen();
 
-let camera = new THREE.PerspectiveCamera( CARDBOARD_MODE ? 160 : 75, window.innerWidth / window.innerheigth, 0.1, 1000 );
+let camera = new THREE.PerspectiveCamera( CARDBOARD_MODE ? 160 : 75, window.innerWidth / window.innerHeigth, 0.1, 1000 );
 camera.rotation.order = 'YXZ';
 camera.aspect = window.innerWidth / window.innerHeight;
 camera.updateProjectionMatrix();
@@ -93,12 +94,16 @@ const playerDirection = new THREE.Vector3(0, 0, 0);
 
 camera.position.set( 0, 2, 0 );
 
-listenersInit();
+export const createScene = (id) => {
+    listenersInit();
 
-cameraInit();
+    cameraInit();
 
-loadRoomObject();
+    setRoomId(id)
 
-loadRoomFrames();
+    loadRoomObject();
 
-animate();
+    loadRoomFrames();
+
+    animate();
+}

@@ -37,6 +37,8 @@
 		"@lucia-auth/adapter-prisma": "^4.0.0",
 		"lucia": "^3.0.1",
 		"oslo": "^1.1.0",
-		"prisma": "^5.9.1"
+		"prisma": "^5.9.1",
+		"three": "^0.160.1",
+		"three-addons": "^1.2.0"
 	}
 }

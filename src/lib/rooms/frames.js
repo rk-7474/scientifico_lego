@@ -7,7 +7,9 @@ import { updateFrames } from "./api.js";
 
 let ids = 0;
 
-export const ROOM_ID = new URLSearchParams(window.location.search).get('id');
+export let ROOM_ID;
+
+export const setRoomId = (id) => ROOM_ID = id;
 
 let currentFrame;
 
