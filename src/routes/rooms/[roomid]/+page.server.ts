@@ -6,17 +6,18 @@ import { client as db } from "$lib/server/db"
 export const load: PageServerLoad = async (event) => {
 	const id = event.params.roomid;
 
-	const data = await db.stanze.findUnique({
+	const room = await db.stanze.findUnique({
     where: {
-      id
+      id_stanza: id
     },
   });
 
 	return {
-    data,
+    room,
     id
-  }
+  };
 };
 
 export const actions: Actions = {
+  
 };

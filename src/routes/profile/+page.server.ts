@@ -1,11 +1,24 @@
 import type { PageServerLoad, Actions } from "./$types";
 import { fail, redirect } from "@sveltejs/kit";
 import { lucia } from "$lib/server/auth";
+import { client as db } from "$lib/server/db"
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) redirect(302, "/login");
+
+	const username = event.locals.user.username
+
+	const user_data = await db.utenti.findUnique({
+		where: {
+			username
+		},
+		select: {
+			
+		}
+	})
+
 	return {
-		username: event.locals.user.username
+		user_data
 	};
 };
 

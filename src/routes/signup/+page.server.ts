@@ -65,3 +65,4 @@ export const actions: Actions = {
 		redirect(302, "/");
 	}
 };
+

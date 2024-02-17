@@ -6,7 +6,7 @@
 	let state: "error" | "loading" | "done";
 
 	onMount(() => {
-		if (data.room) {
+		if (data.data) {
 			state = "loading";
 			createScene(data.id);
 			state = "done";

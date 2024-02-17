@@ -27,6 +27,7 @@
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
+		"svelte-preprocess-import-assets": "^1.1.0",
 		"tailwindcss": "^3.4.1",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
@@ -36,9 +37,10 @@
 	"dependencies": {
 		"@lucia-auth/adapter-prisma": "^4.0.0",
 		"lucia": "^3.0.1",
-		"oslo": "^1.1.0",
+		"oslo": "^1.1.1",
 		"prisma": "^5.9.1",
 		"three": "^0.160.1",
-		"three-addons": "^1.2.0"
+		"three-addons": "^1.2.0",
+		"unzipper": "^0.10.14"
 	}
 }
