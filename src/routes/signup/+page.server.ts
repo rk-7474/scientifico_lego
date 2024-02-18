@@ -1,10 +1,11 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import { generateId } from "lucia";
-import { client as db } from "$lib/server/db"
+import { pool } from "$lib/server/db"
 import { Argon2id } from "oslo/password";
 
 import type { Actions } from "./$types";
+import type { Utenti } from "$lib/types";
 
 export const actions: Actions = {
 	default: async (event) => {
@@ -32,12 +33,10 @@ export const actions: Actions = {
 				message: "Invalid password"
 			});
 
-		const existingUser = await db.utenti.findUnique({
-			where: {
-				username
-			}
-		})
+		const [rows] = await pool.execute<Utenti[]>('select * from utenti where username = ?', [username]);
 
+		const existingUser = rows[0];
+	
 		if (existingUser) 
 			return fail(400, {
 				message: "Username already in use"
@@ -46,12 +45,7 @@ export const actions: Actions = {
 
 		const hashedPassword = await new Argon2id().hash(password);
 
-		await db.utenti.create({
-			data: {
-                username,
-                password: hashedPassword
-            }
-		});
+		await pool.execute('insert into utenti (username, password) values (?, ?)', [username, hashedPassword]);
 
 		const session = await lucia.createSession(username, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);

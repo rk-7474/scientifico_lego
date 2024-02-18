@@ -1,9 +1,12 @@
 import { Lucia } from "lucia";
 import { dev } from "$app/environment";
-import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { client } from "$lib/server/db"
+import { Mysql2Adapter } from "@lucia-auth/adapter-mysql";
+import { pool } from "$lib/server/db"
 
-const adapter = new PrismaAdapter(client.sessioni, client.utenti);
+const adapter = new Mysql2Adapter(pool, {
+	user: "utenti",
+	session: "sessioni"
+});
 
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {

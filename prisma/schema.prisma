@@ -8,13 +8,13 @@ datasource db {
 }
 
 model membri {
+  id_utente String
   id_stanza Int
   role      membri_role?
-  username  String       @db.VarChar(32)
   stanze    stanze       @relation(fields: [id_stanza], references: [id_stanza], onDelete: NoAction, onUpdate: NoAction, map: "fk_stanza_me")
-  utenti    utenti       @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente_me")
+  utenti    utenti       @relation(fields: [id_utente], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente_me")
 
-  @@id([username, id_stanza])
+  @@id([id_utente, id_stanza])
   @@index([id_stanza], map: "fk_stanza_me")
 }
 
@@ -50,30 +50,15 @@ model stanze {
   utenti_stanze utenti_stanze[]
 }
 
-model utenti {
-  password      String          @db.Text
-  username      String          @id @db.VarChar(32)
-  membri        membri[]
-  utenti_stanze utenti_stanze[]
-  sessions      sessioni[]
-}
-
 model utenti_stanze {
+  id_utente String
   id_stanza Int
   role      utenti_stanze_role?
-  username  String              @db.VarChar(32)
   stanze    stanze              @relation(fields: [id_stanza], references: [id_stanza], onDelete: NoAction, onUpdate: NoAction, map: "fk_stanza_ut")
-  utenti    utenti              @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente")
+  utenti    utenti              @relation(fields: [id_utente], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "fk_utente")
 
-  @@id([username, id_stanza])
+  @@id([id_utente, id_stanza])
   @@index([id_stanza], map: "fk_stanza_ut")
-}
-
-model sessioni {
-  id         String   @id @db.VarChar(255)
-  expiresAt DateTime @db.DateTime(0)
-  userId    String   @db.VarChar(32)
-  user      utenti   @relation(fields: [userId], references: [username])
 }
 
 enum utenti_stanze_role {
@@ -90,4 +75,19 @@ enum membri_role {
   admin
   pubblico
   membro
+}
+
+model utenti {
+  username        String          @db.VarChar(32)   @id
+  password        String          @db.Text
+  membri          membri[]
+  utenti_stanze   utenti_stanze[]
+  sessions        sessioni[]
+}
+
+model sessioni {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      utenti     @relation(references: [username], fields: [userId], onDelete: Cascade)
 }

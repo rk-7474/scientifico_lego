@@ -1,7 +1,8 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
-import { client as db } from "$lib/server/db"
+import { pool } from "$lib/server/db"
 import { Argon2id } from "oslo/password";
+import { type Utenti } from "$lib/types";
 
 import type { Actions } from "./$types";
 
@@ -26,11 +27,9 @@ export const actions: Actions = {
 			});
 		}
 
-		const existingUser = await db.utenti.findUnique({
-            where: {
-                username
-            }
-        })
+		const [rows] = await pool.execute<Utenti[]>('select * from utenti where username = ?', [username]);
+
+		const existingUser = rows[0];
 
 		if (!existingUser) {
 			return fail(400, {

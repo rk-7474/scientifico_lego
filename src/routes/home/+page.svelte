@@ -8,7 +8,7 @@
 
     </div> -->
 </div>
-<!-- <div class="search">
+<div class="search">
     <form>
         <div class="search-container">
           <input type="text" placeholder="Search user or use # for find topics" spellcheck="false">
@@ -23,93 +23,11 @@
         </div>
     </form> 
     <div id="filter">
-      <div class="list" onmouseover="visibile('pittura')" onmouseout="nascosto('pittura')">
-        <button>Pittura</button>
-        <div class="line"></div>
-        <ul class="" id="pittura">
-          <li>
-              <div class="sub_title">Barocco</div>
-            
-          </li>
-          <li>
-            <div class="sub_title">Rinascimento</div>
-            
-          </li>
-          <li>
-            <div class="sub_title">Impressionismo</div>
-            <div onclick="window.location.href = '/rooms/index.php?id=65bbf6de5f041';" class="room content" style="background-image: url(https://www.lafficheillustree.com/wp-content/uploads/2020/03/090244-Monet-Le-Ninfee120-x-60.jpg);">
-              <h2>Claude Monet</h2>
-              <p>Stanza dedicata al pittore impressionista francesce del fine ottocento.</p>
-              <p style="color: lightblue">#giardino #ninfee #garden #signora #londra</p>
-            </div>
-          </li>
-          <li>
-            <div class="sub_title">Moderno</div>
-            <div onclick="window.location.href = '/rooms/index.php?id=65bc179ccc791';" class="room content" style="background-image: url(https://soligonadia.altervista.org/wp-content/uploads/2022/11/01.jpg);">
-              <h2>Nadia Soligo</h2>
-              <p>Stanza della pittrice Nadia Soligo</p>
-              <p style="color: lightblue">#treviso #sile #casa #palazzo</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="list" onmouseover="visibile('musica')" onmouseout="nascosto('musica')">
-        <button>Musica</button>
-        <ul class="hidden" id="musica">
-          <li>
-            <div class="sub_title">Anni '60</div>
-            <div onclick="window.location.href = '/rooms/index.php?id=${id}';" class="room content" style="background-image: url(${image});">
-              <img src="$lib/assets/add_FILL0_wght400_GRAD0_opsz24.svg" class="add">
-            </div>
-          </li>
-          <li>
-            <div class="sub_title">Anni '90</div>
-            
-            
-          </li>
-          <li>
-            <div class="sub_title">Anni 2000</div>
-            
-            
-          </li>
-        </ul>
-      </div>
-
-      <!-- <div class="list" onmouseover="visibile('teatro')" onmouseout="nascosto('teatro')">
-        <button>Teatro</button>
-        <ul class="hidden" id="teatro">
-          <li>
-            <div class="sub_title">Commedia</div>
-            
-            
-          </li>
-          <li>
-            <div class="sub_title">Dramma</div>
-          </li>
-          <li>
-            <div class="sub_title">Musical</div>
-            
-            
-          </li>
-        </ul>
-      </div>
-
-      <div class="list">
-        <button class="disabled">Scultura</button>
-        <ul class="hidden" id="scultura">
-          <li>
-            <div class="sub_title">Greca</div>
-          </li>
-          <li>
-            <div class="sub_title">Romana</div>
-          </li>
-        </ul>
-      </div>
+      
     </div> 
     <div class="container" id="rooms">
-    <!-- </div>
-</div> -->
+    </div>
+</div>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
