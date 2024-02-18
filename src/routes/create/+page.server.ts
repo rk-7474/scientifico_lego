@@ -4,7 +4,7 @@ import { lucia } from "$lib/server/auth";
 import { client as db } from "$lib/server/db"
 import { randomUUID } from "crypto";
 import unzipper from "unzipper";
-import { mkdir, writeFile, createReadStream, unlink } from "fs";
+import { mkdir, writeFile, createReadStream, unlink, mkdirSync, writeFileSync, unlinkSync } from "fs";
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) redirect(302, "/login");
@@ -27,17 +27,21 @@ export const actions: Actions = {
 
         const uploadPath = `../../files/${id}`;
 
-        await mkdir(uploadPath, {recursive: true});
+        mkdirSync(uploadPath, {recursive: true});
         
         const zipPath = `${uploadPath}/tempfile.zip`;
 
-        await writeFile(zipPath, await fileField.arrayBuffer());
+        const arrayBuffer = await fileField.arrayBuffer();
+
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        writeFileSync(zipPath, uint8Array);
 
         await createReadStream(zipPath)
             .pipe(unzipper.Extract({ path: uploadPath }))
             .promise();
       
-        await unlink(zipPath);
+        await unlinkSync(zipPath);
 
         await db.stanze.create({
           data: {

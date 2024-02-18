@@ -3,11 +3,10 @@
     <img src="$lib/assets/astronauta.png" alt="astronauta" class="astronauta">
     <img src="$lib/assets/pianeta1.png" alt="pianeta1" class="pianeta1">
     <img src="$lib/assets/pianeta2.png" alt="pianeta2" class="pianeta2">
-    <!-- <h1>SPACE 4 ART</h1> -->
     <h1 class="title">SPACE 4 ART</h1>
-    <div class="just" on:>
+    <!-- <div class="just" on:>
 
-    </div>
+    </div> -->
 </div>
 <!-- <div class="search">
     <form>

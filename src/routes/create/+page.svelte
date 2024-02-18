@@ -1,3 +1,7 @@
+<script lang="ts">
+    import backgroundImage from '$lib/images/my-background.jpg';
+</script>
+
 <div class="container">
     <a href="/home/">
         <span id="back" class="material-symbols-outlined">
