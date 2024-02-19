@@ -1,8 +1,54 @@
-<img class="sfondo" alt="sfondo" src="$lib/assets/sfondo.png">
-<div class="page">
-    <img src="$lib/assets/astronauta.png" alt="astronauta" class="astronauta">
-    <img src="$lib/assets/pianeta1.png" alt="pianeta1" class="pianeta1">
-    <img src="$lib/assets/pianeta2.png" alt="pianeta2" class="pianeta2">
+<script lang="ts">
+    import type { Rooms } from "$lib/types";
+
+    export let data: {
+        feed: Rooms[] | null
+    };
+
+    let y: number;
+    let blurstring: string;
+
+    $: {
+        blurstring = `blur(${y/150}px)`;
+    }
+
+    let astronauta: HTMLElement, pianeta1: HTMLElement, pianeta2: HTMLElement, sfondo: HTMLElement;
+    let first = true;
+    let last = {x: 0, y: 0};
+
+    const handleMousemove = ({clientX, clientY}: any) => {
+        if (first) {
+            first = false;
+        } else {
+            let x = clientX - last.x;
+            let y = clientY - last.y;
+            move(astronauta, x, y, 0.03);
+            move(pianeta1, x, y, 0.08);
+            move(pianeta2, x, y, 0.12);
+            // move(sfondo, clientX, clientY, 0.02);
+        }
+
+        last.x = clientX;
+        last.y = clientY;
+    }
+
+    const move = (elem: HTMLElement, x: number, y: number, speed: number) => {
+        const rect = elem.getBoundingClientRect();
+        elem.style.left = rect.left + x * speed + "px";
+        elem.style.top = rect.top + y * speed + "px";
+    }  
+
+</script>
+
+<svelte:head>
+    <title>Space 4 Art - Home</title>
+</svelte:head>
+
+<img bind:this={sfondo} class="sfondo" alt="sfondo" src="$lib/assets/sfondo.png">
+<div class="page" style="-webkit-filter: {blurstring}">
+    <img bind:this={astronauta} src="$lib/assets/astronauta.png" alt="astronauta" class="astronauta">
+    <img bind:this={pianeta1} src="$lib/assets/pianeta1.png" alt="pianeta1" class="pianeta1">
+    <img bind:this={pianeta2} src="$lib/assets/pianeta2.png" alt="pianeta2" class="pianeta2">
     <h1 class="title">SPACE 4 ART</h1>
     <!-- <div class="just" on:>
 
@@ -11,7 +57,7 @@
 <div class="search">
     <form>
         <div class="search-container">
-          <input type="text" placeholder="Search user or use # for find topics" spellcheck="false">
+          <input autocomplete="off" name="query" class="p-5" type="text" placeholder="Search for rooms or #tags" spellcheck="false">
           <button type="submit">
             <span id="search-icon" class="material-symbols-outlined">
                 search
@@ -26,21 +72,16 @@
       
     </div> 
     <div class="container" id="rooms">
+        {#each data?.feed || [] as room}
+            
+        {/each}
     </div>
 </div>
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+<svelte:window bind:scrollY={y} on:mousemove={handleMousemove} />
 
-    html{
-        scroll-behavior: smooth;
-    }
-    
-    body{
-        margin: 0;
-        user-select: none;
-        -webkit-user-drag: none;
-    }
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
     
     .sfondo{
         background-color: rgb(23, 10, 49);
@@ -209,7 +250,6 @@
     input[type=text] {
         border-radius: 25px;
         color: white;
-        padding: 13px;
         width: 30%;
         height: 25px;
         outline: none;
@@ -227,7 +267,7 @@
         align-items: center;
         padding: 5px;
         margin-top: 0;
-        margin-left: -45px;
+        margin-left: -35px;
         border: none;
         background-color: #D67BFF;
         color: white;
@@ -398,9 +438,5 @@
         background-color: rgb(102, 102, 102, 0.700);
         border: 2px solid gray;
         color: gray;
-    }
-    
-    .hidden{
-      visibility: hidden;
     }
     </style>

@@ -7,6 +7,9 @@
 	export let form;
 </script>
 
+<svelte:head>
+    <title>Space 4 Art - Login</title>
+</svelte:head>
 
 <div class="flex flex-col items-center w-full h-full justify-center bg-cover bg-no-repeat bg-indigo-950" style="background-image: url('{backgroundImage}');">
 	<div>

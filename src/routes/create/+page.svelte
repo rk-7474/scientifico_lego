@@ -2,6 +2,10 @@
     import backgroundImage from '$lib/assets/art hub.png';
 </script>
 
+<svelte:head>
+    <title>Space 4 Art - Creation page</title>
+</svelte:head>
+
 <div class="container">
     <a href="/home/">
         <span id="back" class="material-symbols-outlined">

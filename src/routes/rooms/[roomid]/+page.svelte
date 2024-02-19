@@ -6,7 +6,7 @@
 	let state: "error" | "loading" | "done";
 
 	onMount(() => {
-		if (data.data) {
+		if (data.room) {
 			state = "loading";
 			createScene(data.id);
 			state = "done";
@@ -17,6 +17,10 @@
 
 <svelte:head>
 	<script src="https://www.youtube.com/iframe_api"></script>
+</svelte:head>
+
+<svelte:head>
+    <title>Space 4 Art - Room</title>
 </svelte:head>
 
 {#if state == "error"}

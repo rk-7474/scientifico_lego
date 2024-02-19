@@ -1,7 +1,7 @@
 import type { PageServerLoad, Actions } from "./$types";
 import { fail, redirect } from "@sveltejs/kit";
 import { lucia } from "$lib/server/auth";
-import { client as db } from "$lib/server/db"
+import { pool, formatRow } from "$lib/server/db"
 import { randomUUID } from "crypto";
 import unzipper from "unzipper";
 import { mkdir, writeFile, createReadStream, unlink, mkdirSync, writeFileSync, unlinkSync } from "fs";
@@ -15,7 +15,7 @@ export const actions: Actions = {
       try {
         const formData = await event.request.formData();
         const label = formData.get("label");
-        const desc = formData.get("desc");
+        const description = formData.get("desc");
         const img = formData.get("img");
         const fileField = formData.get("file");
 
@@ -43,13 +43,14 @@ export const actions: Actions = {
       
         unlinkSync(zipPath);
 
-        await db.stanze.create({
-          data: {
-            id_stanza: id,
-            nome: label,
-            stato: "pubblica"
-          }
-        });
+        let [query, params] = formatRow({
+          name: label,
+          state: "public",
+          img,
+          description
+        })
+
+        await pool.execute("update rooms set id = ?, name = ?, description = ?")
 
         redirect(302, `/rooms/${id}`);
       
