@@ -50,7 +50,7 @@ export const actions: Actions = {
           description
         })
 
-        await pool.execute("update rooms set id = ?, name = ?, description = ?")
+        await pool.execute(`insert into rooms ${query}`, params);
 
         redirect(302, `/rooms/${id}`);
       

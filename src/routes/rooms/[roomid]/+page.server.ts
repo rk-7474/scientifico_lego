@@ -6,7 +6,7 @@ import { pool } from "$lib/server/db"
 export const load: PageServerLoad = async (event) => {
 	const id = event.params.roomid;
 
-  const room = await pool.execute('select * from stanze where id = ?', [id]);
+  const room = await pool.execute('select * from rooms where id = ?', [id]);
 
 	return {
     room,
@@ -14,10 +14,3 @@ export const load: PageServerLoad = async (event) => {
   };
 };
 
-export const actions: Actions = {
-  update: async(event) => {
-    const room = event.body;
-
-    const existingUser = await pool.execute('update stanze set ', [username]);
-  }
-};
