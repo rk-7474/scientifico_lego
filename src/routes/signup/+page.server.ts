@@ -4,8 +4,13 @@ import { generateId } from "lucia";
 import { pool } from "$lib/server/db"
 import { Argon2id } from "oslo/password";
 
-import type { Actions } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 import type { Utenti } from "$lib/types";
+
+export const load: PageServerLoad = async (event) => {
+	if (event.locals.user) redirect(302, "/profile");
+	return {};
+};
 
 export const actions: Actions = {
 	default: async (event) => {
@@ -33,7 +38,7 @@ export const actions: Actions = {
 				message: "Invalid password"
 			});
 
-		const [rows] = await pool.execute<Utenti[]>('select * from utenti where username = ?', [username]);
+		const [rows] = await pool.execute<Utenti[]>('select * from users where username = ?', [username]);
 
 		const existingUser = rows[0];
 	
@@ -45,9 +50,10 @@ export const actions: Actions = {
 
 		const hashedPassword = await new Argon2id().hash(password);
 
-		await pool.execute('insert into utenti (username, password) values (?, ?)', [username, hashedPassword]);
+		await pool.execute('insert into users (username, password) values (?, ?)', [username, hashedPassword]);
+		const {id} = (await pool.execute<Utenti[]>('select * from users where username = ?', [username]))[0][0];
 
-		const session = await lucia.createSession(username, {});
+		const session = await lucia.createSession(`${id}`, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: ".",

@@ -41,7 +41,7 @@ export const actions: Actions = {
             .pipe(unzipper.Extract({ path: uploadPath }))
             .promise();
       
-        await unlinkSync(zipPath);
+        unlinkSync(zipPath);
 
         await db.stanze.create({
           data: {

@@ -4,7 +4,12 @@ import { pool } from "$lib/server/db"
 import { Argon2id } from "oslo/password";
 import { type Utenti } from "$lib/types";
 
-import type { Actions } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = async (event) => {
+	if (event.locals.user) redirect(302, "/profile");
+	return {};
+};
 
 export const actions: Actions = {
 	default: async (event) => {
@@ -27,7 +32,7 @@ export const actions: Actions = {
 			});
 		}
 
-		const [rows] = await pool.execute<Utenti[]>('select * from utenti where username = ?', [username]);
+		const [rows] = await pool.execute<Utenti[]>('select * from users where username = ?', [username]);
 
 		const existingUser = rows[0];
 
@@ -44,7 +49,7 @@ export const actions: Actions = {
 			});
 		}
 
-		const session = await lucia.createSession(existingUser.username, {});
+		const session = await lucia.createSession(`${existingUser.id}`, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: ".",

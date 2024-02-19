@@ -3,6 +3,8 @@
 	
 	import FormInput from "$lib/components/FormInput.svelte";
     import backgroundImage from '$lib/assets/art hub.png';
+
+	export let form;
 </script>
 
 
@@ -14,6 +16,7 @@
 		<form class="flex flex-col" method="post" use:enhance>
 			<FormInput label="Username" name="username"/>
 			<FormInput label="Password" name="password" password={true}/>
+			{#if form?.message}<p class="text-red-500 text-center">{form?.message}</p>{/if}
 			<div class="mt-2 text-blue-400 underline flex justify-between">
 				<a href="/signup">Create new account</a>
 				<a href="/signup">Forgot password</a>

@@ -4,8 +4,8 @@ import { Mysql2Adapter } from "@lucia-auth/adapter-mysql";
 import { pool } from "$lib/server/db"
 
 const adapter = new Mysql2Adapter(pool, {
-	user: "utenti",
-	session: "sessioni"
+	user: "users",
+	session: "sessions"
 });
 
 export const lucia = new Lucia(adapter, {

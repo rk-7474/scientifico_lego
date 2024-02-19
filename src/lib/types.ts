@@ -1,7 +1,7 @@
 import type { RowDataPacket } from "mysql2"
 
 export interface Utenti extends RowDataPacket {
-    id_utente: number,
+    id: number,
     username: string,
     password: string
 }
