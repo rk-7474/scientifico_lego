@@ -4,6 +4,10 @@
 	import FormInput from "$lib/components/FormInput.svelte";
     import backgroundImage from '$lib/assets/art hub.png';
 
+	import { page } from '$app/stores';
+
+	let visit = $page.url.searchParams.get('v');
+
 	export let form;
 </script>
 
@@ -21,9 +25,10 @@
 			<FormInput label="Password" name="password" password={true}/>
 			{#if form?.message}<p class="text-red-500 text-center">{form?.message}</p>{/if}
 			<div class="mt-2 text-blue-400 underline flex justify-between">
-				<a href="/signup">Create new account</a>
+				<a href="/signup?v={visit}">Create new account</a>
 				<a href="/signup">Forgot password</a>
 			</div>
+			<input name="visit" bind:value={visit} class="hidden"/>
 			<button class="self-center p-2 mt-5 mb-0 rounded-lg border-solid border-2 border-white text-white hover:bg-white hover:text-black hover:drop-shadow-2xl hover:scale-110 transition">Continue</button>
 		</form>
 	</div>

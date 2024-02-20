@@ -1,4 +1,3 @@
-import type { RequestHandler } from '@sveltejs/kit';
 import { pool } from '$lib/server/db';
 
 export const GET = async (request: any) => {

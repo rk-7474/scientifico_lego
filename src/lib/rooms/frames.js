@@ -144,7 +144,7 @@ export const startFramePlacing = async (url) => {
 
     input_mode = false;
 
-    frames.push(data);
+    pushFrame(ROOM_ID, data);
 
     await new Promise(resolve => {
         $(document).one("mousedown", event => {
@@ -153,8 +153,6 @@ export const startFramePlacing = async (url) => {
     });
 
     stopFramePlacing(true);
-
-    updateFrames(ROOM_ID, frames);
 } 
 
 export const stopFramePlacing = (confirmed) => {
@@ -223,13 +221,15 @@ export async function toggleVisualizeFrame() {
 
 export const getVisualizeMode = () => visualizeMode;
 
+
+//TODO: da rifare
 export function removeFrame() {
     const temp_frame = getInteractingFrame();
     removeFromScene(temp_frame.object);
     const index = frames.findIndex(e => e.uuid === temp_frame.uuid);
     frames.splice(index, 1);
 
-    updateFrames(ROOM_ID, frames)
+    deleteFrame(ROOM_ID, frames)
 }
 
 const validateUrl = (url) => {

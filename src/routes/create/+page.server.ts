@@ -7,7 +7,7 @@ import unzipper from "unzipper";
 import { mkdir, writeFile, createReadStream, unlink, mkdirSync, writeFileSync, unlinkSync } from "fs";
 
 export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) redirect(302, "/login");
+	if (!event.locals.user) redirect(302, "/login?v=create");
   return;
 };
 export const actions: Actions = {

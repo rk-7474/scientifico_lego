@@ -1,6 +1,5 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
-import { generateId } from "lucia";
 import { pool } from "$lib/server/db"
 import { Argon2id } from "oslo/password";
 
@@ -17,6 +16,8 @@ export const actions: Actions = {
 		const formData = await event.request.formData();
 		const username = formData.get("username");
 		const password = formData.get("password");
+		const page_redirect = formData.get("visit") || "" as string;
+		console.log(page_redirect)
 		const confirm_password = formData.get("confirm_password");
 		if ( confirm_password !== password )
 			return fail(400, {
@@ -60,9 +61,7 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		console.log("created account", username, password)
-
-		redirect(302, "/");
+		redirect(302, `/${page_redirect}`);
 	}
 };
 

@@ -4,7 +4,7 @@ import { lucia } from "$lib/server/auth";
 import { pool } from "$lib/server/db"
 
 export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) redirect(302, "/login");
+	if (!event.locals.user) redirect(302, "/login?v=profile");
 
 	const user_data = event.locals.user
 

@@ -16,6 +16,8 @@ export const actions: Actions = {
 		const formData = await event.request.formData();
 		const username = formData.get("username");
 		const password = formData.get("password");
+		const page_redirect = formData.get("visit") as string;
+		console.log(page_redirect)
 		if (
 			typeof username !== "string" ||
 			username.length < 3 ||
@@ -56,6 +58,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, "/");
+		redirect(302, `/${page_redirect}`);
 	}
 };
