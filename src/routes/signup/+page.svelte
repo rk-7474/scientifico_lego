@@ -25,6 +25,9 @@
 			<FormInput label="Password" name="password" password={true}/>
 			<FormInput label="Confirm password" name="confirm_password" password={true}/>
 			<input name="visit" bind:value={visit} class="hidden"/>
+			<div class="mt-2 text-blue-400 underline">
+				<a href="/login?v={visit}">Already got an account?</a>
+			</div>
 			{#if form?.message}<p class="text-red-500 text-center">{form?.message}</p>{/if}
 			<button class="self-center p-2 mt-5 mb-0 rounded-lg border-solid border-2 border-white text-white hover:bg-white hover:text-black hover:drop-shadow-2xl hover:scale-110 transition">Create account</button>
 		</form>

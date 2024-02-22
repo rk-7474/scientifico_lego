@@ -1,4 +1,3 @@
-import "jquery";
 import * as THREE from 'three'
 import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";

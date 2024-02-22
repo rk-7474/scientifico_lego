@@ -1,5 +1,4 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import "jquery";
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import * as THREE from 'three';
 import { addToScene, setRoom } from './index.js';

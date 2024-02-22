@@ -1,11 +1,17 @@
 <script lang="ts">
     import backgroundImage from '$lib/assets/art hub.png';
+
+    let room_type = true;
+
+    const switch_type = () => room_type = !room_type;
+
 </script>
 
 <svelte:head>
     <title>Space 4 Art - Creation page</title>
 </svelte:head>
 
+<img class="sfondo" alt="sfondo" src="$lib/assets/sfondo.png">
 <div class="container">
     <a href="/home/">
         <span id="back" class="material-symbols-outlined">
@@ -15,13 +21,19 @@
 </div>
 <div class="page">
     <datalist id="browsers">
-        <option value="Seleziona template" disabled selected>Seleziona template</option>
-        <option value="Stanza 1">
+        <option selected value="Stanza 1">
         <option value="Stanza 2">
     </datalist>
-    <form enctype="multipart/form-data" method="POST" action="../api/create/index.php" class="create_form">
-        <input autocomplete="off" type="button" value="Choose from templates..." on:click={switch_template}>
-        <input autocomplete="off" type="file" name="file" class="file">
+    <form enctype="multipart/form-data" method="POST" class="create_form">
+        {#if room_type}
+            <input type="button" value="Choose from files..." on:click={switch_type}>
+            <input name="template" list="browsers">
+            <input class="hidden" name="using_template" value="1">
+        {:else}
+            <input autocomplete="off" type="button" value="Choose from templates..." on:click={switch_type}>
+            <input autocomplete="off" type="file" name="file" class="file">
+        {/if}
+
         <input autocomplete="off" type="text" name="label" placeholder="Label">
         <input autocomplete="off" type="text" name="img" placeholder="Immagine">
         <input autocomplete="off" type="text" name="desc" placeholder="Descrizione">
@@ -40,11 +52,13 @@
     } */
 
     .page{
+        overflow: hidden;
         width: 100%;
         height: 90vh;
     }
 
     .sfondo{
+        overflow: hidden;
         position: absolute;
         background-color: rgb(23, 10, 49);
 

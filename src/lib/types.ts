@@ -11,5 +11,6 @@ export interface Rooms extends RowDataPacket {
     name: string,
     description: string,
     state: 'public' | 'reserved' | 'private',
-    user_id: number
+    user_id: number,
+    uuid: string,
 }

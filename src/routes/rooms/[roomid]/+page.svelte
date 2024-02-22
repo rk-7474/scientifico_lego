@@ -1,14 +1,17 @@
 <script lang="ts">
-	import {createScene} from "$lib/rooms/index";
 	import { onMount } from "svelte";
+	import { showCursor, showResize, showUrlInput, showInfoInput } from "$lib/rooms/stores.js";
+	import {createScene} from "$lib/rooms/index";
 
 	export let data;
 	let state: "error" | "loading" | "done";
 
+	let three_scene: HTMLElement;
+
 	onMount(() => {
 		if (data.room) {
 			state = "loading";
-			createScene(data.id);
+			createScene(data.id, three_scene);
 			state = "done";
 		} else
 			state = "error";
@@ -16,20 +19,17 @@
 </script>
 
 <svelte:head>
+    <title>Space 4 Art - Room</title>
 	<script src="https://www.youtube.com/iframe_api"></script>
 </svelte:head>
 
-<svelte:head>
-    <title>Space 4 Art - Room</title>
-</svelte:head>
-
 {#if state == "error"}
-	<div class="loading">
+	<div>
 		<h1>We couldn't find the room you are looking for.<br>:(</h1>
 		<p>The room at this url might have been deleted or made private.<p>
 	</div>
 {:else if state == "loading"}
-	<div class="loading">
+	<div>
 		<h1>Entering room...</h1>
 		<div> 
 			<div id="loadingbar"></div>
@@ -37,23 +37,33 @@
 	</div>
 {:else if state == "done"}
 	<div class="center">
-		<img src="assets/cursor.png" alt="cursor" id="cursor" width="15">
-		<div class="container" id="url">
-			<input autocomplete="off" type="text" placeholder="Inserisci URL immagine o video">
-			<button class="confirm">Conferma</button>
-		</div>
-		<div class="container" id="info">
-			<input autocomplete="off" id="title" type="text" placeholder="Inserisci titolo opera...">
-			<input autocomplete="off" id="desc" type="text" placeholder="Inserisci descrizione opera...">
-			<input autocomplete="off" id="tag" type="text" placeholder="Inserisci tag...">
-			<button class="confirm">Conferma</button>
-		</div>
+		{#if $showCursor}
+			<img src="$lib/assets/cursor.png" alt="cursor" id="cursor" width="15">
+		{/if}
+		{#if $showUrlInput}
+			<div class="container" id="url">
+				<input autocomplete="off" type="text" placeholder="Inserisci URL immagine o video">
+				<button class="confirm">Conferma</button>
+			</div>
+		{/if}
+		{#if $showInfoInput}
+			<div class="container" id="info">
+				<input autocomplete="off" id="title" type="text" placeholder="Inserisci titolo opera...">
+				<input autocomplete="off" id="desc" type="text" placeholder="Inserisci descrizione opera...">
+				<input autocomplete="off" id="tag" type="text" placeholder="Inserisci tag...">
+				<button class="confirm">Conferma</button>
+			</div>
+		{/if}
 	</div>
 	<div class="resizercontainer">
-		<div id="resizer">
-			<h2>Modifica dimensione frame</h2>
-			<input type="range" min="0" max="300" value="100" class="slider">
-			<button class="confirm">Conferma</button>
-		</div>
+		{#if $showResize}
+			<div id="resizer">
+				<h2>Modifica dimensione frame</h2>
+				<input type="range" min="0" max="300" value="100" class="slider">
+				<button class="confirm">Conferma</button>
+			</div>
+		{/if}
 	</div>
 {/if}
+
+<canvas bind:this={three_scene}></canvas>

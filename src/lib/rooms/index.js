@@ -12,11 +12,6 @@ import { gamepadConnected } from "./gamepad.js"
 import { loadRoomObject } from './load_room.js';
 import { setRoomId } from './frames.js';
 
-let renderer = new THREE.WebGLRenderer();
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
-
 const clock = new THREE.Clock();
 const scene = new THREE.Scene();
 const worldOctree = new Octree();
@@ -62,6 +57,8 @@ function updatePlayer( deltaTime ) {
     camera.position.copy( playerCollider.end );
 }
 
+let renderer;
+
 function animate() {
 	requestAnimationFrame( animate );
 
@@ -94,7 +91,12 @@ const playerDirection = new THREE.Vector3(0, 0, 0);
 
 camera.position.set( 0, 2, 0 );
 
-export const createScene = (id) => {
+export const createScene = (id, el) => {
+    renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el });
+
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
     listenersInit();
 
     cameraInit();

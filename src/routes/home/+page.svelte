@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
     import type { Rooms } from "$lib/types";
 
     export let data: {
@@ -25,7 +26,7 @@
             move(astronauta, x, y, 0.03);
             move(pianeta1, x, y, 0.08);
             move(pianeta2, x, y, 0.12);
-            // move(sfondo, clientX, clientY, 0.02);
+            // move(sfondo, x, y, 0.02);
         }
 
         last.x = clientX;
@@ -73,7 +74,13 @@
     </div> 
     <div class="container" id="rooms">
         {#each data?.feed || [] as room}
-            
+            <div on:click={() => goto(`/rooms/${room.uuid}`)} class="card w-96 h-48 bg-base-100 shadow-xl hover:scale-105 transition cursor-pointer">
+                <img src={room.image} alt="room_{room.id}" class="rounded-2xl w-full h-full">
+                <div class="w-full h-full card-body absolute bg-opacity-50 rounded-2xl bg-black">
+                    <h2 class="text-center font-bold text-xl mb-2">{room.name}</h2>
+                    <p>{room.description}</p>
+                </div>
+            </div>
         {/each}
     </div>
 </div>
