@@ -5,10 +5,12 @@ import { type Rooms } from "$lib/types";
 export const load: PageServerLoad = async (event) => {
 	const id = event.params.roomid;
 
-  const [result] = await pool.execute<Rooms[]>('select * from rooms where uuid = ?', [id]);
+  const [[room]] = await pool.execute<Rooms[]>('select * from rooms where uuid = ?', [id]);
+  const [frames] = await pool.execute<Rooms[]>('select * from scenes where room_id = ?', [room.id]);
 
 	return {
-    room: result[0],
+    room,
+    frames,
     id
   };
 };

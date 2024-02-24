@@ -65,7 +65,7 @@ export function controls( deltaTime, playerVelocity, camera, playerDirection ) {
 
     playerVelocity.set(0, 0, 0)
 
-    if (!gamepadConnected()) {
+    // if (!gamepadConnected()) {
 
         if ( keyStates[ 'KeyW' ] ) playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( speedDelta ) );
 
@@ -76,13 +76,13 @@ export function controls( deltaTime, playerVelocity, camera, playerDirection ) {
         if ( keyStates[ 'KeyD' ] ) playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( speedDelta ) );
 
         return playerVelocity;
-    }
+    // }
 
-    const gamepad = gamepadMovement();
+    // const gamepad = gamepadMovement();
     
-    playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.y ) );
+    // playerVelocity.add( getForwardVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.y ) );
 
-    playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.x ) );
+    // playerVelocity.add( getSideVector(camera, playerDirection).multiplyScalar( speedDelta * gamepad.x ) );
 
     return playerVelocity;
 }

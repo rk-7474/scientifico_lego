@@ -11,28 +11,35 @@ import { loadRoomFrames } from "./frames_loader.js"
 import { gamepadConnected } from "./gamepad.js"
 import { loadRoomObject } from './load_room.js';
 import { setRoomId } from './frames.js';
+import { innerHeight, innerWidth, devicePixelRatio } from './stores';
 
 const clock = new THREE.Clock();
 const scene = new THREE.Scene();
 const worldOctree = new Octree();
 
-const CARDBOARD_MODE = new URLSearchParams(window.location.search).get('vr') == "1";
-
 // document.documentElement.requestFullscreen();
 
-let camera = new THREE.PerspectiveCamera( CARDBOARD_MODE ? 160 : 75, window.innerWidth / window.innerHeigth, 0.1, 1000 );
-camera.rotation.order = 'YXZ';
-camera.aspect = window.innerWidth / window.innerHeight;
-camera.updateProjectionMatrix();
+let camera;
 
-if (CARDBOARD_MODE) {
-    renderer = new StereoEffect( renderer );
-    // setup_device_motion(window, camera);
+const init = (cardboard) => {
+    camera = new THREE.PerspectiveCamera( cardboard ? 160 : 75, innerWidth / innerHeight, 0.1, 1000 );
+    camera.rotation.order = 'YXZ';
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    
+    
+    scene.background = new THREE.Color(0xD3E8F0);
+    
+    const light = new THREE.AmbientLight( 0xFFFFFF );
+    scene.add( light );
+
+    camera.position.set( 0, 2, 0 );
 }
-scene.background = new THREE.Color(0xD3E8F0);
 
-const light = new THREE.AmbientLight( 0xFFFFFF );
-scene.add( light );
+const playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1.8, 0 ), 0.35 );
+let playerVelocity = new THREE.Vector3(0, 0, 0);
+const playerDirection = new THREE.Vector3(0, 0, 0);
+
 
 function playerCollisions(deltaTime) {
     const result = worldOctree.capsuleIntersect( playerCollider );
@@ -51,7 +58,7 @@ function updatePlayer( deltaTime ) {
 
     playerCollider.translate( deltaPosition );
 
-    if (gamepadConnected()) setGamepadCamera();
+    // if (gamepadConnected()) setGamepadCamera();
 
     playerCollisions(deltaTime);
     camera.position.copy( playerCollider.end );
@@ -85,17 +92,20 @@ export const removeFromScene = (object) => scene.remove(object);
 
 ////////////////////////////////////////////////////////////////
 
-const playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1.8, 0 ), 0.35 );
-let playerVelocity = new THREE.Vector3(0, 0, 0);
-const playerDirection = new THREE.Vector3(0, 0, 0);
 
-camera.position.set( 0, 2, 0 );
 
-export const createScene = (id, el) => {
+export const createScene = async (id, data, frames, el, cardboard) => {
     renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el });
 
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setPixelRatio(devicePixelRatio);
+    renderer.setSize( innerWidth, innerHeight );
+
+    if (cardboard) {
+        renderer = new StereoEffect( renderer );
+        // setup_device_motion(window, camera);
+    }
+
+    init(cardboard);
 
     listenersInit();
 
@@ -103,9 +113,9 @@ export const createScene = (id, el) => {
 
     setRoomId(id)
 
-    loadRoomObject();
+    await loadRoomObject(data);
 
-    loadRoomFrames();
+    loadRoomFrames(frames);
 
     animate();
 }

@@ -5,11 +5,13 @@ import { pool, formatRow } from "$lib/server/db"
 import { randomUUID } from "crypto";
 import unzipper from "unzipper";
 import { createReadStream, mkdirSync, writeFileSync, unlinkSync } from "fs";
+import path from "path";
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) redirect(302, "/login?v=create");
   return;
 };
+
 export const actions: Actions = {
     default: async(event: any) => {
       const formData = await event.request.formData();
@@ -24,13 +26,17 @@ export const actions: Actions = {
 
       const id = randomUUID();
 
-      const uploadPath = `../../files/${id}`;
+      console.log(id);
+
+      const uploadPath = path.join(path.resolve(), `/static/routes/files/${id}`);
 
       mkdirSync(uploadPath, {recursive: true});
       
       const zipPath = `${uploadPath}/tempfile.zip`;
 
       const arrayBuffer = await fileField.arrayBuffer();
+
+      console.log(fileField, arrayBuffer);
 
       const uint8Array = new Uint8Array(arrayBuffer);
 
@@ -52,6 +58,8 @@ export const actions: Actions = {
       })
 
       await pool.execute(`insert into rooms ${query}`, params);
+
+      console.log("created room", zipPath);
 
       redirect(302, `/rooms/${id}`);
     }

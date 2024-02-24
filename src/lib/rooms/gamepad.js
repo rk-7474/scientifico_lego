@@ -1,22 +1,21 @@
+// import { navigator } from './stores.js';
+
 let gamepad_connected = false;
 let poll_interval;
 
-export const gamepadSupported = () => "ongamepadconnected" in window;
 export const gamepadConnected = () => gamepad_connected;
-
-window.addEventListener("gamepaddisconnected", () => gamepadOff);
 
 const gamepadOn = () => {
     clearInterval(poll_interval);
     gamepad_connected = true;
 }
 
-const gamepadOff = () => {
-    poll_interval = setInterval(gamepadPoll, 500);
+export const gamepadOff = () => {
+    // poll_interval = setInterval(gamepadPoll, 500);
     gamepad_connected = false;
 }
 
-const gamepadPoll = () => navigator.getGamepads()[0] && gamepadOn();
+const gamepadPoll = () => $navigator.getGamepads()[0] && gamepadOn();
 
 export const gamepadCamera = () => {
     const axes = getAxes();

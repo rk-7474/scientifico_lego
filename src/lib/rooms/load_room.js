@@ -7,11 +7,13 @@ import { ROOM_ID } from './frames.js';
 let lastnum = 0;
 
 //Caricamento modello stanza con loading screen
-export function loadRoomObject() {
+export async function loadRoomObject() {
     const loader = new GLTFLoader();
-    loader.load( `../../files/${ROOM_ID}/scene.glb`, function ( gltf ) {;
+    await new Promise(resolve => 
+    loader.load(`/files/${ROOM_ID}/scene.glb`, function ( gltf ) {;
         setRoom(gltf.scene);
         finishedLoading();
+        resolve();
     }, 
     function ( xhr ) {
         if (xhr != lastnum) {
@@ -20,7 +22,7 @@ export function loadRoomObject() {
         }
 	}, function ( error ) {
         console.error( error );
-    } );
+    } ));
 
     // const heigth = 3, width = 5, depth = 5;
 

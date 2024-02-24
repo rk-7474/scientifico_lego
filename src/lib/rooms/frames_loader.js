@@ -1,15 +1,7 @@
 import { addToScene } from './index.js';
-import { fetchRoomInfo } from './api.js'
 import { createFrame, addFrame, ROOM_ID } from './frames.js';
 
-export const loadRoomFrames = async () => {
-    try {
-        var frames = await fetchRoomInfo(ROOM_ID);
-    } catch (e) {
-        console.error(e);
-        return;
-    }
-    
+export const loadRoomFrames = async (frames) => {
     if (!frames) return;
 
     for (const {url, position, rotation, scale, desc, title} of frames) {

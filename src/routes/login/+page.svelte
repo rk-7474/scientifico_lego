@@ -25,7 +25,7 @@
 			<FormInput label="Password" name="password" password={true}/>
 			{#if form?.message}<p class="text-red-500 text-center">{form?.message}</p>{/if}
 			<div class="mt-2 text-blue-400 underline flex justify-between">
-				<a href="/signup?v={visit}">Create new account</a>
+				<a href={visit ? "/signup?v=" + visit : "/signup"}>Create new account</a>
 				<a href="/signup">Forgot password</a>
 			</div>
 			<input name="visit" bind:value={visit} class="hidden"/>

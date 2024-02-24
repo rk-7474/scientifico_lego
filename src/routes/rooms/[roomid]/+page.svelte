@@ -1,17 +1,18 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { showCursor, showResize, showUrlInput, showInfoInput } from "$lib/rooms/stores.js";
+	import { showCursor, showResize, showUrlInput, showInfoInput, innerHeight, innerWidth, devicePixelRatio } from "$lib/rooms/stores.js";
 	import {createScene} from "$lib/rooms/index";
+	import { gamepadOff } from "$lib/rooms/gamepad.js";
 
 	export let data;
 	let state: "error" | "loading" | "done";
 
 	let three_scene: HTMLElement;
 
-	onMount(() => {
+	onMount(async () => {
 		if (data.room) {
 			state = "loading";
-			createScene(data.id, three_scene);
+			await createScene(data.id, data.room, data.frames, three_scene, false);
 			state = "done";
 		} else
 			state = "error";
@@ -67,3 +68,10 @@
 {/if}
 
 <canvas bind:this={three_scene}></canvas>
+<svelte:window 
+	bind:innerHeight={$innerHeight}
+	bind:innerWidth={$innerWidth}
+	bind:devicePixelRatio={$devicePixelRatio}
+	on:gamepaddisconnected={gamepadOff}
+	
+/>
