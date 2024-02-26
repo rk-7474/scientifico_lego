@@ -3,6 +3,7 @@ import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 import { updateFrames } from "./api.js";
+import { showCursor, showUrlInput } from './stores.js';
 
 let ids = 0;
 
@@ -50,77 +51,31 @@ const handleInputKeys = async () => {
 }
 
 export async function placeFrame() {
-    $("#url > input").val("");
+    showCursor.update(() => false);
 
-    $("#url").fadeIn(500);
-    $("#url").css("display", "flex")
-
-    $("#cursor").hide();
+    showUrlInput.update(() => true);
 
     document.exitPointerLock();
 
     input_mode = true;
 
-    await handleInputKeys();
+    // await new Promise(resolve => $(".container").fadeOut(500, resolve));
+}
 
-    await new Promise(resolve => $(".container").fadeOut(500, resolve));
-
-    let url = $("#url > input").val();
-
-    if (exited_input || !url) { 
-        input_mode = false;
-        $("#cursor").show();
-        return;
+export function sendUpdate(form) {
+    if (form?.done == "url") {
+        startFramePlacing(form.info)
     }
-
-    // const url = "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
-    
-    startFramePlacing(url);
 }
-
-async function askInfo() {
-    $("#title").val("");
-    $("#desc").val("");
-    $("#tag").val("");
-
-    $("#info").fadeIn(500);
-    $("#info").css("display", "flex")
-
-    document.exitPointerLock();
-
-    await handleInputKeys();
-
-    await new Promise(resolve => $(".container").fadeOut(500, resolve));
-
-    const title = $("input#title").val()
-    const desc = $("input#desc").val()
-    const tag = $("input#tag").val()
-
-    if (exited_input)
-        return false;
-
-
-    return {title, desc, tag};
-}
-
 let frame_placing = false;
 
 //Funzione che muove il frame a seconda del cursore fino a quando non viene confermato
-export const startFramePlacing = async (url) => {
-    const info = await askInfo();
-
-    if (info == false) {
-        input_mode = false;
-        $("#cursor").show();
-        return;
-    }
-
-
+export const startFramePlacing = async (info) => {
     const {title, desc, tag} = info;
 
     let data = await createFrame(url);
 
-    $("#cursor").show();
+    showCursor.update(() => true);
 
     input_mode = false;
 
@@ -128,11 +83,8 @@ export const startFramePlacing = async (url) => {
 
     if (!data) {
         input_mode = false;
-        $("#cursor").show();
         return;
     }
-
-    console.log(data)
 
     input_mode = true; 
 

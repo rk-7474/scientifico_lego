@@ -4,6 +4,8 @@ import * as THREE from 'three';
 import { addToScene, setRoom } from './index.js';
 import { ROOM_ID } from './frames.js';
 
+import { loadingBar, loadingTotal, state } from './stores.js';
+
 let lastnum = 0;
 
 //Caricamento modello stanza con loading screen
@@ -12,13 +14,14 @@ export async function loadRoomObject() {
     await new Promise(resolve => 
     loader.load(`/files/${ROOM_ID}/scene.glb`, function ( gltf ) {;
         setRoom(gltf.scene);
-        finishedLoading();
+        state.update(() => "done");
         resolve();
     }, 
     function ( xhr ) {
-        if (xhr != lastnum) {
-            $("#loadingbar").width(`${xhr.loaded / xhr.total * 300}px`);
-            lastnum = xhr;
+        if (xhr.loaded != lastnum) {
+            lastnum = xhr.loaded;
+            loadingTotal.update(() => xhr.total);
+            loadingBar.update(() => xhr.loaded);
         }
 	}, function ( error ) {
         console.error( error );
@@ -62,9 +65,4 @@ export async function loadRoomObject() {
     // light.position.set( 0, heigth-1, 0 );
     // addToScene( light );
     // finishedLoading()
-}
-
-async function finishedLoading() {
-    await new Promise(resolve => setTimeout(() => resolve(), 200));
-    $(".loading").fadeOut(800);
 }

@@ -28,7 +28,7 @@ export const actions: Actions = {
 
       console.log(id);
 
-      const uploadPath = path.join(path.resolve(), `/static/routes/files/${id}`);
+      const uploadPath = path.join(path.resolve(), `/static/files/${id}`);
 
       mkdirSync(uploadPath, {recursive: true});
       
