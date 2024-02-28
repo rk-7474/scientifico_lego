@@ -6,6 +6,11 @@ export interface Utenti extends RowDataPacket {
     password: string
 }
 
+export interface Editors extends RowDataPacket {
+    user_id: string | null,
+    room_id: string | null
+}
+
 export interface Rooms extends RowDataPacket {
     id: number,
     name: string,

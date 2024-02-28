@@ -1,11 +1,15 @@
 import type { PageServerLoad, Actions } from "./$types";
 import { pool } from "$lib/server/db"
 import { type Rooms } from "$lib/types";
+import { fail } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async (event) => {
 	const id = event.params.roomid;
 
   const [[room]] = await pool.execute<Rooms[]>('select * from rooms where uuid = ?', [id]);
+
+  if (!room) return;
+
   const [frames] = await pool.execute<Rooms[]>('select * from scenes where room_id = ?', [room.id]);
 
 	return {
@@ -16,7 +20,7 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
-  url: async(event: any) => {
+  info: async(event: any) => {
     const formData = await event.request.formData();
     const url = formData.get("url");
     const title = formData.get("title");

@@ -12,7 +12,7 @@ let lastnum = 0;
 export async function loadRoomObject() {
     const loader = new GLTFLoader();
     await new Promise(resolve => 
-    loader.load(`/files/${ROOM_ID}/scene.glb`, function ( gltf ) {;
+    loader.load(`/files/${ROOM_ID}/scene.gltf`, function ( gltf ) {
         setRoom(gltf.scene);
         state.update(() => "done");
         resolve();

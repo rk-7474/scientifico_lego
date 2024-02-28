@@ -4,6 +4,7 @@
 	import {createScene} from "$lib/rooms/index";
 	import {sendUpdate} from "$lib/rooms/frames";
 	import { gamepadOff } from "$lib/rooms/gamepad.js";
+	import { onKeyDown, onKeyUp, onMouseDown } from "$lib/rooms/movement.js" 
 
 	export let data;
 	export let form;
@@ -13,13 +14,14 @@
 	$: sendUpdate(form);
 
 	onMount(async () => {
-		if (data.room) {
+		if (data && data.room) {
 			$state = "loading";
 			await createScene(data.id, data.room, data.frames, three_scene, false);
 			$state = "done";
 		} else
 			$state = "error";
 	});
+	
 </script>
 
 <svelte:head>
@@ -71,5 +73,11 @@
 	bind:innerWidth={$innerWidth}
 	bind:devicePixelRatio={$devicePixelRatio}
 	on:gamepaddisconnected={gamepadOff}
-	
+	on:keydown|preventDefault={onKeyDown}
+	on:keyup|preventDefault={onKeyUp}
+	on:mousedown|preventDefault={onMouseDown}
 />
+
+<style>
+	@import './style.css';
+</style>

@@ -4,29 +4,28 @@ import { StereoEffect } from 'three/addons/effects/StereoEffect.js';
 import { VRButton } from 'three/addons/webxr/VRButton'
 import { Octree } from 'three/addons/math/Octree.js';
 import { Capsule } from 'three/addons/math/Capsule.js';
-import { controls, listenersInit } from './movement.js'
+import { controls } from './movement.js'
 import { init as cameraInit, setGamepadCamera} from './camera.js';
 import { updateRaycast } from "./raycast.js";
 import { loadRoomFrames } from "./frames_loader.js"
 import { gamepadConnected } from "./gamepad.js"
 import { loadRoomObject } from './load_room.js';
 import { setRoomId } from './frames.js';
-import { innerHeight, innerWidth, devicePixelRatio } from './stores';
+import { innerHeight as innerHeightStore, innerWidth as innerWidthStore, devicePixelRatio as devicePixelRatioStore } from './stores';
 
-const clock = new THREE.Clock();
-const scene = new THREE.Scene();
-const worldOctree = new Octree();
+let clock, scene, worldOctree, camera, renderer, room, playerCollider, playerVelocity, playerDirection, innerWidth, innerHeight, devicePixelRatio;
 
 // document.documentElement.requestFullscreen();
 
-let camera;
+
+devicePixelRatioStore.subscribe(a => devicePixelRatio = a);
 
 const init = (cardboard) => {
+    console.log(innerWidth, innerHeight);
     camera = new THREE.PerspectiveCamera( cardboard ? 160 : 75, innerWidth / innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
-    
     
     scene.background = new THREE.Color(0xD3E8F0);
     
@@ -34,12 +33,16 @@ const init = (cardboard) => {
     scene.add( light );
 
     camera.position.set( 0, 2, 0 );
+
+    innerHeightStore.subscribe(a => {
+        innerHeight = a;
+        onWindowResize();
+    });
+    innerWidthStore.subscribe(a => {
+        innerWidth = a
+        onWindowResize();
+    });
 }
-
-const playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1.8, 0 ), 0.35 );
-let playerVelocity = new THREE.Vector3(0, 0, 0);
-const playerDirection = new THREE.Vector3(0, 0, 0);
-
 
 function playerCollisions(deltaTime) {
     const result = worldOctree.capsuleIntersect( playerCollider );
@@ -64,7 +67,6 @@ function updatePlayer( deltaTime ) {
     camera.position.copy( playerCollider.end );
 }
 
-let renderer;
 
 function animate() {
 	requestAnimationFrame( animate );
@@ -76,7 +78,13 @@ function animate() {
     renderer.render( scene, camera );
 }
 
-let room;
+export function onWindowResize() {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( innerWidth, innerHeight );
+}
+
 
 export const getRenderer = () => renderer;
 export const getCamera = () => camera;
@@ -95,6 +103,16 @@ export const removeFromScene = (object) => scene.remove(object);
 
 
 export const createScene = async (id, data, frames, el, cardboard) => {
+    clock = new THREE.Clock();
+    scene = new THREE.Scene();
+    worldOctree = new Octree();
+
+
+    playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1.8, 0 ), 0.35 );
+    playerVelocity = new THREE.Vector3(0, 0, 0);
+    playerDirection = new THREE.Vector3(0, 0, 0);
+
+
     renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el });
 
     renderer.setPixelRatio(devicePixelRatio);
@@ -106,8 +124,6 @@ export const createScene = async (id, data, frames, el, cardboard) => {
     }
 
     init(cardboard);
-
-    listenersInit();
 
     cameraInit();
 

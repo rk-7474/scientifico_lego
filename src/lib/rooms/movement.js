@@ -7,56 +7,39 @@ import { getCamera, getRenderer } from './index.js';
 
 let keyStates = {};
 
-export function listenersInit() {
 
-    document.addEventListener( 'keydown', ( event ) => { 
-
-        if (event.code == "KeyE" && (getVisualizeMode() || getInteractingFrame() != null))
-            toggleVisualizeFrame();
-        
-        else if (!getInputMode()) {
-            if (event.code == "KeyT")
-                if (getFramePlacing())
-                    toggleFramePlacing()
-                else
-                    placeFrame();
-            
-            else if (event.code == "KeyY" && getInteractingFrame() != null)
-                removeFrame();
-        
+export function onKeyDown( event ) {
+    if (event.code == "KeyE" && (getVisualizeMode() || getInteractingFrame() != null))
+        toggleVisualizeFrame();
+    
+    else if (!getInputMode()) {
+        if (event.code == "KeyT")
+            if (getFramePlacing())
+                toggleFramePlacing()
             else
-                keyStates[ event.code ] = true;   
-        }
-
-    });
-
-    document.addEventListener( 'keyup', ( event ) => {
-
-        keyStates[ event.code ] = false;
-
-    } );
-
-    document.addEventListener( 'mousedown', () => {
-
-        if (getInputMode()) return;
-
-        if (getVisualizeMode()) 
-            toggleVisualizeFrame()
+                placeFrame();
         
-        document.body.requestPointerLock();
-
-    } );
-
-    window.addEventListener( 'resize', onWindowResize );
-
-    function onWindowResize() {
-        const camera = getCamera();
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        const renderer = getRenderer();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        else if (event.code == "KeyY" && getInteractingFrame() != null)
+            removeFrame();
+    
+        else
+            keyStates[ event.code ] = true;   
     }
+}
+
+export function onKeyUp( event ) {
+    keyStates[ event.code ] = false;
+}
+
+export function onMouseDown( event ) {
+
+    if (getInputMode()) return;
+
+    if (getVisualizeMode()) 
+        toggleVisualizeFrame()
+    
+    document.body.requestPointerLock();
+
 }
 
 export function controls( deltaTime, playerVelocity, camera, playerDirection ) {

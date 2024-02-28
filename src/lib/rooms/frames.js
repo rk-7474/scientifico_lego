@@ -3,7 +3,7 @@ import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 import { updateFrames } from "./api.js";
-import { showCursor, showUrlInput } from './stores.js';
+import { showCursor, showInfoInput } from './stores.js';
 
 let ids = 0;
 
@@ -53,7 +53,7 @@ const handleInputKeys = async () => {
 export async function placeFrame() {
     showCursor.update(() => false);
 
-    showUrlInput.update(() => true);
+    showInfoInput.update(() => true);
 
     document.exitPointerLock();
 
