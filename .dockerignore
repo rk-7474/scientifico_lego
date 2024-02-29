@@ -1,0 +1,14 @@
+.DS_Store
+.git
+.eslint*
+.prettier*
+.git*
+.vscode
+README.md
+Dockerfile*
+docker-compose.yml
+public
+node_modules
+static/files
+build
+.svelte-kit
