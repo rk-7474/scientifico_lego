@@ -7,8 +7,9 @@ export interface Utenti extends RowDataPacket {
 }
 
 export interface Editors extends RowDataPacket {
-    user_id: string | null,
-    room_id: string | null
+    user_id: string,
+    room_id: string | null,
+    username: string
 }
 
 export interface Rooms extends RowDataPacket {

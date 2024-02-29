@@ -20,7 +20,7 @@
 		<h1 class="font-bold text-white text-6xl py-4">Sign in</h1>
 	</div>
 	<div class=" bg-[#76448A] rounded-lg shadow-2xl p-10 w-1/4">
-		<form class="flex flex-col" method="post" use:enhance>
+		<form class="flex flex-col" method="post">
 			<FormInput label="Username" name="username"/>
 			<FormInput label="Password" name="password" password={true}/>
 			{#if form?.message}<p class="text-red-500 text-center">{form?.message}</p>{/if}

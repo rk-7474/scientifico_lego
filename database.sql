@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `editors`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `editors` (
   `user_id` int(10) unsigned NOT NULL,
+  `username` varchar(255) NOT NULL,
   `room_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`user_id`,`room_id`),
   KEY `fk_editor_room` (`room_id`),

@@ -37,7 +37,7 @@
         <input autocomplete="off" type="text" name="label" placeholder="Label">
         <input autocomplete="off" type="text" name="img" placeholder="Immagine">
         <input autocomplete="off" type="text" name="desc" placeholder="Descrizione">
-        <input autocomplete="off" type="submit">
+        <input autocomplete="off" type="submit" value="Create">
     </form>
     <img class="bambino" alt="bambino" src="$lib/assets/bambino_senza_filo.png">
 </div>
