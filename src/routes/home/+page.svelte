@@ -4,22 +4,22 @@
     import Filters from "$lib/components/Filters.svelte";
     let categories_data: {[key: string]: string[]}[] = [
         {
-            "Arte" : ["1800", "Rinascimento", "Pittura"],
-            "Biografia" : ["1900", "Biografia"],
-            "Ciências" : ["2000", "Ciências"],
-            "Ficção Científica" : ["2100", "Ficção Científica"],
-            "Geografia" : ["2200", "Geografia"],
-            "História" : ["2300", "História"],
+            "Art" : ["1800", "Renaissance", "Painting"],
+            "Biography" : ["1900", "Biography"],
+            "Sciences" : ["2000", "Sciences"],
+            "Science Fiction" : ["2100", "Science Fiction"],
+            "Geography" : ["2200", "Geography"],
+            "History" : ["2300", "History"],
         },
         {
-            "1800": ["1800", "Rinascimento", "Pittura"],
-            "1900": ["1900", "Biografia"],
+            "1800": ["1800", "Renaissance", "Painting"],
+            "1900": ["1900", "Biography"],
         },
         {
-            "2000": ["2000", "Ciências"],
-            "2100": ["2100", "Ficção Científica"],
+            "2000": ["2000", "Sciences"],
+            "2100": ["2100", "Science Fiction"],
         }
-    ];
+    ]
     let selected_categories: string[] = [];
 
     export let data: {
@@ -94,7 +94,7 @@
     </div> 
     <div class="container" id="rooms">
         {#each data?.feed || [] as room}
-            <div on:click={() => goto(`/rooms/${room.uuid}`)} class="card w-96 h-48 bg-base-100 shadow-xl hover:scale-105 transition cursor-pointer">
+            <div on:click={() => goto(`/rooms/${room.uuid}`)} class="card w-96 h-48 bg-base-100 my-10 shadow-xl hover:scale-105 transition cursor-pointer">
                 <img src={room.image} alt="room_{room.id}" class="rounded-2xl w-full h-full">
                 <div class="w-full h-full card-body absolute bg-opacity-50 rounded-2xl bg-black">
                     <h2 class="text-center font-bold text-xl mb-2">{room.name}</h2>
@@ -142,7 +142,7 @@
     .container {
         display: flex;
         margin: 5%;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
         background-color: rgba(47, 79, 79, 0.5);
         max-width: 90%;
