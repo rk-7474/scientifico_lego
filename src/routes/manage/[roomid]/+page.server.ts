@@ -12,7 +12,6 @@ export const load: PageServerLoad = async (event) => {
 
   const [[room]] = await pool.execute<Rooms[]>('select * from rooms where uuid = ?', [id]);
   const [editors] = await pool.execute<Editors[]>('select * from editors where room_id = ?', [room.id]);
-  
 
   if (room.user_id !== Number(user_data.id) ) redirect(302, "/profile");
 

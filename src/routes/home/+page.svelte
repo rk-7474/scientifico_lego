@@ -1,6 +1,26 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
     import type { Rooms } from "$lib/types";
+    import Filters from "$lib/components/Filters.svelte";
+    let categories_data: {[key: string]: string[]}[] = [
+        {
+            "Arte" : ["1800", "Rinascimento", "Pittura"],
+            "Biografia" : ["1900", "Biografia"],
+            "Ciências" : ["2000", "Ciências"],
+            "Ficção Científica" : ["2100", "Ficção Científica"],
+            "Geografia" : ["2200", "Geografia"],
+            "História" : ["2300", "História"],
+        },
+        {
+            "1800": ["1800", "Rinascimento", "Pittura"],
+            "1900": ["1900", "Biografia"],
+        },
+        {
+            "2000": ["2000", "Ciências"],
+            "2100": ["2100", "Ficção Científica"],
+        }
+    ];
+    let selected_categories: string[] = [];
 
     export let data: {
         feed: Rooms[] | null
@@ -69,8 +89,8 @@
           </a>
         </div>
     </form> 
-    <div id="filter">
-      
+    <div id="filter" class="w-full">
+        <Filters categories_data={categories_data} bind:selected_categories={selected_categories} />
     </div> 
     <div class="container" id="rooms">
         {#each data?.feed || [] as room}
@@ -386,9 +406,6 @@
         text-shadow: 0px 0px 9px rgba(0,0,0,0.5);
         
     }
-    #filter > .list{
-        margin: 30px;
-    }
     
     #filter {
         position: relative;
@@ -397,7 +414,6 @@
         justify-content: center;
         align-items: top;
         z-index: 2;
-        margin-top: 100px;
     }
     
     /* .period{
