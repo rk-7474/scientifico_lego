@@ -1,6 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit';
 
-export async function GET({ request }: RequestEvent) {
+export async function POST({ request }: RequestEvent) {
   const imageUrl = await request.text();
 
   if (!imageUrl) {

@@ -21,7 +21,6 @@ let clock, scene, worldOctree, camera, renderer, room, playerCollider, playerVel
 devicePixelRatioStore.subscribe(a => devicePixelRatio = a);
 
 const init = (cardboard) => {
-    console.log(innerWidth, innerHeight);
     camera = new THREE.PerspectiveCamera( cardboard ? 160 : 75, innerWidth / innerHeight, 0.1, 1000 );
     camera.rotation.order = 'YXZ';
     camera.aspect = innerWidth / innerHeight;

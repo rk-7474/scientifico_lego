@@ -91,6 +91,8 @@ CREATE TABLE `scenes` (
   `rotation_y` float NOT NULL,
   `rotation_z` float NOT NULL,
   `tags` varchar(10000) DEFAULT NULL,
+  `desc` varchar(1000) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_scene_room` (`room_id`),
   CONSTRAINT `fk_scene_room` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`)

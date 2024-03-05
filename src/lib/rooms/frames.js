@@ -2,8 +2,8 @@ import * as THREE from 'three'
 import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
-import { updateFrames } from "./api.js";
-import { showCursor, showInfoInput } from './stores.js';
+import { pushFrame } from "./api.js";
+import { showCursor, showInfoInput, showResize } from './stores.js';
 
 let ids = 0;
 
@@ -63,15 +63,16 @@ export async function placeFrame() {
 }
 
 export function sendUpdate(form) {
-    if (form?.done == "url") {
+    if (form?.done == "info") {
         startFramePlacing(form.info)
     }
 }
 let frame_placing = false;
 
+let currentData;
 //Funzione che muove il frame a seconda del cursore fino a quando non viene confermato
 export const startFramePlacing = async (info) => {
-    const {title, desc, tag} = info;
+    const {url, title, desc, tags} = info;
 
     let data = await createFrame(url);
 
@@ -88,23 +89,18 @@ export const startFramePlacing = async (info) => {
 
     input_mode = true; 
 
+    currentData = {...data, title, desc, tags: tags.split(" ")};
+
     frame_placing = true;
 
-    const scale = await resizeFrame(currentFrame);
-    data = {...data, scale, title, desc, tags: tag.split(" ")};
+    showResize.update(() => true);
+}
+
+export const confirmResizer = () => {
+    showResize.update(() => false);
 
     input_mode = false;
-
-    pushFrame(ROOM_ID, data);
-
-    await new Promise(resolve => {
-        $(document).one("mousedown", event => {
-            resolve();
-        });
-    });
-
-    stopFramePlacing(true);
-} 
+}
 
 export const stopFramePlacing = (confirmed) => {
     frame_placing = false;
@@ -112,7 +108,10 @@ export const stopFramePlacing = (confirmed) => {
     if (!confirmed || currentFrame.position.y === -10) {
         removeFromScene(currentFrame);
         frames.pop();
+        return
     }
+
+    pushFrame(ROOM_ID, currentData);
 }
 
 export const toggleFramePlacing = () => {
@@ -123,6 +122,7 @@ export const getFramePlacing = () => frame_placing;
 export const getFrame        = () => currentFrame;
 export const getFrames       = () => frames;
 export const setFrames       = (new_frames) => frames = new_frames;
+export const setInputMode    = (state) => input_mode = state;
 export const addFrame        = (frametoadd) => frames.push(frametoadd);
 
 let visualizeMode = false;
@@ -200,7 +200,6 @@ const validateUrl = (url) => {
 }
   
 export const createFrame = async (url, position, rotation, scale) => {
-    console.log(url)
     const [type, image] = validateUrl(url);
     const image_data = await load_image(image);
 
@@ -212,6 +211,8 @@ export const createFrame = async (url, position, rotation, scale) => {
 
     const geometry = new THREE.BoxGeometry( width, height, 0.01 );
     const frame = new THREE.Mesh( geometry, material );
+
+    console.log(position)
 
     if (position) {
         const {x, y, z} = position;
@@ -237,23 +238,11 @@ export const createFrame = async (url, position, rotation, scale) => {
     return data;
 }
 
-const resizeFrame = async (frame) => {
-    $('#resizer').fadeIn(300);
-    $("#resizer").css("display", "flex")
-    let scale = 0;
-    $('.slider').on('change', function(e) {
-        scale = e.target.value/100;
-        frame.scale.set(scale, scale, 1);
-    });
-    await new Promise(resolve => 
-        $('#resizer > button').click(() => {
-            resolve();
-        })    
-    )
-    $('.slider').unbind();
-    $('#resizer > button').unbind();
-    $('#resizer').fadeOut(300);
-    return scale;
+export const handleResize = (e) => {
+    const scale = e.target.value/100;
+    currentFrame.scale.set(scale, scale, 1);
+
+    console.log(scale);
 }
 
 

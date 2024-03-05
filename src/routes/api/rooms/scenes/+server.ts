@@ -1,5 +1,5 @@
 import { pool, formatRow } from '$lib/server/db';
-import type { Editors } from '$lib/types';
+import type { Editors, Rooms } from '$lib/types';
 import { fail, type RequestEvent, type RequestHandler } from '@sveltejs/kit';
 
 export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => {
@@ -7,11 +7,21 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
 
 	if (!locals.user?.id || !scene.id) fail(400);
     
-    const [editors] = await pool.execute<Editors[]>('select * from editors where room_id = ? AND user_id = ?', [scene.id, locals.user?.id]);  
+    console.log(scene.id)
 
-    if (editors.length === 0) fail(400);
+    const [[room]] = await pool.execute<Rooms[]>('select user_id from rooms where uuid = ?', [scene.id]);  
+
+    console.log(room.user_id, locals.user?.id);
+
+    if (room && room.user_id !== Number(locals.user?.id)) {
+        const [editors] = await pool.execute<Editors[]>('select * from editors where room_id = ? AND user_id = ?', [scene.id, locals.user?.id]);  
+        if (editors.length === 0 || !editors.some((e) => e.user_id === locals.user?.id))
+            fail(403);
+    }
 
     let [query, params] = formatRow(scene)
+
+    console.log(query, params)
 
     await pool.execute(`insert into scenes ${query}`, params)
 

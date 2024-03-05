@@ -2,16 +2,22 @@
 	import { onMount } from "svelte";
 	import { tagInput, descInput, titleInput, urlInput, loadingTotal, state, showCursor, showResize, showUrlInput, showInfoInput, innerHeight, innerWidth, devicePixelRatio, loadingBar } from "$lib/rooms/stores.js";
 	import {createScene} from "$lib/rooms/index";
-	import {sendUpdate} from "$lib/rooms/frames";
+	import {sendUpdate, handleResize, confirmResizer} from "$lib/rooms/frames";
 	import { gamepadOff } from "$lib/rooms/gamepad.js";
 	import { onKeyDown, onKeyUp, onMouseDown } from "$lib/rooms/movement.js" 
+	import { enhance } from "$app/forms";
 
 	export let data;
 	export let form;
 
 	let three_scene: HTMLElement;
 
-	$: sendUpdate(form);
+	$: {
+		sendUpdate(form);
+		console.log(form)
+		if (form?.done == "info") $showInfoInput = false;
+		if (form?.done == "info") $showInfoInput = false;
+	}
 
 	onMount(async () => {
 		if (data && data.room) {
@@ -47,22 +53,20 @@
 			<img src="$lib/assets/cursor.png" alt="cursor" id="cursor" width="15">
 		{/if}
 		{#if $showInfoInput}
-			<form method="post" action="/info" class="container" id="info">
-				<input autocomplete="off" type="text" placeholder="Inserisci URL immagine o video">
-				<input autocomplete="off" id="title" type="text" placeholder="Inserisci titolo opera...">
-				<input autocomplete="off" id="desc" type="text" placeholder="Inserisci descrizione opera...">
-				<input autocomplete="off" id="tag" type="text" placeholder="Inserisci tag...">
+			<form method="post" action="?/info" class="container" id="info" use:enhance>
+				<input value="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fsfondo.info%2Fi%2Foriginal%2F5%2F0%2Fe%2F12051.jpg&f=1&nofb=1&ipt=b690017e4bc2b8d5c48ad32ad0635894d1eda00e4dcf7d49645591b9620024eb&ipo=images" autocomplete="off" name="url" type="text" placeholder="Inserisci URL immagine o video">
+				<input value="ciao" autocomplete="off" name="title" type="text" placeholder="Inserisci titolo opera...">
+				<input value="ciao" autocomplete="off" name="desc" type="text" placeholder="Inserisci descrizione opera...">
+				<input value="ciao" autocomplete="off" name="tags" type="text" placeholder="Inserisci tag...">
 				<button type="submit" class="confirm">Conferma</button>
 			</form>
 		{/if}
-	</div>
-	<div class="resizercontainer">
 		{#if $showResize}
-			<form method="post" action="/resize" id="resizer">
+			<div class="resizercontainer">
 				<h2>Modifica dimensione frame</h2>
-				<input type="range" min="0" max="300" value="100" class="slider">
-				<button class="confirm">Conferma</button>
-			</form>
+				<input on:change={handleResize} type="range" min="10" max="300" value="100" class="slider">
+				<button on:click={confirmResizer} class="confirm">Conferma</button>
+			</div>
 		{/if}
 	</div>
 {/if}
@@ -73,9 +77,9 @@
 	bind:innerWidth={$innerWidth}
 	bind:devicePixelRatio={$devicePixelRatio}
 	on:gamepaddisconnected={gamepadOff}
-	on:keydown|preventDefault={onKeyDown}
+	on:keydown={onKeyDown}
 	on:keyup|preventDefault={onKeyUp}
-	on:mousedown|preventDefault={onMouseDown}
+	on:mousedown={onMouseDown}
 />
 
 <style>
