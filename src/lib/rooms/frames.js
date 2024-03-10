@@ -2,8 +2,8 @@ import * as THREE from 'three'
 import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
-import { pushFrame } from "./api.js";
-import { showCursor, showInfoInput, showResize } from './stores.js';
+import { pushFrame, deleteFrame } from "./api.js";
+import { showCursor, showInfoInput, showResize, frameImg } from './stores.js';
 
 let ids = 0;
 
@@ -89,7 +89,7 @@ export const startFramePlacing = async (info) => {
 
     input_mode = true; 
 
-    currentData = {...data, title, desc, tags: tags.split(" ")};
+    currentData = {...data, title, desc, scale: 1, tags: tags.split(" ")};
 
     frame_placing = true;
 
@@ -107,9 +107,10 @@ export const stopFramePlacing = (confirmed) => {
 
     if (!confirmed || currentFrame.position.y === -10) {
         removeFromScene(currentFrame);
-        frames.pop();
         return
     }
+
+    frames.push({...currentData, object: currentFrame});
 
     pushFrame(ROOM_ID, currentData);
 }
@@ -133,7 +134,7 @@ export async function toggleVisualizeFrame() {
     if (visualizeMode) {
         const {content, title, type, desc} = getInteractingFrame();
 
-        $(".center").children("img").hide();
+        // $(".center").children("img").hide();
         
         if (type === "youtube") {
             const src = `https://www.youtube.com/embed/${content.substring(32, content.length)}?&controls=0&rel=0`
@@ -142,28 +143,43 @@ export async function toggleVisualizeFrame() {
             )
             document.exitPointerLock();
         } else {
-            $(".center").append(
-                `<div class="frame">
-                    <img src="${content}"/>
-                    <div class="frameinfo">
-                        <h1>${title}</h1>
-                        <p>${desc}</p>
-                    <div>
-                </div>`
-            )
+            // $(".center").append(
+            //     `<div class="frame">
+            //         <img src="${content}"/>
+            //         <div class="frameinfo">
+            //             <h1>${title}</h1>
+            //             <p>${desc}</p>
+            //         <div>
+            //     </div>`
+            // )
            
+            frameImg.update(() => ({
+                show: true,
+                content,
+                title,
+                desc
+            }));
+
             // side === "w" ? $(".frame").css("width", "40%") : $(".frame").css("height", "40%"); 
         }
 
-        $(".frame").fadeIn(250);
+        // $(".frame").fadeIn(250);
     
-        if (type !== "youtube") 
-            $(".frame").css("display", "flex")
+        // if (type !== "youtube") 
+        //     $(".frame").css("display", "flex")
         
     } else {
-        await new Promise(resolve => $(".center").children(".frame").fadeOut(250, resolve));
-        $(".center").children(".frame").remove();
-        $(".center").children("img").show();
+        // await new Promise(resolve => $(".center").children(".frame").fadeOut(250, resolve));
+        // $(".center").children(".frame").remove();
+        // $(".center").children("img").show();
+
+        frameImg.update(() => ({
+            show: false
+        }));
+
+        // frameVideo.update(() => ({
+        //     show: false
+        // }));
 
         document.body.requestPointerLock();
     }
@@ -177,10 +193,10 @@ export const getVisualizeMode = () => visualizeMode;
 export function removeFrame() {
     const temp_frame = getInteractingFrame();
     removeFromScene(temp_frame.object);
-    const index = frames.findIndex(e => e.uuid === temp_frame.uuid);
+    const index = frames.findIndex(e => e.id === temp_frame.id);
     frames.splice(index, 1);
 
-    deleteFrame(ROOM_ID, frames)
+    deleteFrame(ROOM_ID, temp_frame.id);
 }
 
 const validateUrl = (url) => {
@@ -203,6 +219,8 @@ export const createFrame = async (url, position, rotation, scale) => {
     const [type, image] = validateUrl(url);
     const image_data = await load_image(image);
 
+    console.log(url, position, rotation, scale)
+
     if (!image_data) return;
 
     const [material, size] = image_data;
@@ -211,8 +229,6 @@ export const createFrame = async (url, position, rotation, scale) => {
 
     const geometry = new THREE.BoxGeometry( width, height, 0.01 );
     const frame = new THREE.Mesh( geometry, material );
-
-    console.log(position)
 
     if (position) {
         const {x, y, z} = position;
@@ -242,7 +258,7 @@ export const handleResize = (e) => {
     const scale = e.target.value/100;
     currentFrame.scale.set(scale, scale, 1);
 
-    console.log(scale);
+    currentData.scale = scale;
 }
 
 

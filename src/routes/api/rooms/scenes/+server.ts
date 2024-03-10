@@ -1,6 +1,7 @@
 import { pool, formatRow } from '$lib/server/db';
 import type { Editors, Rooms } from '$lib/types';
 import { fail, type RequestEvent, type RequestHandler } from '@sveltejs/kit';
+import { hasPerms } from '$lib/server/perms';
 
 export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => {
     const scene = await request.json();
@@ -9,7 +10,7 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
     
     console.log(scene.id)
 
-    const [[room]] = await pool.execute<Rooms[]>('select user_id from rooms where uuid = ?', [scene.id]);  
+    const [[room]] = await pool.execute<Rooms[]>('select user_id, id from rooms where uuid = ?', [scene.id]);  
 
     console.log(room.user_id, locals.user?.id);
 
@@ -19,7 +20,7 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
             fail(403);
     }
 
-    let [query, params] = formatRow(scene)
+    let [query, params] = formatRow({...scene, room_id: room.id, id: null})
 
     console.log(query, params)
 
@@ -29,10 +30,15 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
 };
 
 
-export const DELETE: RequestHandler = async (request: any) => {
-    const id = request.text();
-    
-    await pool.execute(`delete from scenes where id = ?`, [id])
+export const DELETE: RequestHandler = async ({ request, locals }: RequestEvent) => {
+    const data = await request.json();
 
-    return new Response();
+    console.log("data: ", data);
+
+    if (!locals.user?.id || !data.scene_id || !data.room_id || !hasPerms(data.room_id, locals.user?.id)) fail(403);
+
+    await pool.execute(`delete from scenes where id = ?`, [data.scene_id])
+
+    return new Response(null, {status: 200});
 };
+

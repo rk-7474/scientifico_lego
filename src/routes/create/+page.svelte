@@ -32,6 +32,7 @@
         {:else}
             <input autocomplete="off" type="button" value="Choose from templates..." on:click={switch_type}>
             <input autocomplete="off" type="file" name="file" class="file">
+            <input class="hidden" name="using_template" value="0">
         {/if}
 
         <input autocomplete="off" type="text" name="label" placeholder="Label">

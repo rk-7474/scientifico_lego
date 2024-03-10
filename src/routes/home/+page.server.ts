@@ -11,7 +11,12 @@ export const load: PageServerLoad = async (event) => {
   };
 };
 export const actions: Actions = {
-    default: async(event: any) => {
-      
+    search: async(event: any) => {
+      const data = await event.request.formData();
+      const search = data.get("q");
+
+      const [ feed ] = await pool.query<Rooms[]>("select image, id, name, description, uuid from rooms where name like ?", [search + '%']);
+
+      return {feed};
     }
 };

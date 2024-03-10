@@ -2,6 +2,7 @@
 	import { goto } from "$app/navigation";
     import type { Rooms } from "$lib/types";
     import Filters from "$lib/components/Filters.svelte";
+	import { enhance } from "$app/forms";
     let categories_data: {[key: string]: string[]}[] = [
         {
             "Art" : ["1800", "Renaissance", "Painting"],
@@ -22,7 +23,17 @@
     ]
     let selected_categories: string[] = [];
 
+    const handleSearch = () => {
+        return async (event: any) => {
+            await event.update({ reset: false });
+        };
+    }
+
     export let data: {
+        feed: Rooms[] | null
+    };
+
+    export let form: {
         feed: Rooms[] | null
     };
 
@@ -76,9 +87,9 @@
     </div> -->
 </div>
 <div class="search">
-    <form>
+    <form method="POST" action="?/search" use:enhance={handleSearch}>
         <div class="search-container">
-          <input autocomplete="off" name="query" class="p-5" type="text" placeholder="Search for rooms or #tags" spellcheck="false">
+          <input autocomplete="off" name="q" class="p-5" type="text" placeholder="Search for rooms or #tags" spellcheck="false">
           <button type="submit">
             <span id="search-icon" class="material-symbols-outlined">
                 search
@@ -93,7 +104,7 @@
         <Filters categories_data={categories_data} bind:selected_categories={selected_categories} />
     </div> 
     <div class="container" id="rooms">
-        {#each data?.feed || [] as room}
+        {#each form?.feed || data?.feed || [] as room}
             <div on:click={() => goto(`/rooms/${room.uuid}`)} class="card w-96 h-48 bg-base-100 my-10 shadow-xl hover:scale-105 transition cursor-pointer">
                 <img src={room.image} alt="room_{room.id}" class="rounded-2xl w-full h-full">
                 <div class="w-full h-full card-body absolute bg-opacity-50 rounded-2xl bg-black">

@@ -4,7 +4,7 @@ import { lucia } from "$lib/server/auth";
 import { pool, formatRow } from "$lib/server/db"
 import { randomUUID } from "crypto";
 import unzipper from "unzipper";
-import { createReadStream, mkdirSync, writeFileSync, unlinkSync } from "fs";
+import { createReadStream, mkdirSync, writeFileSync, unlinkSync, cpSync } from "fs";
 import path from "path";
 
 export const load: PageServerLoad = async (event) => {
@@ -18,35 +18,41 @@ export const actions: Actions = {
       const label = formData.get("label");
       const description = formData.get("desc");
       const image = formData.get("img");
-      const fileField = formData.get("file");
-
-      if (!fileField || !(fileField instanceof File)) {
-        return { status: 400, body: "No file provided" };
-      }
-
+      const isTemplate = formData.get("using_template");
       const id = randomUUID();
-
-      console.log(id);
 
       const uploadPath = path.join(path.resolve(), `/static/files/${id}`);
 
-      mkdirSync(uploadPath, {recursive: true});
+      if (!isTemplate) {
+        const fileField = formData.get("file");
+
+        if (!fileField || !(fileField instanceof File)) {
+          return { status: 400, body: "No file provided" };
+        }
+
+        mkdirSync(uploadPath, {recursive: true});
+        
+        const zipPath = `${uploadPath}/tempfile.zip`;
+
+        const arrayBuffer = await fileField.arrayBuffer();
+
+        console.log(fileField, arrayBuffer);
+
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        writeFileSync(zipPath, uint8Array);
+
+        await createReadStream(zipPath)
+            .pipe(unzipper.Extract({ path: uploadPath }))
+            .promise();
       
-      const zipPath = `${uploadPath}/tempfile.zip`;
+        unlinkSync(zipPath);
 
-      const arrayBuffer = await fileField.arrayBuffer();
-
-      console.log(fileField, arrayBuffer);
-
-      const uint8Array = new Uint8Array(arrayBuffer);
-
-      writeFileSync(zipPath, uint8Array);
-
-      await createReadStream(zipPath)
-          .pipe(unzipper.Extract({ path: uploadPath }))
-          .promise();
-    
-      unlinkSync(zipPath);
+      } else {
+        const templateName = formData.get("template");
+        const templatePath = path.join(path.resolve(), `/static/templates/${templateName}`);
+        cpSync(templatePath, uploadPath, {recursive: true});
+      }
 
       let [query, params] = formatRow({
         name: label,
@@ -58,8 +64,6 @@ export const actions: Actions = {
       })
 
       await pool.execute(`insert into rooms ${query}`, params);
-
-      console.log("created room", zipPath);
 
       redirect(302, `/rooms/${id}`);
     }

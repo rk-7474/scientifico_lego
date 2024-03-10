@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { tagInput, descInput, titleInput, urlInput, loadingTotal, state, showCursor, showResize, showUrlInput, showInfoInput, innerHeight, innerWidth, devicePixelRatio, loadingBar } from "$lib/rooms/stores.js";
+	import { tagInput, descInput, titleInput, urlInput, loadingTotal, state, showCursor, showResize, showUrlInput, showInfoInput, innerHeight, innerWidth, devicePixelRatio, loadingBar, frameImg } from "$lib/rooms/stores.js";
 	import {createScene} from "$lib/rooms/index";
 	import {sendUpdate, handleResize, confirmResizer} from "$lib/rooms/frames";
 	import { gamepadOff } from "$lib/rooms/gamepad.js";
@@ -22,7 +22,7 @@
 	onMount(async () => {
 		if (data && data.room) {
 			$state = "loading";
-			await createScene(data.id, data.room, data.frames, three_scene, false);
+			await createScene(data.id, data.room, data.frames, three_scene, false, data.perms);
 			$state = "done";
 		} else
 			$state = "error";
@@ -66,6 +66,15 @@
 				<h2>Modifica dimensione frame</h2>
 				<input on:change={handleResize} type="range" min="10" max="300" value="100" class="slider">
 				<button on:click={confirmResizer} class="confirm">Conferma</button>
+			</div>
+		{/if}
+		{#if $frameImg.show === true}
+			<div class="frame">
+				<img src={$frameImg.content}/>
+				<div class="frameinfo">
+					<h1>{$frameImg.title}</h1>
+					<p>{$frameImg.desc}</p>
+				</div>
 			</div>
 		{/if}
 	</div>

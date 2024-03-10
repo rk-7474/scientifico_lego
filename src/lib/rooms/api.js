@@ -53,7 +53,10 @@ export const fetchImage = async (url) => {
 export const pushFrame = async (room_id, data) => {
     const {object, content, scale, desc, title, tags} = data;
     const {x, y, z} = object.position;
-    const {rotation_x, rotation_y, rotation_z} = object.rotation;
+
+    const rotation_x = object.rotation.x;
+    const rotation_y = object.rotation.y;
+    const rotation_z = object.rotation.z;
 
     const body = {id: room_id, path: content, rotation_x, rotation_y, rotation_z, x, y, z, scale, tags: tags.join(" "), desc, title}
 
@@ -67,5 +70,18 @@ export const pushFrame = async (room_id, data) => {
         },
     });
 
+    if (!response.ok) console.error("Failed to update room data. Check your internet connection.");
+}
+
+export const deleteFrame = async (room_id, scene_id) => {
+    const endpoint = `${SERVER_URL}/rooms/scenes`;
+
+    const response = await fetch(endpoint, {
+        method: 'DELETE',
+        body: JSON.stringify({room_id, scene_id}),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
     if (!response.ok) console.error("Failed to update room data. Check your internet connection.");
 }

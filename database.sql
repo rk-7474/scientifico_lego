@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS `scenes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scenes` (
-  `id` int(10) unsigned zerofill NOT NULL,
+  `id` int(10) AUTO_INCREMENT NOT NULL,
   `room_id` int(10) unsigned NOT NULL,
   `path` varchar(3000) NOT NULL,
   `x` float NOT NULL,

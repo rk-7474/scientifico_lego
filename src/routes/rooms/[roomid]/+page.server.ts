@@ -1,22 +1,25 @@
-import type { PageServerLoad, Actions } from "./$types";
+import type { PageServerLoad, Actions, RequestEvent } from "./$types";
 import { pool } from "$lib/server/db"
 import { type Rooms } from "$lib/types";
-import { fail } from "@sveltejs/kit";
+import { hasPerms } from "$lib/server/perms";
 
-export const load: PageServerLoad = async (event) => {
-	const id = event.params.roomid;
+export const load: PageServerLoad = async ({ request, locals, params }: RequestEvent) => {
+	const id = params.roomid;
 
   const [[room]] = await pool.execute<Rooms[]>('select * from rooms where uuid = ?', [id]);
 
   if (!room) return;
 
   const [frames] = await pool.execute<Rooms[]>('select * from scenes where room_id = ?', [room.id]);
+  
+  const perms = await hasPerms(room.id.toString(), locals.user?.id);
 
 	return {
     room,
     frames,
-    id
-  };
+    id,
+    perms
+  };  
 };
 
 export const actions: Actions = {

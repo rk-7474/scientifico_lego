@@ -1,15 +1,26 @@
-FROM node:18-alpine AS build
 
-# install dependencies
-WORKDIR /app
+# Use the official Node.js image as the base
+FROM node:20
 
-# Copy all local files into the image.
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application
 COPY . .
 
-RUN npm ci
-
+# Build the SvelteKit app
 RUN npm run build
 
+ENV ORIGIN=http://localhost:3000
+
+# Expose the port the app runs on
 EXPOSE 3000
-    
-CMD ["node", "./build"]
+
+# Start the application
+CMD ["node", "build"]

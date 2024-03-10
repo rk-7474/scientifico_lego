@@ -3,13 +3,16 @@ import {getForwardVector, getSideVector} from './vectors.js'
 import { stopFramePlacing, toggleVisualizeFrame, getVisualizeMode, removeFrame, getInputMode, setInputMode } from './frames.js';
 import {getInteractingFrame} from './raycast.js'
 import { gamepadConnected, gamepadMovement } from './gamepad.js';
-import { getCamera, getRenderer } from './index.js';
+import { getCamera, getRenderer, hasPerms } from './index.js';
 import { showInfoInput, showCursor } from './stores.js';
 
 let keyStates = {};
 
 
 export function onKeyDown( event ) {
+
+    console.log(event.code, getInteractingFrame(), getVisualizeMode())
+
     if (event.code == "Escape" && getInputMode()) {
         showCursor.update(() => true);
         showInfoInput.update(() => false);
@@ -18,13 +21,13 @@ export function onKeyDown( event ) {
         toggleVisualizeFrame();
     
     else if (!getInputMode()) {
-        if (event.code == "KeyT")
+        if (event.code == "KeyT" && hasPerms)
             if (getFramePlacing())
                 toggleFramePlacing()
             else
                 placeFrame();
         
-        else if (event.code == "KeyY" && getInteractingFrame() != null)
+        else if (event.code == "KeyY" && getInteractingFrame() != null && hasPerms)
             removeFrame();
     
         else

@@ -11,6 +11,12 @@ export const urlInput = writable("");
 export const descInput = writable("");
 export const titleInput = writable("");
 export const tagInput = writable("");
+export const frameImg = writable({
+    show : false,
+    content : "",
+    title : "",
+    desc: ""
+});
 
 export const innerHeight = writable(0);
 export const innerWidth = writable(0);

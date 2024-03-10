@@ -99,18 +99,18 @@ export const removeFromScene = (object) => scene.remove(object);
 
 ////////////////////////////////////////////////////////////////
 
+export let hasPerms;
 
-
-export const createScene = async (id, data, frames, el, cardboard) => {
+export const createScene = async (id, data, frames, el, cardboard, perms) => {
     clock = new THREE.Clock();
     scene = new THREE.Scene();
     worldOctree = new Octree();
 
+    hasPerms = perms;
 
     playerCollider = new Capsule( new THREE.Vector3( 0, 0.35, 0 ), new THREE.Vector3( 0, 1.8, 0 ), 0.35 );
     playerVelocity = new THREE.Vector3(0, 0, 0);
     playerDirection = new THREE.Vector3(0, 0, 0);
-
 
     renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el });
 
