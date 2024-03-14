@@ -18,6 +18,10 @@ export const frameImg = writable({
     desc: ""
 });
 
+export const frameVideo = writable({
+    show: false,
+    inner: "",
+});
 export const innerHeight = writable(0);
 export const innerWidth = writable(0);
 export const devicePixelRatio = writable(0);

@@ -3,8 +3,8 @@ import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 import { pushFrame, deleteFrame } from "./api.js";
-import { showCursor, showInfoInput, showResize, frameImg } from './stores.js';
-
+import { showCursor, showInfoInput, showResize, frameImg} from './stores.js';
+// videoFrameInner
 let ids = 0;
 
 export let ROOM_ID;
@@ -137,10 +137,11 @@ export async function toggleVisualizeFrame() {
         // $(".center").children("img").hide();
         
         if (type === "youtube") {
+
             const src = `https://www.youtube.com/embed/${content.substring(32, content.length)}?&controls=0&rel=0`
-            $(".center").append(
-                `<iframe class="frame" style='width:40vw' src="${src}" frameborder="0" allowfullscreen></iframe>`
-            )
+            
+            // videoFrameInner.update(() => ({show: true, inner: `<iframe class="frame" style='width:40vw' src="${src}" frameborder="0" allowfullscreen></iframe>`}))
+
             document.exitPointerLock();
         } else {
             // $(".center").append(
@@ -176,6 +177,9 @@ export async function toggleVisualizeFrame() {
         frameImg.update(() => ({
             show: false
         }));
+
+        // videoFrameInner.update(() => ({show: false, inner: ""}))
+
 
         // frameVideo.update(() => ({
         //     show: false

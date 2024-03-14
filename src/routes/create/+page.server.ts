@@ -6,6 +6,8 @@ import { randomUUID } from "crypto";
 import unzipper from "unzipper";
 import { createReadStream, mkdirSync, writeFileSync, unlinkSync, cpSync } from "fs";
 import path from "path";
+import type { User } from "lucia";
+import type { Utenti } from "$lib/types";
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) redirect(302, "/login?v=create");
@@ -54,12 +56,17 @@ export const actions: Actions = {
         cpSync(templatePath, uploadPath, {recursive: true});
       }
 
+      const user_id = event.locals.user.id;
+
+      const [[owner]] = await pool.execute<Utenti[]>('select username from editors where user_id = ?', [user_id]);  
+
       let [query, params] = formatRow({
         name: label,
         state: "public",
         image,
         description,
-        user_id: event.locals.user.id,
+        user_id,
+        owner: owner.username,
         uuid: id
       })
 

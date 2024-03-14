@@ -7,12 +7,8 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
     const scene = await request.json();
 
 	if (!locals.user?.id || !scene.id) fail(400);
-    
-    console.log(scene.id)
 
     const [[room]] = await pool.execute<Rooms[]>('select user_id, id from rooms where uuid = ?', [scene.id]);  
-
-    console.log(room.user_id, locals.user?.id);
 
     if (room && room.user_id !== Number(locals.user?.id)) {
         const [editors] = await pool.execute<Editors[]>('select * from editors where room_id = ? AND user_id = ?', [scene.id, locals.user?.id]);  
@@ -22,9 +18,9 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
 
     let [query, params] = formatRow({...scene, room_id: room.id, id: null})
 
-    console.log(query, params)
+    await pool.execute(`insert into scenes ${query}`, params);
 
-    await pool.execute(`insert into scenes ${query}`, params)
+    await updateTags(room.id);
 
     return new Response(null, {status: 200});
 };
@@ -33,12 +29,31 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
 export const DELETE: RequestHandler = async ({ request, locals }: RequestEvent) => {
     const data = await request.json();
 
-    console.log("data: ", data);
-
     if (!locals.user?.id || !data.scene_id || !data.room_id || !hasPerms(data.room_id, locals.user?.id)) fail(403);
 
-    await pool.execute(`delete from scenes where id = ?`, [data.scene_id])
+    const [[room]] = await pool.execute<Rooms[]>('select user_id, id from rooms where uuid = ?', [data.room_id]);  
+
+    await pool.execute(`delete from scenes where id = ?`, [room.id]);
+
+    await updateTags(room.id);
 
     return new Response(null, {status: 200});
 };
 
+
+const updateTags = async (room_id: number) => {
+    const [scenes] = await pool.execute<Rooms[]>(`select * from scenes where room_id = ?`, [room_id]);
+
+    const tags_set = new Set();
+    console.log(scenes)
+    scenes.forEach((s) => {
+        for (const tag of s.tags.split(" "))
+        tags_set.add(tag);
+    });
+
+    console.log(tags_set)
+
+    const tags = Array.from(tags_set).join(" ");
+
+    await pool.execute(`update rooms SET tags = ? where id = ?`, [tags, room_id]);
+}

@@ -21,12 +21,26 @@
             "2100": ["2100", "Science Fiction"],
         }
     ]
+
     let selected_categories: string[] = [];
 
+    let searchQuery = "";
+
+    let formElement: HTMLFormElement;
+        
     const handleSearch = () => {
         return async (event: any) => {
             await event.update({ reset: false });
         };
+    }
+
+    $: {
+        searchQuery = "";
+        console.log(selected_categories)
+        for (const tag of selected_categories) {
+            searchQuery += `#${tag} `; 
+        }
+        formElement && formElement.requestSubmit();
     }
 
     export let data: {
@@ -87,9 +101,9 @@
     </div> -->
 </div>
 <div class="search">
-    <form method="POST" action="?/search" use:enhance={handleSearch}>
+    <form method="POST" action="?/search" bind:this={formElement} use:enhance={handleSearch}>
         <div class="search-container">
-          <input autocomplete="off" name="q" class="p-5" type="text" placeholder="Search for rooms or #tags" spellcheck="false">
+          <input autocomplete="off" name="q" bind:value={searchQuery} class="p-5" type="text" placeholder="Search for rooms or #tags" spellcheck="false">
           <button type="submit">
             <span id="search-icon" class="material-symbols-outlined">
                 search
@@ -108,8 +122,10 @@
             <div on:click={() => goto(`/rooms/${room.uuid}`)} class="card w-96 h-48 bg-base-100 my-10 shadow-xl hover:scale-105 transition cursor-pointer">
                 <img src={room.image} alt="room_{room.id}" class="rounded-2xl w-full h-full">
                 <div class="w-full h-full card-body absolute bg-opacity-50 rounded-2xl bg-black">
+                    <p class="absolute top-0 right-5">@{room.owner}</p>
                     <h2 class="text-center font-bold text-xl mb-2">{room.name}</h2>
                     <p>{room.description}</p>
+                    <p class="text-blue-300">{room.tags == "" ? "" : `#${(room.tags || "").split(" ").join(" #")}`}</p>
                 </div>
             </div>
         {/each}
@@ -127,6 +143,7 @@
 
     .sfondo{
         background-color: rgb(23, 10, 49);
+
     
         height: 100vh;
         width: 100vw;

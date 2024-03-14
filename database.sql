@@ -52,9 +52,11 @@ DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE `rooms` (
   `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
   `image` varchar(2048) NOT NULL,
   `uuid` varchar(36) NOT NULL,
   `description` varchar(10000) DEFAULT NULL,
+  `tags` varchar(100  `description` varchar(10000) DEFAULT '',
   `state` enum('public','reserved','private') DEFAULT 'private',
   `user_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
