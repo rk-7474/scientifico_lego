@@ -15,7 +15,7 @@
 
 	let frameVideoElement: HTMLElement;
 
-	// $: frameVideoElement.innerHTML = $frameVideo.inner;
+	$: if (frameVideoElement) frameVideoElement.innerHTML = $frameVideo.inner;
 
 	$: {
 		sendUpdate(form);
@@ -83,9 +83,9 @@
 			</div>
 		{/if}
 		{#if $frameVideo.show === true}
-			<!-- <div class="frame" in:fade={{duration: 200}} out:fade={{duration: 200}} bind:this={frameVideoElement}>
-
-			</div> -->
+			<div class="frame" in:fade={{duration: 200}} out:fade={{duration: 200}} bind:this={frameVideoElement}>
+					
+			</div> 
 		{/if}
 	</div>
 {/if}

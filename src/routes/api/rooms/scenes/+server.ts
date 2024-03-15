@@ -10,11 +10,11 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
 
     const [[room]] = await pool.execute<Rooms[]>('select user_id, id from rooms where uuid = ?', [scene.id]);  
 
-    if (room && room.user_id !== Number(locals.user?.id)) {
-        const [editors] = await pool.execute<Editors[]>('select * from editors where room_id = ? AND user_id = ?', [scene.id, locals.user?.id]);  
-        if (editors.length === 0 || !editors.some((e) => e.user_id === locals.user?.id))
-            fail(403);
-    }
+    // if (room && room.user_id !== Number(locals.user?.id)) {
+    //     const [editors] = await pool.execute<Editors[]>('select * from editors where room_id = ? AND user_id = ?', [scene.id, locals.user?.id]);  
+    //     if (editors.length === 0 || !editors.some((e) => e.user_id === locals.user?.id))
+    //         fail(403);
+    // }
 
     let [query, params] = formatRow({...scene, room_id: room.id, id: null})
 
@@ -29,11 +29,11 @@ export const PUT: RequestHandler = async ({ request, locals }: RequestEvent) => 
 export const DELETE: RequestHandler = async ({ request, locals }: RequestEvent) => {
     const data = await request.json();
 
-    if (!locals.user?.id || !data.scene_id || !data.room_id || !hasPerms(data.room_id, locals.user?.id)) fail(403);
+    if (!locals.user?.id || !data.scene_id || !data.room_id ) fail(403); //!hasPerms(data.room_id, locals.user?.id)
 
     const [[room]] = await pool.execute<Rooms[]>('select user_id, id from rooms where uuid = ?', [data.room_id]);  
 
-    await pool.execute(`delete from scenes where id = ?`, [room.id]);
+    await pool.execute(`delete from scenes where id = ?`, [data.scene_id]);
 
     await updateTags(room.id);
 

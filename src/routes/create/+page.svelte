@@ -1,10 +1,17 @@
 <script lang="ts">
     import backgroundImage from '$lib/assets/art hub.png';
+    import JSON_templates from '$lib/assets/templates.json'
+	import { onMount } from 'svelte';
 
     let room_type = true;
 
     const switch_type = () => room_type = !room_type;
 
+    let templates: string[];
+
+    onMount(() => {
+        templates = JSON_templates;
+    });
 </script>
 
 <svelte:head>
@@ -21,8 +28,9 @@
 </div>
 <div class="page">
     <datalist id="browsers">
-        <option selected value="Stanza 1">
-        <option value="Stanza 2">
+        {#each templates || [] as template }
+            <option selected value={template}>
+        {/each}
     </datalist>
     <form enctype="multipart/form-data" method="POST" class="create_form">
         {#if room_type}

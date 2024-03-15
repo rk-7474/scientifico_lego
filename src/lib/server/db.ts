@@ -18,10 +18,10 @@ export const formatSearch = (query: string) => {
 
     let names = [], users = [], tags = []; 
 
-    console.log(words.length);
 
     for (const word of words) {
-        if (word.startsWith("#")) {
+        if (word == "") continue;
+        else if (word.startsWith("#")) {
             tags.push(word.slice(1));            
         } else if (word.startsWith("@")) {
             users.push(word.slice(1));
@@ -29,7 +29,6 @@ export const formatSearch = (query: string) => {
             names.push(word);
         }
     }
-
     
     let string = "", array = [];
 
@@ -39,7 +38,7 @@ export const formatSearch = (query: string) => {
 
     for (const tag of tags) {
         string += `tags like ? AND `;
-        array.push(`%${tag}%`); 
+        array.push(`% ${tag} %`); 
     }
 
     for (const name of names) {
@@ -47,12 +46,8 @@ export const formatSearch = (query: string) => {
         array.push(`%${name}%`); 
     } 
 
-    if (names.length > 0) {
-        string = string.slice(0, -5);
-    }
-
     if (tags.length > 0 || names.length > 0) {
-        string += ")";
+        string = string.slice(0, -5) + ")";
     }
 
     if (users.length > 0) {

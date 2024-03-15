@@ -3,7 +3,7 @@ import { addToScene, removeFromScene } from "./index.js";
 import { get_thumbnail, load_image } from "./image_loader.js";
 import { getInteractingFrame } from "./raycast.js";
 import { pushFrame, deleteFrame } from "./api.js";
-import { showCursor, showInfoInput, showResize, frameImg} from './stores.js';
+import { showCursor, showInfoInput, showResize, frameImg, frameVideo} from './stores.js';
 // videoFrameInner
 let ids = 0;
 
@@ -140,7 +140,16 @@ export async function toggleVisualizeFrame() {
 
             const src = `https://www.youtube.com/embed/${content.substring(32, content.length)}?&controls=0&rel=0`
             
-            // videoFrameInner.update(() => ({show: true, inner: `<iframe class="frame" style='width:40vw' src="${src}" frameborder="0" allowfullscreen></iframe>`}))
+            frameVideo.update(() => ({
+                show: true, 
+                inner: `
+                    <iframe class="frame" style='width:60vw; height:60vh' src="${src}" frameborder="0" allowfullscreen></iframe>
+                    <div class="frameinfo">
+					    <h1>${title}</h1>
+					    <p>${desc}</p>
+				    </div>
+                `
+            }))
 
             document.exitPointerLock();
         } else {

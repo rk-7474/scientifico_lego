@@ -8,6 +8,7 @@ import { createReadStream, mkdirSync, writeFileSync, unlinkSync, cpSync } from "
 import path from "path";
 import type { User } from "lucia";
 import type { Utenti } from "$lib/types";
+import paths from '$lib/assets/paths.json';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) redirect(302, "/login?v=create");
@@ -23,7 +24,7 @@ export const actions: Actions = {
       const isTemplate = formData.get("using_template");
       const id = randomUUID();
 
-      const uploadPath = path.join(path.resolve(), `/static/files/${id}`);
+      const uploadPath = `${paths.files}/${id}`;
 
       if (!isTemplate) {
         const fileField = formData.get("file");
@@ -52,7 +53,7 @@ export const actions: Actions = {
 
       } else {
         const templateName = formData.get("template");
-        const templatePath = path.join(path.resolve(), `/static/templates/${templateName}`);
+        const templatePath = `${paths.templates}/${templateName}`
         cpSync(templatePath, uploadPath, {recursive: true});
       }
 

@@ -10,9 +10,6 @@ let keyStates = {};
 
 
 export function onKeyDown( event ) {
-
-    console.log(event.code, getInteractingFrame(), getVisualizeMode())
-
     if (event.code == "Escape" && getInputMode()) {
         showCursor.update(() => true);
         showInfoInput.update(() => false);

@@ -16,12 +16,14 @@ export const actions: Actions = {
       const data = await event.request.formData();
       const search = data.get("q");
 
+      if (!search) {
+        const [ feed ] = await pool.query<Rooms[]>("select image, id, name, description, uuid, tags, owner from rooms limit 9");
+        return {feed};
+      }
+
       let [query, params] = formatSearch(search);
 
-      console.log(query, params)
-
-
-      const [ feed ] = await pool.query<Rooms[]>("select image, id, name, description, uuid, tags from rooms where name like ?", [search + '%']);
+      const [ feed ] = await pool.query<Rooms[]>(`select image, id, name, description, uuid, tags from rooms where ${query}`, [params]);
 
       return {feed};
     }

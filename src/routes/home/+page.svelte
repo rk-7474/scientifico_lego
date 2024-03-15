@@ -3,6 +3,7 @@
     import type { Rooms } from "$lib/types";
     import Filters from "$lib/components/Filters.svelte";
 	import { enhance } from "$app/forms";
+	import { tick } from "svelte";
     let categories_data: {[key: string]: string[]}[] = [
         {
             "Art" : ["1800", "Renaissance", "Painting"],
@@ -24,7 +25,7 @@
 
     let selected_categories: string[] = [];
 
-    let searchQuery = "";
+    let searchQuery: string = "";
 
     let formElement: HTMLFormElement;
         
@@ -35,11 +36,16 @@
     }
 
     $: {
-        searchQuery = "";
-        console.log(selected_categories)
+        let temp_query = "";
         for (const tag of selected_categories) {
-            searchQuery += `#${tag} `; 
+            temp_query += `#${tag} `; 
         }
+        setQuery(temp_query);
+    }
+
+    const setQuery = async (t: string) => {
+        searchQuery = t;
+        await tick();
         formElement && formElement.requestSubmit();
     }
 
