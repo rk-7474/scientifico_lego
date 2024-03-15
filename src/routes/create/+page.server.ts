@@ -53,13 +53,15 @@ export const actions: Actions = {
 
       } else {
         const templateName = formData.get("template");
-        const templatePath = `${paths.templates}/${templateName}`
-        cpSync(templatePath, uploadPath, {recursive: true});
+        const templatePath = `${paths.templates}/${templateName}.glb`
+        cpSync(templatePath, `${uploadPath}/scene.glb`, {recursive: true});
       }
 
       const user_id = event.locals.user.id;
 
-      const [[owner]] = await pool.execute<Utenti[]>('select username from editors where user_id = ?', [user_id]);  
+      const [[owner]] = await pool.execute<Utenti[]>('select username from users where id = ?', [user_id]);  
+
+      console.log(owner)
 
       let [query, params] = formatRow({
         name: label,

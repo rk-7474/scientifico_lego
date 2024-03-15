@@ -12,8 +12,10 @@ let lastnum = 0;
 //Caricamento modello stanza con loading screen
 export async function loadRoomObject() {
     const loader = new GLTFLoader();
+    console.log(`${paths.gltf}\\${ROOM_ID}\\scene.glb`);
+
     await new Promise(resolve => 
-    loader.load(`${paths.gltf}/${ROOM_ID}/scene.gltf`, function ( gltf ) {
+    loader.load(`${paths.gltf}/${ROOM_ID}/scene.glb`, function ( gltf ) {
         setRoom(gltf.scene);
         state.update(() => "done");
         resolve();
