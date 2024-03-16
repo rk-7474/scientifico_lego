@@ -187,6 +187,12 @@ export async function toggleVisualizeFrame() {
             show: false
         }));
 
+        
+        frameVideo.update(() => ({
+            show: false, 
+            inner: ``
+        }))
+
         // videoFrameInner.update(() => ({show: false, inner: ""}))
 
 

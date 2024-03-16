@@ -3,10 +3,6 @@
     export let selected_categories: string[];
     export let categories_data: {[key: string]: string[]}[];
 
-    const defined_hashtags = {
-        "Arts": "art",
-    }
-
     let categories: string[][] = [[], [], []];
 
     $: {

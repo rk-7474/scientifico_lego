@@ -35,7 +35,7 @@
     <form enctype="multipart/form-data" method="POST" class="create_form">
         {#if room_type}
             <input type="button" value="Choose from files..." on:click={switch_type}>
-            <input autocomplete="off" name="template" list="browsers">
+            <input name="template" list="browsers">
             <input class="hidden" name="using_template" value="1">
         {:else}
             <input autocomplete="off" type="button" value="Choose from templates..." on:click={switch_type}>

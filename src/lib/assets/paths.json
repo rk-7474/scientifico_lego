@@ -1,5 +1,5 @@
 {
-    "gltf": "http://localhost:5173/files",
+    "gltf": "/files",
     "files": "C:\\Users\\raggi\\Desktop\\scientifico_lego\\static\\files",
     "templates": "C:\\Users\\raggi\\Desktop\\scientifico_lego\\static\\templates"
 }

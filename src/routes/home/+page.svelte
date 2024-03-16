@@ -6,21 +6,19 @@
 	import { tick } from "svelte";
     let categories_data: {[key: string]: string[]}[] = [
         {
-            "Art" : ["1800", "Renaissance", "Painting"],
-            "Biography" : ["1900", "Biography"],
-            "Sciences" : ["2000", "Sciences"],
-            "Science Fiction" : ["2100", "Science Fiction"],
-            "Geography" : ["2200", "Geography"],
-            "History" : ["2300", "History"],
+            "Sculture" : ["Renaissance", "Gothic", "Romanticism"],
+            "Music" : ["Rock", "Modern", "Classic"],
+            "Cinema" : ["Drama", "Thriller"],
+            "Theater" : ["Opera", "Tragedy", "Comedy"]
         },
-        {
-            "1800": ["1800", "Renaissance", "Painting"],
-            "1900": ["1900", "Biography"],
-        },
-        {
-            "2000": ["2000", "Sciences"],
-            "2100": ["2100", "Science Fiction"],
-        }
+        // {
+        //     "1800": ["1800", "Renaissance", "Painting"],
+        //     "1900": ["1900", "Biography"],
+        // },
+        // {
+        //     "2000": ["2000", "Sciences"],
+        //     "2100": ["2100", "Science Fiction"],
+        // }
     ]
 
     let selected_categories: string[] = [];
@@ -125,12 +123,12 @@
     </div> 
     <div class="container" id="rooms">
         {#each form?.feed || data?.feed || [] as room}
-            <div on:click={() => goto(`/rooms/${room.uuid}`)} class="card w-96 h-48 bg-base-100 my-10 shadow-xl hover:scale-105 transition cursor-pointer">
+            <div on:click={() => goto(`/rooms/${room.uuid}`)} class="card w-96 h-56 bg-base-100 my-10 shadow-xl hover:scale-105 transition cursor-pointer">
                 <img src={room.image} alt="room_{room.id}" class="rounded-2xl w-full h-full">
                 <div class="w-full h-full card-body absolute bg-opacity-50 rounded-2xl bg-black">
                     <p class="absolute top-0 right-5">@{room.owner}</p>
                     <h2 class="text-center font-bold text-xl mb-2">{room.name}</h2>
-                    <p>{room.description}</p>
+                    <p>{room.description.length > 200 ? room.description.substring(0, 200) + "...": room.description}</p>
                     <p class="text-blue-300">{room.tags == "" ? "" : `#${(room.tags || "").split(" ").join(" #")}`}</p>
                 </div>
             </div>
