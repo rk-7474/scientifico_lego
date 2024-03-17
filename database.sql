@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table space4art.rooms: ~4 rows (approximately)
-INSERT INTO `rooms` (`id`, `name`, `owner`, `image`, `uuid`, `tags`, `description`, `state`, `user_id`) VALUES
+REPLACE INTO `rooms` (`id`, `name`, `owner`, `image`, `uuid`, `tags`, `description`, `state`, `user_id`) VALUES
 	(0000000013, 'The Beatles', 'test', 'https://keepupculture.com/wp-content/uploads/2021/01/beatles-abbey-road.jpg', '797029aa-add6-430e-834c-ce2b863f15f0', 'Musica', ' I Beatles hanno lasciato un\'impronta indelebile nella storia della musica, trasformando il paesaggio sonoro mondiale con la loro genialità senza tempo.', 'public', 3),
 	(0000000015, 'Nadia Soligo', 'test', 'https://soligonadia.altervista.org/wp-content/uploads/2022/11/19.jpg', 'fd082298-c5ab-4b6e-997f-b10343366925', 'Dipinto', 'Nadia Soligo, pittrice trevigiana, crea opere realistiche e copie di capolavori, esponendo sia a livello locale che internazionale.', 'public', 3),
 	(0000000018, 'Marco Piovesan', 'test', 'https://visit.parma.it/wp-content/uploads/2023/12/clarinette-1.jpg', '55286bed-8a93-4dd2-ab97-1de074738e69', 'Musica', 'Professore del nostro Istituto, musicista e clarinettista', 'public', 3),
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `scenes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table space4art.scenes: ~20 rows (approximately)
-INSERT INTO `scenes` (`id`, `room_id`, `path`, `x`, `y`, `z`, `scale`, `rotation_x`, `rotation_y`, `rotation_z`, `tags`, `desc`, `title`) VALUES
+REPLACE INTO `scenes` (`id`, `room_id`, `path`, `x`, `y`, `z`, `scale`, `rotation_x`, `rotation_y`, `rotation_z`, `tags`, `desc`, `title`) VALUES
 	(8, 13, 'https://www.youtube.com/watch?v=QDYfEBY9NM4', 6.84489, 1.88626, -1, 1.73, 0, 0, 0, 'Musica', '"Let It Be" dei Beatles è un inno di conforto e speranza, con il messaggio semplice ma potente di accettare le circostanze e trovare pace nell\'accettazione.', 'Let it be'),
 	(9, 15, 'https://soligonadia.altervista.org/wp-content/uploads/2022/11/19.jpg', 0.161525, 1.35946, 4.48499, 1.3, 0, 1.5708, 0, 'Dipinto', 'Casa costruita nel XV sec. e decorata tra il XV e XVI sec. È caratterizzata da portici ad arco a tutto sesto ribassato che si affacciano sul Cagnan della Pescheria. La facciata presenta vari motivi a finta tappezzeria bicroma in rosso e bianco con un modulo a rombi lobati o a fiori goticheggianti; di epoca successiva, entro piccole specchiature, sono ospitati racemi; nel sottotetto corre un raffinato fregio con animali fantastici (cavalli marini) alternati a mazzi di foglie.', 'La casa della pescheria'),
 	(14, 13, 'https://media-assets.wired.it/photos/615dae64d8b66b13086d04ba/master/w_1600%2Cc_limit/image013.jpg', 0.161525, 1.24507, 5.70472, 0.8, 0, 1.5708, 0, 'Musica', ' Un\'ultima passeggiata insieme, sul viale della musica eterna.', 'Abbey Road'),
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table space4art.sessions: ~7 rows (approximately)
-INSERT INTO `sessions` (`id`, `expires_at`, `user_id`) VALUES
+REPLACE INTO `sessions` (`id`, `expires_at`, `user_id`) VALUES
 	('2j9yvcs5yu6b13sup60bki1lyxlscnn0y0j4izux', '2024-04-15 00:14:01', 3),
 	('51ibz9e5s1159sg4t1sv9z4hzqc1pm3o8jlnonuj', '2024-04-15 00:19:07', 3),
 	('cndpd2tkgqok6jgtv4f8b1kqmvz81x9r97rfkcaw', '2024-04-15 00:39:41', 3),
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table space4art.users: ~3 rows (approximately)
-INSERT INTO `users` (`id`, `username`, `password`) VALUES
+REPLACE INTO `users` (`id`, `username`, `password`) VALUES
 	(0000000001, 'test123', '$argon2id$v=19$m=19456,t=2,p=1$8m93HRBMapMoLbuo2ST9/Q$F2uQseGmmVLzylKj2dKIzAX9sbj8ybd5L6b7Jc1pGoI'),
 	(0000000002, '12345678', '$argon2id$v=19$m=19456,t=2,p=1$HmFrP6iAeaVvH8g+V3Ec1w$AsM48t3wIpf5w1hsQTBDYRo79QVK1vAv11NUOBmBPvU'),
 	(0000000003, 'test', '$argon2id$v=19$m=19456,t=2,p=1$UBaV8ojsE1+YXSzY5DPJQQ$5ycP4uqVYvW3sONOmW6K1MEFL5nFYYWahHQ7dOXdlB8');
