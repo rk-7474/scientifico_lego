@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise";
 
-export const pool = mysql.createPool("mysql://root:@localhost:3306/space4art");
+export const pool = mysql.createPool("mysql://root:password@db:3306/space4art");
 
 export const formatRow = (data: any) => {
     let string = "set ", array = [];

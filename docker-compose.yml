@@ -1,8 +1,17 @@
-version: '3.8'
+version: "3"
 services:
- app:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+     - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+  web:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker-web
     ports:
-      - "3000:3000"
+      - "8080:3000"
+    depends_on:
+      - db
+    
