@@ -1,0 +1,34 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+     - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+  # web:
+  #   build:
+  #     context: .
+  #     target: dev
+  #     dockerfile: docker-web-dev
+  #   ports:
+  #     - "8080:3000"
+  #   volumes:
+  #     - ./src:/usr/src/app/src
+  #     - ./static:/usr/src/app/static
+  #   depends_on:
+  #     - db
+  web:
+    image: node:20
+    ports:
+      - "5173:5173"
+    working_dir: /usr/src/app/
+    volumes:
+    - type: bind
+      source: ./
+      target: /usr/src/app
+    tty: true
+    command: bash -c "npm i && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - db
+    

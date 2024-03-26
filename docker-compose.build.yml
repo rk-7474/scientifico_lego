@@ -1,0 +1,27 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+     - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: docker-web-build
+  #   ports:
+  #     - "8080:3000"
+  #   depends_on:
+  #     - db
+  web:
+    image: node:20
+    ports:
+      - "8080:3000"
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app/
+    tty: true
+    command: bash -c "npm ci && npm run build && node build"
+    depends_on:
+      - db

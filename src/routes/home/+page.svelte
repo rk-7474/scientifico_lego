@@ -102,9 +102,6 @@
     <img bind:this={pianeta1} src="$lib/assets/pianeta1.png" alt="pianeta1" class="pianeta1">
     <img bind:this={pianeta2} src="$lib/assets/pianeta2.png" alt="pianeta2" class="pianeta2">
     <h1 class="title">SPACE 4 ART</h1>
-    <!-- <div class="just" on:>
-
-    </div> -->
 </div>
 <div class="search">
     <form method="POST" action="?/search" bind:this={formElement} use:enhance={handleSearch}>
